@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { HTMLAttributes } from "react";
 
 
 type TextProps = {
@@ -61,7 +62,9 @@ export const PaddingBox = styled.div<PaddingBoxProps>`
     padding-bottom: ${({ bottom }) => (bottom ? `${bottom}vh` : "0")};
 `;
 
-type AlignBoxProps = {
+
+
+interface AlignBoxProps extends HTMLAttributes<HTMLDivElement> {
     justify?: "top" | "bottom" | "center";
     align?: "left" | "right" | "center";
     direction?: "row" | "column";
@@ -110,9 +113,38 @@ export const MainBtn = styled.div`
     justify-content: center;
 `
 
+type SubBtnProps = {
+    theme: "find" | "pass" | "warn";
+}
+
+
+export const SubBtn = ({ theme }: SubBtnProps) => {
+
+    const themeColor = theme === "find" ? "1px solid #466FFF" :
+                        theme === "pass" ? "1px solid #FF7979" :
+                                        "1px solid #FFE484"
+    
+    const SubBtnContainer = styled.div`
+            width: 15vw;
+            height: 15vw;
+            border-radius: 50%;
+            border: ${themeColor};
+            display: flex;
+            align-items: center;
+            justify-content: center;
+    `
+
+    const imgUrl = process.env.PUBLIC_URL + `/icons/${theme}.svg`
+
+    return(<SubBtnContainer>
+        <img src={imgUrl} />
+    </SubBtnContainer>)
+
+}
+
+
 
 //ICON
-
 export const BigIcon = styled.div`
     font-size: 100px;
     height: 10vh;

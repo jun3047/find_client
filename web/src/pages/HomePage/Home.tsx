@@ -1,8 +1,7 @@
-import { AlignBox, MarginBox, PaddingBox, Text } from "../../styles/atom";
+import { AlignBox, EmtpyBox, MarginBox, PaddingBox, SubBtn, Text } from "../../styles/atom";
 import { Dropdown } from '../../components/Dropdown';
 import { useState } from "react";
 import { Post } from "../../components/Post";
-
 
 const questionList = [
     "모든 질문",
@@ -25,11 +24,18 @@ const Home = () => {
     return (
     <PaddingBox left={2} right={2}>
         <AlignBox align="center">
-            <AlignBox align="left">
+            <MarginBox top={2}/>
+            <AlignBox align="left" direction="row">
                 <Text
-                content={"대화하고 싶은 사람에게 FIND"}
-                fontsize={20}
+                content={`대화하고 싶은 사람에게`}
+                fontsize={24}
                 color="#000"
+                weight={700}
+                />
+                <Text
+                content={`, FIND`}
+                fontsize={24}
+                color="#2400FF"
                 weight={700}
                 />
             </AlignBox>
@@ -39,16 +45,24 @@ const Home = () => {
                 value={question}
                 setValue={setQuestion}
             />
-            <MarginBox top={13}/>
+            <MarginBox top={8} />
             <Post
                 question={"Q. 오늘 하루는 어때"}
                 content={"A.lorem ipsum dolor sit amet, con\nsectetur adipiscing elit. lorem ipsum dolor sit amet, consectetur adipiscing elit. lorem ipsum dolor sit amet, consectetur adipiscing elit. lorem ipsum dolor sit amet, consectetur adipiscing elit. lorem ipsum dolor sit"}
-
                 writer="김민수"
             />
+            <MarginBox top={10} />
+            <AlignBox direction="row">
+                <SubBtn theme={"pass"} />
+                <EmtpyBox width={13} />
+                <SubBtn theme={"warn"} />
+                <EmtpyBox width={13} />
+                <SubBtn theme={"find"} />
+            </AlignBox>
         </AlignBox>
     </PaddingBox>
     )
 }
+
 
 export default Home;

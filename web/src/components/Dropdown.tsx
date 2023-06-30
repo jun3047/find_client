@@ -34,6 +34,7 @@ const DropdownButton = styled.button`
 
 
 const DropdownMenu = styled.ul`
+  z-index: 99;
   position: absolute;
   top: 100%;
   left: 0;

@@ -18,7 +18,6 @@ export const AppBar = () => {
     const {status} = useStatus<StatusType>(setStatus => setStatus);
 
     const nowMeun = meun.find(item => item.meun === status) || meun[0];
-    console.log("nowMeun:", nowMeun);
 
     return (
     <AppBarContainer>
