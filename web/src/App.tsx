@@ -7,10 +7,12 @@ import Alarm from './pages/AlarmPage/Alarm';
 import My from './pages/MyPage/My';
 import GlobalStyle from './styles/GlobalStyle';
 import { NavBar } from './components/NavBar';
+import { AppBar } from './components/AppBar';
 
 function App() {
   return (<>
     <GlobalStyle />
+    <AppBar/>
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/home" element={<Home />} />

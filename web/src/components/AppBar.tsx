@@ -6,7 +6,7 @@ export const AppBar = () => (
         <AlignBox align="center" justify="center">
             <Text 
             fontsize={16} 
-            font-weight={700} 
+            weight={700} 
             content={"대화"} 
             />
         </AlignBox>

@@ -48,9 +48,11 @@ const NavBarContent = ({ meun, content }: NavBarContentProps) => {
 
     const navigate = useNavigate();
 
+    const imgUrl = process.env.PUBLIC_URL + `/icons/${meun}.svg`
+
     return <NavBarLi onClick={()=>{navigate(`/${meun}`)}}>
         <AlignBox direction={"column"}>
-            <img src={process.env.PUBLIC_URL + `/icons/${meun}.svg`} alt="icon" />
+            <img src={imgUrl} alt="icon" />
             <Text fontsize={10} color = "#D9D9D9" content={content}/>
         </AlignBox>
     </NavBarLi>
