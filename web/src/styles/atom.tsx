@@ -1,11 +1,10 @@
 import styled from "@emotion/styled";
 
 
-
 type TextProps = {
     fontsize: 60 | 40 | 24 | 20 | 16 | 14 | 10 | 9;
     content: string
-    color?: "#2400FF" | "#000" | "#FFF" | "#466FFF" | "#707070";
+    color?: "#2400FF" | "#000" | "#FFF" | "#466FFF" | "#707070" | "#D9D9D9";
     weight?: 700 | 400;
 };
 
@@ -56,13 +55,14 @@ export const PaddingBox = styled.div<PaddingBoxProps>`
 type AlignBoxProps = {
     justify?: "top" | "bottom" | "center";
     align?: "left" | "right" | "center";
+    direction?: "row" | "column";
 };
 
 export const AlignBox = styled.div<AlignBoxProps>`
     width: 100%;
     height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({direction}) => direction || "column"};
   justify-content: ${({ justify }) =>
         justify === "top"
             ? "flex-start"
