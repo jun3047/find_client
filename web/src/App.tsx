@@ -10,9 +10,10 @@ import { NavBar } from './components/NavBar';
 import { AppBar } from './components/AppBar';
 
 function App() {
+  
   return (<>
     <GlobalStyle />
-    <AppBar/>
+    <AppBar />
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/home" element={<Home />} />
