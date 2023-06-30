@@ -9,17 +9,15 @@ const style = css`
     -moz-osx-font-smoothing: grayscale;
   }
 
-  html,
-  body {
+  
+  html{
     height: 100vh;
     margin: 0;
-    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-      'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-      'Helvetica Neue', sans-serif;
   }
 
   body{
-    padding-top: 42px;
+    margin-top: 42px;
+    height: calc(100vh-42px);
   }
 
   a {
