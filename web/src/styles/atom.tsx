@@ -21,13 +21,22 @@ export const Text = ({ fontsize, color = "#000", weight=400, content }:TextProps
 
 //기본 BOX
 
+type EmtpyBoxProps = {
+    width?: number;
+    height?: number;
+}
+
+export const EmtpyBox = styled.div<EmtpyBoxProps>`
+  width: ${({ width }) => (width ? `${width}vw` : "0")};;
+  height: ${({ height }) => (height ? `${height}vw` : "0")};;
+`
+
 type MarginBoxProps = {
     right?: number;
     top?: number;
     left?: number;
     bottom?: number;
 };
-
 
 export const MarginBox = styled.div<MarginBoxProps>`
   width: 100%;

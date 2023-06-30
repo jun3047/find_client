@@ -23,7 +23,7 @@ export const AppBar = () => {
     return (
     <AppBarContainer>
             <AlignBox align="center" justify="center">
-                <Text content={nowMeun?.content} fontsize={14} weight={700}/>
+                <Text content={nowMeun?.content} fontsize={16} weight={700}/>
         </AlignBox>
     </AppBarContainer>
     )

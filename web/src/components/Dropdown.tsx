@@ -1,6 +1,7 @@
-import { useState } from "react";
 import styled from "@emotion/styled";
 import { Text, MarginBox } from "../styles/atom";
+import { useDropdown } from "../hooks/useDropdown";
+
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -61,38 +62,46 @@ const DropdownMenuItem = styled.li`
 type DropdownProps = {
     setValue: (value: string) => void;
     list: string[];
-    lable: string;
-    placeholder: string;
-    value: string;
+    lable?: string;
+    placeholder?: string;
+    value?: string;
 }
 
-export const Dropdown = ({setValue, list, lable, placeholder, value}: DropdownProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+export const Dropdown = ({
+  setValue,
+  list,
+  lable,
+  placeholder,
+  value,
+}: DropdownProps) => {
+  const {
+    value: dropdownValue,
+    isMenuOpen,
+    handleButtonClick,
+    handleMenuItemClick,
+  } = useDropdown(value);
 
-  const handleButtonClick = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
-
-  const handleMenuItemClick = (department: string) => {
+  const handleDropdownMenuItemClick = (department: string) => {
     setValue(department);
-    setIsMenuOpen(false);
+    handleMenuItemClick(department);
   };
 
   return (
     <>
-      <Text fontsize={16} content={lable} weight={700} color="#707070" />
+      {lable && (
+        <Text fontsize={16} content={lable} weight={700} color="#707070" />
+      )}
       <MarginBox top={1} />
       <DropdownContainer>
         <DropdownButton onClick={handleButtonClick}>
-          {value || placeholder}
-          {/* <Icon name={isMenuOpen ? "chevron-up" : "chevron-down"} size={16} /> */}
+          {dropdownValue || placeholder}
         </DropdownButton>
         {isMenuOpen && (
           <DropdownMenu>
             {list.map((department) => (
               <DropdownMenuItem
                 key={department}
-                onClick={() => handleMenuItemClick(department)}
+                onClick={() => handleDropdownMenuItemClick(department)}
               >
                 {department}
               </DropdownMenuItem>
@@ -103,4 +112,3 @@ export const Dropdown = ({setValue, list, lable, placeholder, value}: DropdownPr
     </>
   );
 };
-  
