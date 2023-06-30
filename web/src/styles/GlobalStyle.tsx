@@ -18,6 +18,10 @@ const style = css`
       'Helvetica Neue', sans-serif;
   }
 
+  body{
+    padding-top: 42px;
+  }
+
   a {
     color: inherit;
     text-decoration: none;

@@ -1,17 +1,27 @@
 import styled from "@emotion/styled"
-import { AlignBox } from "../styles/atom"
+import { AlignBox, Text } from "../styles/atom"
 
-export const AppBar = () => (<>
-    <AlignBox align="center" justify="center">
-        <AppBarContainer meun={"home"}/>
-    </AlignBox>
-</>)
+export const AppBar = () => (
+    <AppBarContainer>
+        <AlignBox align="center" justify="center">
+            <Text 
+            fontsize={16} 
+            font-weight={700} 
+            content={"대화"} 
+            />
+        </AlignBox>
+    </AppBarContainer>
+)
 
 interface AppBarContainerProps extends React.HTMLAttributes<HTMLDivElement> {
     meun?: string
 }
 
 const AppBarContainer = styled.div<AppBarContainerProps>`
+    position: fixed;
+    top: 0;
+    right: 0;
     width: 100vw;
     height: 42px;
+    background-color: #FFFFFF;
 `
