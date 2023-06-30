@@ -1,5 +1,5 @@
 const Write = () => {
-    return <h1>Home</h1>
+    return <h1>Write</h1>
 }
 
 export default Write;
