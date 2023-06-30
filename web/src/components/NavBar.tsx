@@ -1,19 +1,27 @@
 import styled from "@emotion/styled"
 import { AlignBox, Text } from "../styles/atom"
 import { useNavigate } from "react-router"
+import { StatusType, useStatus, Status } from "../store/status"
 
 
 
-const meun = [
-    {meun: "home", content: "홈"},
-    {meun: "chat", content: "대화"},
-    {meun: "write", content: "글쓰기"},
-    {meun: "alarm", content: "알림"},
-    {meun: "my", content: "마이"},
+const meun : (Status & {content: string})[]
+= [
+    {status: "home", content: "홈"},
+    {status: "chat", content: "대화"},
+    {status: "write", content: "글쓰기"},
+    {status: "alarm", content: "알림"},
+    {status: "my", content: "마이"},
 ]
 
 export const NavBar = () => {
+    
+    const {status, setStatus} = useStatus<StatusType>(setStatus => setStatus);
 
+    const nowMeun = meun.find(item => item.status === status) || meun[0];
+
+    const navigate = useNavigate();
+    
     return (<nav>
         <NavBarContainer>
             <AlignBox direction={"row"}>
@@ -21,8 +29,14 @@ export const NavBar = () => {
                     meun.map((item, index) => {
                         return <NavBarContent 
                         key={index} 
-                        meun={item.meun} 
-                        content={item.content} />
+                        meun={item.status} 
+                        nowMeun={nowMeun.status}
+                        content={item.content}
+                        onClick={() => {
+                            setStatus({status: item.status})
+                            navigate(`/${item.status}`)
+                        }}
+                        />
                     }
                 )}
             </AlignBox>
@@ -42,18 +56,23 @@ const NavBarContainer = styled.ul`
 type NavBarContentProps = {
     meun: string,
     content: string,
+    nowMeun: string,
+    onClick: () => void,
 }
 
-const NavBarContent = ({ meun, content }: NavBarContentProps) => {
+const NavBarContent = ({ meun, content, nowMeun, onClick }: NavBarContentProps) => {
 
-    const navigate = useNavigate();
+    const isNowMeun = nowMeun === meun
 
-    const imgUrl = process.env.PUBLIC_URL + `/icons/${meun}.svg`
+    const activeStr = isNowMeun ? "_active.svg" : ".svg"
+    const imgUrl = process.env.PUBLIC_URL + `/icons/${meun}` + activeStr
 
-    return <NavBarLi onClick={()=>{navigate(`/${meun}`)}}>
+    const meunColor = isNowMeun ? "#466FFF" : "#D9D9D9"
+
+    return <NavBarLi onClick={onClick}>
         <AlignBox direction={"column"}>
             <img src={imgUrl} alt="icon" />
-            <Text fontsize={10} color = "#D9D9D9" content={content}/>
+            <Text fontsize={10} color={meunColor} content={content}/>
         </AlignBox>
     </NavBarLi>
 }

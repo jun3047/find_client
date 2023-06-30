@@ -1,17 +1,33 @@
 import styled from "@emotion/styled"
 import { AlignBox, Text } from "../styles/atom"
+import { useStatus, StatusType, Status, Actions } from '../store/status';
 
-export const AppBar = () => (
+const meun = [
+    {meun: "login", content: ""},
+    {meun: "register", content: "🕶"},
+    {meun: "home", content: "🕶"},
+    {meun: "chat", content: "대화"},
+    {meun: "write", content: "글쓰기"},
+    {meun: "alarm", content: "알림"},
+    {meun: "my", content: "마이"},
+]
+
+
+export const AppBar = () => {
+    
+    const {status} = useStatus<StatusType>(setStatus => setStatus);
+
+    const nowMeun = meun.find(item => item.meun === status) || meun[0];
+    console.log("nowMeun:", nowMeun);
+
+    return (
     <AppBarContainer>
-        <AlignBox align="center" justify="center">
-            <Text 
-            fontsize={16} 
-            weight={700} 
-            content={"대화"} 
-            />
+            <AlignBox align="center" justify="center">
+                <Text content={nowMeun?.content} fontsize={14} weight={700}/>
         </AlignBox>
     </AppBarContainer>
-)
+    )
+}
 
 interface AppBarContainerProps extends React.HTMLAttributes<HTMLDivElement> {
     meun?: string
