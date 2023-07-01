@@ -22,6 +22,9 @@ export const NavBar = () => {
 
     const navigate = useNavigate();
     
+
+    if(status === "detail") return null
+
     return (<nav>
         <NavBarContainer>
             <AlignBox direction={"row"}>

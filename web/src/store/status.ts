@@ -2,7 +2,7 @@ import {create} from 'zustand'
 
 
 export type Status = {
-    status: "login" | "register" | "home" | "chat" | "write" | "alarm" | "my";
+    status: "login" | "register" | "home" | "chat" | "write" | "alarm" | "my" | "detail";
 };
 
 export type Actions = {

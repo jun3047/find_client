@@ -3,7 +3,7 @@ import { HTMLAttributes } from "react";
 
 
 type TextProps = {
-    fontsize: 60 | 40 | 24 | 20 | 16 | 14 | 10 | 9;
+    fontsize: 60 | 40 | 24 | 20 | 16 | 14 | 12 | 10 | 9;
     content: string
     color?: "#2400FF" | "#000" | "#FFF" | "#466FFF" | "#707070" | "#D9D9D9";
     weight?: 700 | 400;
@@ -22,7 +22,7 @@ export const Text = ({ fontsize, color = "#000", weight=400, content }:TextProps
 
 //기본 BOX
 
-type EmtpyBoxProps = {
+interface EmtpyBoxProps extends HTMLAttributes<HTMLDivElement> {
     width?: number;
     height?: number;
 }
@@ -32,7 +32,7 @@ export const EmtpyBox = styled.div<EmtpyBoxProps>`
   height: ${({ height }) => (height ? `${height}vw` : "0")};;
 `
 
-type MarginBoxProps = {
+interface MarginBoxProps extends HTMLAttributes<HTMLDivElement> {
     right?: number;
     top?: number;
     left?: number;
@@ -48,7 +48,7 @@ export const MarginBox = styled.div<MarginBoxProps>`
   margin-bottom: ${({ bottom }) => (bottom ? `${bottom}vh` : "0")};
 `;
 
-type PaddingBoxProps = {
+interface PaddingBoxProps extends HTMLAttributes<HTMLDivElement> {
     right?: number;
     top?: number;
     left?: number;
@@ -139,8 +139,31 @@ export const SubBtn = ({ theme }: SubBtnProps) => {
     return(<SubBtnContainer>
         <img src={imgUrl} />
     </SubBtnContainer>)
-
 }
+
+
+
+type BackBtnProp = {
+    onClick: () => void
+}
+
+export const BackBtn = ({onClick}:BackBtnProp) => {
+
+    const imgUrl = process.env.PUBLIC_URL + `/icons/back.svg`
+
+    return (
+    <BackBtnContainer onClick={onClick}>
+        <EmtpyBox width={1} />
+        <img src={imgUrl} />
+    </BackBtnContainer>
+    )
+}
+
+const BackBtnContainer = styled.div`
+    position: absolute;
+    left: 10px;
+`
+
 
 
 
