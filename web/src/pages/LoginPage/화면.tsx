@@ -1,4 +1,5 @@
 import { Dropdown } from "../../components/Dropdown";
+import { useStatus } from "../../store/status";
 import { PaddingBox, MarginBox, Text, AlignBox, BigIcon, MainBtn, ShortInputBox } from "../../styles/atom";
 import { useState } from "react";
 
@@ -171,6 +172,13 @@ export const 아이디선택: NavFunction = ({onNext}:onNextType) => {
 
 export const 입장: NavFunction = ({onNext}:onNextType) => {
 
+    const {setStatus} = useStatus()
+
+    const clickHandler = () => {
+        setStatus({status: "home"})
+        onNext()
+    }
+
     return (<PaddingBox left={9} right={9}>
         <AlignBox align="left" justify="top">
             <MarginBox top={20} />
@@ -182,7 +190,7 @@ export const 입장: NavFunction = ({onNext}:onNextType) => {
         <AlignBox align="center">
             <BigIcon>🥳</BigIcon>
             <MarginBox top={22} />
-            <MainBtn onClick={()=>{onNext()}}>입장하기</MainBtn>
+            <MainBtn onClick={clickHandler}>입장하기</MainBtn>
         </AlignBox>
         </PaddingBox>)
 }

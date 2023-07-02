@@ -21,9 +21,11 @@ export const NavBar = () => {
     const nowMeun = meun.find(item => item.status === status) || meun[0];
 
     const navigate = useNavigate();
-    
 
-    if(status === "room" || status == "profile") return null
+    if (status === "room" || status == "profile" || status === "login" || status === "register") {
+        return null
+    }
+      
 
     return (<nav>
         <NavBarContainer>
