@@ -48,6 +48,7 @@ export const NavBar = () => {
 }
 
 const NavBarContainer = styled.ul`
+    margin: 0;
     background-color: #FFFFFF;
     width: 100vw;
     height: 60px;
