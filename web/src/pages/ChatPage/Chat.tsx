@@ -11,7 +11,7 @@ const Chat = () => {
 
 
     const goDetail = (roomId: number) => {
-        setStatus({status: "detail"})
+        setStatus({status: "room"})
         naviagte(`/chat/${roomId}`)
     }
 

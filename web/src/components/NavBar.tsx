@@ -23,7 +23,7 @@ export const NavBar = () => {
     const navigate = useNavigate();
     
 
-    if(status === "detail") return null
+    if(status === "room" || status == "profile") return null
 
     return (<nav>
         <NavBarContainer>

@@ -15,10 +15,18 @@ const meun = [
 
 export const AppBar = () => {
     
+    
     const {status, setStatus} = useStatus<StatusType>(setStatus => setStatus);
+
     const nowMeun = meun.find(item => item.meun === status) || meun[0];
 
-    const title = status === "detail" ? "닉네임 들어갈 곳" : nowMeun?.content;
+    // room이면 roomId 가져오기
+    // profile이면 userId 가져오기
+    // 그리고 detailTitle에 넣기
+
+    const detailTitle = "detailTitle";
+
+    const title = status === "room" ? detailTitle : nowMeun?.content;
 
     const navigate = useNavigate();
 
@@ -31,7 +39,7 @@ export const AppBar = () => {
     <AppBarContainer>
         <AlignBox align="center" justify="center" direction="row">
             {
-                status === "detail" && <BackBtn onClick={backBtn} />
+                status === "room" && <BackBtn onClick={backBtn} />
             }
             <Text content={title} fontsize={16} weight={700} />
         </AlignBox>
