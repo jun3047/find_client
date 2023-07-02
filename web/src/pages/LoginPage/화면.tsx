@@ -1,5 +1,5 @@
 import { Dropdown } from "../../components/Dropdown";
-import { PaddingBox, MarginBox, Text, AlignBox, BigIcon, MainBtn, InputBox } from "../../styles/atom";
+import { PaddingBox, MarginBox, Text, AlignBox, BigIcon, MainBtn, ShortInputBox } from "../../styles/atom";
 import { useState } from "react";
 
 
@@ -36,7 +36,7 @@ export const 휴대폰인증: NavFunction = ({onNext}:onNextType) => {
             <MarginBox top={1} />
             <Text fontsize={14} content={"본인확인을 위해서 필요합니다"} />
             <MarginBox top={4} />
-            <InputBox setValue={setPhone} lableText="휴대폰 번호" />
+            <ShortInputBox setValue={setPhone} lableText="휴대폰 번호" />
         </AlignBox>
         <AlignBox align="center">
             <MainBtn onClick={()=>{onNext(phone)}}>다음</MainBtn>
@@ -56,7 +56,7 @@ export const 인증번호입력: NavFunction = ({onNext}:onNextType) => {
             <MarginBox top={1} />
             <Text fontsize={14} content={"본인확인을 위해서 필요합니다"} />
             <MarginBox top={4} />
-            <InputBox setValue={set인증번호} lableText="인증번호"/>
+            <ShortInputBox setValue={set인증번호} lableText="인증번호"/>
         </AlignBox>
         <AlignBox align="center">
             <MainBtn onClick={()=>{onNext()}}>다음</MainBtn>
@@ -159,7 +159,7 @@ export const 아이디선택: NavFunction = ({onNext}:onNextType) => {
             <MarginBox top={1} />
             <Text fontsize={14} content={"다른 사용자에게 공개되는 아이디에요"} />
             <MarginBox top={4} />
-            <InputBox value={id} setValue={setID} lableText="아이디" defaultValue="@" type="text"/>
+            <ShortInputBox value={id} setValue={setID} lableText="아이디" defaultValue="@" type="text"/>
         </AlignBox>
         <AlignBox align="center">
             <MainBtn onClick={()=>{onNext(id)}}>다음</MainBtn>

@@ -9,6 +9,9 @@ const style = css`
     -moz-osx-font-smoothing: grayscale;
   }
 
+  #root {
+    height: 100%;
+  }
   
   html{
     height: 100vh;
@@ -17,7 +20,7 @@ const style = css`
 
   body{
     margin-top: 42px;
-    height: calc(100vh-42px);
+    height: calc(100vh - 42px);
   }
 
   a {

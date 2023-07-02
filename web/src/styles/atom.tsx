@@ -2,7 +2,9 @@ import styled from "@emotion/styled";
 import { HTMLAttributes } from "react";
 
 
-type TextProps = {
+//Text
+
+interface TextProps {
     fontsize: 60 | 40 | 24 | 20 | 16 | 14 | 12 | 10 | 9;
     content: string
     color?: "#2400FF" | "#000" | "#FFF" | "#466FFF" | "#707070" | "#D9D9D9";
@@ -68,12 +70,15 @@ interface AlignBoxProps extends HTMLAttributes<HTMLDivElement> {
     justify?: "top" | "bottom" | "center";
     align?: "left" | "right" | "center";
     direction?: "row" | "column";
+    flex?: number;
 };
 
 export const AlignBox = styled.div<AlignBoxProps>`
+
     width: 100%;
     height: 100%;
   display: flex;
+  flex: ${({ flex }) => flex || 1};
   flex-direction: ${({direction}) => direction || "column"};
   justify-content: ${({ justify }) =>
         justify === "top"
@@ -114,7 +119,7 @@ export const MainBtn = styled.div`
 `
 
 type SubBtnProps = {
-    theme: "find" | "pass" | "warn";
+    theme: "find" | "pass" | "warn" | "send";
 }
 
 
@@ -122,7 +127,8 @@ export const SubBtn = ({ theme }: SubBtnProps) => {
 
     const themeColor = theme === "find" ? "1px solid #466FFF" :
                         theme === "pass" ? "1px solid #FF7979" :
-                                        "1px solid #FFE484"
+                        theme === "warn" ? "1px solid #FFE484" : 
+                                            "1px solid #9EFF7C"
     
     const SubBtnContainer = styled.div`
             width: 15vw;
@@ -191,6 +197,7 @@ export const InputField = styled.input<InputFieldProps>`
   border-bottom: 1px solid #d9d9d9;
   border-radius: 4px;
   width: 70vw;
+  height: 6vh;
   padding: 8px;
   transition: border-color 0.3s ease-in-out;
   font-size: 16px;
@@ -203,6 +210,7 @@ export const InputField = styled.input<InputFieldProps>`
   }
 `;
 
+
 type InputBoxProps = {
     setValue: (phone:string) => void,
     value?: string,
@@ -211,7 +219,7 @@ type InputBoxProps = {
     type?: string
 }
 
-export const InputBox = ({setValue, lableText, defaultValue, value, type}:InputBoxProps) => {
+export const ShortInputBox = ({setValue, lableText, defaultValue, value, type}:InputBoxProps) => {
 
     const handleOnChange = (value: string) => {
 
@@ -238,5 +246,67 @@ export const InputBox = ({setValue, lableText, defaultValue, value, type}:InputB
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleOnChange(e.target.value)}
             type={type} />
         <MarginBox top={3}/>
+    </>)
+}
+
+type TextAreaFieldProps = {
+    type?: string;
+    min?: string;
+    max?: string;
+    defaultValue?: string
+    value?: string;
+    onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+};
+
+export const TextAreaField = styled.textarea<TextAreaFieldProps>`
+  text-align: left;
+  justify-content: flex-start;
+  height: 100%;
+  width: 100%;
+  /* border: none;
+  border-bottom: 1px solid #d9d9d9;
+  border-radius: 4px;
+  width: 70vw;
+  height: 6vh;
+  padding: 8px;
+  transition: border-color 0.3s ease-in-out;
+  font-size: 16px;
+  color: #000;
+
+  &:focus {
+    color: #466fff;
+    outline: none;
+    border-color: #466fff;
+  } */
+`;
+
+
+type TextAreaBoxProps = {
+    setValue: (phone:string) => void,
+    value?: string,
+    lableText: string,
+    defaultValue?: string,
+    type?: string
+}
+
+export const TextAreaInputBox = ({defaultValue, value, type}:TextAreaBoxProps) => {
+
+    const style: React.CSSProperties = {
+        height: '13vh',
+        width: '70vw',
+        padding: '10px',
+        fontSize: '14px',
+        maxWidth: '260px',
+        border: 'none',
+    };
+
+    return (<>
+        <TextAreaField
+            placeholder="진심이 담긴 글을 써주세요"
+            style={style}
+            value={value}
+            defaultValue={defaultValue}
+            onChange={()=>{}}
+            type={type} />
     </>)
 }

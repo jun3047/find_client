@@ -9,10 +9,9 @@ import GlobalStyle from './styles/GlobalStyle';
 import { NavBar } from './components/NavBar';
 import { AppBar } from './components/AppBar';
 import Chating from './pages/ChatPage/Chating';
-import { StatusType, useStatus } from './store/status';
 
 function App() {
-  
+
   return (<>
     <GlobalStyle />
     <AppBar />
