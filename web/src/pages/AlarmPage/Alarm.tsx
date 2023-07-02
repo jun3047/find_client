@@ -23,7 +23,7 @@ const Alarm = () => {
         {
             list.map(() =>
                 <AlarmBox
-                    userInfo={userInfo}
+                    user={userInfo}
                     question="질문임"
                     onClick={() => {
                         setStatus({status: "profile"})

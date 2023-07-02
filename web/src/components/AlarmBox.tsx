@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { AlignBox, EmtpyBox, PaddingBox, Text } from "../styles/atom"
 
 
-type userInfo = {
+type user = {
     school: string;
     major: string;
     grade: string;
@@ -10,16 +10,16 @@ type userInfo = {
 
 type AlarmBoxProps = {
     question: string;
-    userInfo: userInfo
+    user: user
     onClick: () => void;
     theme?: "find" | "pass" | "warn" | "send";
 }
 
 
 
-export const AlarmBox = ({question, userInfo, onClick, theme = "find"}: AlarmBoxProps) => {
+export const AlarmBox = ({question, user, onClick, theme = "find"}: AlarmBoxProps) => {
 
-    const { school, major, grade } = userInfo
+    const { school, major, grade } = user
 
     const imgUrl = process.env.PUBLIC_URL + `/icons/${theme}.svg`
 
