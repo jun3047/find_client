@@ -9,10 +9,9 @@ import GlobalStyle from './styles/GlobalStyle';
 import { NavBar } from './components/NavBar';
 import { AppBar } from './components/AppBar';
 import Chating from './pages/ChatPage/Chating';
-import { StatusType, useStatus } from './store/status';
 
 function App() {
-  
+
   return (<>
     <GlobalStyle />
     <AppBar />
@@ -20,7 +19,7 @@ function App() {
       <Route path="/" element={<Login />} />
       <Route path="/home" element={<Home />} />
       <Route path="/chat" element={<Chat />} />
-      <Route path="/chat/:id" element={<Chating />} />
+      <Route path="/chat/:roomNum" element={<Chating />} />
       <Route path="/write" element={<Write />} />
       <Route path="/alarm" element={<Alarm />} />
       <Route path="/my" element={<My />} />

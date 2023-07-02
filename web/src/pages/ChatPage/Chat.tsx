@@ -10,9 +10,9 @@ const Chat = () => {
     const {status, setStatus} = useStatus<StatusType>(setStatus => setStatus);
 
 
-    const goDetail = (id: number) => {
+    const goDetail = (roomId: number) => {
         setStatus({status: "detail"})
-        naviagte(`/chat/${id}`)
+        naviagte(`/chat/${roomId}`)
     }
 
     return(
@@ -25,12 +25,12 @@ const Chat = () => {
         </NoticeContainer>
     <EmtpyBox height={2} />
     <ChatBox
-        id={1}
-        key={1}
+        id={2}
+        key={2}
         nickname={"닉넴"}
         date={"오늘"}
         LastMsg={"얍"}
-        clickEvent={(id:number) => goDetail(id)}
+        clickEvent={(roomId:number) => goDetail(roomId)}
     />
     <ChatBox
         id={2}
@@ -38,7 +38,7 @@ const Chat = () => {
         nickname={"닉넴"}
         date={"오늘"}
         LastMsg={"얍"}
-        clickEvent={(id:number) => goDetail(id)}
+        clickEvent={(roomId:number) => goDetail(roomId)}
     />
     </>)
 }
