@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { AlignBox, MarginBox, Text, EmtpyBox, PaddingBox } from "../styles/atom";
+import { AlignBox, MarginBox, Text, EmtpyBox, PaddingBox, TextAreaInputBox } from "../styles/atom";
 
 
 
@@ -7,9 +7,10 @@ type PostProps = {
     question: string;
     content: string;
     writer: string;
+    mode?: "read" | "write"
 }
 
-export const Post = ({question, content, writer}:PostProps) => {
+export const Post = ({question, content, writer, mode = "read"}:PostProps) => {
     
     
     return(<PostContainer>
@@ -19,7 +20,13 @@ export const Post = ({question, content, writer}:PostProps) => {
         <EmtpyBox height={4} />
         <AlignBox align="left" justify="top">
             <PaddingBox left={6} right={6}>
-                <Text content={content} fontsize={14} />
+                {
+                    mode === "read" ? 
+                    <Text content={content} fontsize={14} /> :
+                    <TextAreaInputBox 
+                        setValue={()=>{}}
+                        lableText={""} />
+                }
             </PaddingBox>
         </AlignBox>
     </AlignBox>
