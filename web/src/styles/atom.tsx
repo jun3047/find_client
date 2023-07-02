@@ -74,9 +74,6 @@ interface AlignBoxProps extends HTMLAttributes<HTMLDivElement> {
 };
 
 export const AlignBox = styled.div<AlignBoxProps>`
-
-    width: 100%;
-    height: 100%;
   display: flex;
   flex: ${({ flex }) => flex || 1};
   flex-direction: ${({direction}) => direction || "column"};
