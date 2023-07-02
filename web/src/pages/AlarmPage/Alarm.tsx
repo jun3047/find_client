@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router";
 import { AlarmBox } from "../../components/AlarmBox";
+import { StatusType, useStatus } from "../../store/status";
 import { PaddingBox } from "../../styles/atom";
 
 const userInfo = {
@@ -11,27 +13,25 @@ const userInfo = {
 const list = [0,1,2,3,4,5,6,7,8,9,10]
 
 const Alarm = () => {
+
+    const {status, setStatus} = useStatus<StatusType>(setStatus => setStatus);
+    const naviagte = useNavigate();
+
+    const {id} = userInfo
+
     return <PaddingBox top={0.5} left={2} right={2}>
         {
             list.map(() =>
                 <AlarmBox
                     userInfo={userInfo}
                     question="질문임"
+                    onClick={() => {
+                        setStatus({status: "profile"})
+                        naviagte(`/profile/${id}`)
+                    }}
                 />
             )
-        }       
-        <AlarmBox
-            userInfo={userInfo}
-            question="질문임"
-        />
-        <AlarmBox
-            userInfo={userInfo}
-            question="질문임"
-        />
-        <AlarmBox
-            userInfo={userInfo}
-            question="질문임"
-        />
+        }
     </PaddingBox>
     
 }

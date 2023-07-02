@@ -11,15 +11,15 @@ const Chating = () => {
 
     return (
         <>
-            <EmtpyBox height={2} />
-            <ChatBar
-                active={true}
-                onKeyDownHandler={()=>{console.log("onKeyDownHandler")}}
-                sendBtnHandler={()=>console.log("sendBtnHandler")}
-                onChangeHandler={()=>console.log("onChangeHandler")}
-                msg={"msg"}
-                inputRef={()=>{}}
-            />
+          <EmtpyBox height={2} />
+          <ChatBar
+            active={true}
+            onKeyDownHandler={()=>{console.log("onKeyDownHandler")}}
+            sendBtnHandler={()=>console.log("sendBtnHandler")}
+            onChangeHandler={()=>console.log("onChangeHandler")}
+            msg={"msg"}
+            inputRef={()=>{}}
+          />
         </>
     )
 }
@@ -36,7 +36,7 @@ type ChatBarProps = {
 const ChatBar = ({active, sendBtnHandler, onKeyDownHandler, onChangeHandler, msg, inputRef}:ChatBarProps) => {
 
   return (<>
-    <QuestionHeader>질문</QuestionHeader>
+    <QuestionHeader>당신은 어떨 때 행복한가요?</QuestionHeader>
     <ChatFieldLayout>
       <ChatQuestionImg
         onClick={() => {console.log("ChatQuestionImg")}}

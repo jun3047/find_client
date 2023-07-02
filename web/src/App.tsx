@@ -9,6 +9,7 @@ import GlobalStyle from './styles/GlobalStyle';
 import { NavBar } from './components/NavBar';
 import { AppBar } from './components/AppBar';
 import Chating from './pages/ChatPage/Chating';
+import Other from './pages/AlarmPage/Profile';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
       <Route path="/write" element={<Write />} />
       <Route path="/alarm" element={<Alarm />} />
       <Route path="/my" element={<My />} />
+      <Route path="/profile/:username" element={<Other />} />
     </Routes>
     <NavBar />
   </>)

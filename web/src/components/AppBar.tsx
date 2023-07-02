@@ -24,22 +24,27 @@ export const AppBar = () => {
     // profile이면 userId 가져오기
     // 그리고 detailTitle에 넣기
 
-    const detailTitle = "detailTitle";
+    const detailTitle = "id";
 
-    const title = status === "room" ? detailTitle : nowMeun?.content;
+    const isDetail = (status === "room" || status === "profile")
+
+    const title = isDetail ? detailTitle : nowMeun?.content;
 
     const navigate = useNavigate();
 
     const backBtn = () => {
-        setStatus({status: "chat"})
-        navigate("/chat")
+
+        const nextStatus = status === "room" ? "chat" : "alarm";
+
+        setStatus({status: nextStatus})
+        navigate(-1)
     }
     
     return (
     <AppBarContainer>
-        <AlignBox align="center" justify="center" direction="row">
+        <AlignBox align="center" justify="center" direction="row" style={{height: "100%"}}>
             {
-                status === "room" && <BackBtn onClick={backBtn} />
+                isDetail && <BackBtn onClick={backBtn} />
             }
             <Text content={title} fontsize={16} weight={700} />
         </AlignBox>

@@ -103,7 +103,7 @@ export const AlignBox = styled.div<AlignBoxProps>`
 
 export const MainBtn = styled.div`
     width: 81vw;
-    height: 6vh;
+    height: 7vh;
     background: #466FFF;
     box-shadow: 0px 6px 4px 0px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
