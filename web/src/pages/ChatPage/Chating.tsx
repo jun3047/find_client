@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 
 const Chating = () => {
     const {status, setStatus} = useStatus<StatusType>(setStatus => setStatus);
-    const { id } = useParams();
+    const {roomId} = useParams();
 
     return (
         <>

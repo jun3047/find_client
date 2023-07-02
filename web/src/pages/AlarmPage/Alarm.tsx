@@ -13,7 +13,7 @@ const list = [0,1,2,3,4,5,6,7,8,9,10]
 const Alarm = () => {
     return <PaddingBox top={0.5} left={2} right={2}>
         {
-            list.map((item, index) =>
+            list.map(() =>
                 <AlarmBox
                     userInfo={userInfo}
                     question="질문임"
