@@ -63,9 +63,9 @@ const DropdownMenuItem = styled.li`
 type DropdownProps = {
     setValue: (value: string) => void;
     list: string[];
+    value: string;
     lable?: string;
     placeholder?: string;
-    value?: string;
 }
 
 export const Dropdown = ({
