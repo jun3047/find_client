@@ -11,6 +11,7 @@ const Other = () => {
             <Text
                 content="비공개"
                 fontsize={20}
+                weight={700}
             />
             <EmtpyBox height={1} />
             <Text
