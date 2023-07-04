@@ -5,6 +5,24 @@
 
 ### API Hooks
 
+#### 사용
+
+```js
+useAPI(url = 'url', field = {key: value})
+```
+
+#### 구조
+
+```js
+const useAPI = ({url: string, field: object}) => {
+  const res = await axios.post(REACT_API + api, {key: value})
+ 
+  return res.body
+}
+```
+
+
+
 
 ### Post
 
