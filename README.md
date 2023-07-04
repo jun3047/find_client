@@ -1,8 +1,94 @@
 # FIND
 
 
-## 주요 컴토넌트 및 데이터 스키마
+## API
 
+### API Hooks
+
+
+### Post
+
+#### req
+```
+{
+  last_postId: number
+}
+```
+
+#### res
+```
+{
+  _id: number
+  question: string
+  content: string
+}[]
+```
+
+
+### UserInfo
+
+#### req
+```
+{
+  userId: number
+  field:{
+     nickname: string
+     ...
+  }
+}
+```
+
+#### res
+```
+{
+  nickname: string
+  ...
+}
+```
+
+
+
+## Socet
+
+
+### join
+
+#### req
+```
+{
+  roomId: number
+}
+```
+
+### question
+
+#### req
+```
+{
+  roomId: number
+  question: string
+}
+```
+
+
+### send
+
+#### req
+```
+{
+  nickname: string
+  ...
+}
+```
+
+
+
+
+
+
+
+
+## 주요 컴토넌트 및 데이터 스키마
 
 
 ### Dropdown
