@@ -214,7 +214,7 @@ type ChatBubbleProps = {
 
 ```ts
 type Room = {
-  roomId: number
+  roomId: number || string
   chats: chatBubble[]
   members: User{id: number, nickname: string}[]
 }
