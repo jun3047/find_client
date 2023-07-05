@@ -10,6 +10,10 @@ import { NavBar } from './components/NavBar';
 import { AppBar } from './components/AppBar';
 import Chating from './pages/ChatPage/Chating';
 import Other from './pages/AlarmPage/Profile';
+import { useEffect } from 'react';
+import axios from "axios";
+import { Test } from './pages/TestPage/Test';
+
 
 function App() {
 
@@ -18,6 +22,7 @@ function App() {
     <AppBar />
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/test" element={<Test />} />
       <Route path="/home" element={<Home />} />
       <Route path="/chat" element={<Chat />} />
       <Route path="/chat/:roomNum" element={<Chating />} />
