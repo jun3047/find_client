@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { RenderErrorBoundary } from 'react-router/dist/lib/hooks';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-root.render(
+root.render(  
   <BrowserRouter>
     <React.StrictMode>
-      <App/>
+          <App/>
     </React.StrictMode>
   </BrowserRouter>
 );
