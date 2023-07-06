@@ -47,6 +47,33 @@ import Advanced from "../../components/SwipeCard/SwipeCard";
             find: 0,
             user: {_id: 1, nickname: "닉네임"}
         },
+        {
+            _id: 1,
+            question: "질문",
+            content: "내용",
+            warn: 0,
+            pass: 0,
+            find: 0,
+            user: {_id: 1, nickname: "닉네임"}
+        },
+        {
+            _id: 1,
+            question: "질문",
+            content: "내용",
+            warn: 0,
+            pass: 0,
+            find: 0,
+            user: {_id: 1, nickname: "닉네임"}
+        },
+        {
+            _id: 1,
+            question: "질문",
+            content: "내용",
+            warn: 0,
+            pass: 0,
+            find: 0,
+            user: {_id: 1, nickname: "닉네임"}
+        },
     ]
     
 
@@ -113,6 +140,13 @@ const sendAlarm = (
             expression: expression,
         });
 };
+
+const sendAuthMsg = async (phone: string) => {
+
+    const res = await postAPI("sendAuthMsg", {phone: phone})
+
+    console.log(res);
+}
   
   
 export const Test = () => {
@@ -145,6 +179,7 @@ export const Test = () => {
             <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, posts[0], "find")}>socket alarm(find)</Btn>
             <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, posts[0], "pass")}>socket alarm(pass)</Btn>
             <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, posts[0], "warn")}>socket alarm(warn)</Btn>
+            <Btn onClick={() => sendAuthMsg("01075601770")}>sendAuthMsg</Btn>
 
             <Advanced
                 db={posts}
