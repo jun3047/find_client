@@ -1,8 +1,11 @@
 import styled from "@emotion/styled";
 import { postAPI } from "../../hooks/useAPI";
+import TinderCard from 'react-tinder-card'
 
 import { io } from 'socket.io-client';
 import { useEffect } from "react";
+import { Post } from "../../components/Post";
+import Advanced from "../../components/SwipeCard/SwipeCard";
 
 
 //소켓 세팅
@@ -115,9 +118,14 @@ export const Test = () => {
             <Btn onClick={() => sendQuestion(roomId, "질문")}>socket question</Btn>
             <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, "질문")}>socket alarm</Btn>
 
+            <Advanced
+                SwipeLeft={() => {console.log("left")}}
+                SwipeRight={() => {console.log("right")}}
+            />
         </>
     );
 };
+
 
 const writePost = async ({userInfo, content, question}:{
     userInfo: object,
