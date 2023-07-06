@@ -8,6 +8,48 @@ import { Post } from "../../components/Post";
 import Advanced from "../../components/SwipeCard/SwipeCard";
 
 
+
+
+
+    // 예시 데이터
+
+    const userInfo = {
+        nickname: "닉네임1",
+        _id: 1,
+    }
+
+    const otherUserInfo = {
+        nickname: "닉네임2",
+        _id: 2
+    }
+
+    const registerUserInfo = {
+        nickname: "닉네임",
+        phone: "010-1234-1234",
+        school: "학교",
+        major: "전공",
+        grade: 22
+    }
+
+    const roomId = 1;
+    const roomIdList = [1,2,3]
+
+    const users = [{_id: 1, nickname: "1닉네임"}, {_id: 2, nickname: "2닉네임"}]
+
+
+    const posts = [
+        {
+            _id: 1,
+            question: "질문",
+            content: "내용",
+            warn: 0,
+            pass: 0,
+            find: 0,
+            user: {_id: 1, nickname: "닉네임"}
+        },
+    ]
+    
+
 //소켓 세팅
 
 const server_url: string = process.env.REACT_APP_HOST || "";
@@ -55,9 +97,21 @@ const sendQuestion = (roomId: number, question: string) => {
     socket.emit('send_question', { roomId: roomId, question: question });
 };
 
-const sendAlarm = (userInfo: object, otherUserInfo: object, question: string) => {
-    console.log(userInfo, otherUserInfo, question);
-    socket.emit('send_alarm', { userInfo: userInfo, otherUserInfo: otherUserInfo, question: question });
+const sendAlarm = (
+    userInfo: object,
+    otherUserInfo: object,
+    postInfo: object,
+    expression: string
+    ) => {
+
+    socket.emit(
+        'send_alarm',
+        {
+            userInfo: userInfo,
+            otherUserInfo: otherUserInfo, 
+            postInfo: postInfo,
+            expression: expression,
+        });
 };
   
   
@@ -73,34 +127,6 @@ export const Test = () => {
             socketListenr();
           });        
     }, [socket])
-
-
-    // 예시 데이터
-
-    const userInfo = {
-        nickname: "닉네임1",
-        _id: 1,
-    }
-
-    const otherUserInfo = {
-        nickname: "닉네임2",
-        _id: 2
-    }
-
-    const registerUserInfo = {
-        nickname: "닉네임",
-        phone: "010-1234-1234",
-        school: "학교",
-        major: "전공",
-        grade: 22
-    }
-
-    const roomId = 1;
-    const roomIdList = [1,2,3]
-
-    const users = [{_id: 1, nickname: "1닉네임"}, {_id: 2, nickname: "2닉네임"}]
-
-    
     
     return (
         <>
@@ -116,9 +142,12 @@ export const Test = () => {
             <Btn onClick={() => joinRoom("닉네임")}>socket alarm join</Btn>
             <Btn onClick={() => sendChatBubble(roomId, "닉네임" ,"메세지")}>socket send</Btn>
             <Btn onClick={() => sendQuestion(roomId, "질문")}>socket question</Btn>
-            <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, "질문")}>socket alarm</Btn>
+            <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, posts[0], "find")}>socket alarm(find)</Btn>
+            <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, posts[0], "pass")}>socket alarm(pass)</Btn>
+            <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, posts[0], "warn")}>socket alarm(warn)</Btn>
 
             <Advanced
+                db={posts}
                 SwipeLeft={() => {console.log("left")}}
                 SwipeRight={() => {console.log("right")}}
             />

@@ -4,34 +4,6 @@ import { Post } from '../Post';
 import styled from "@emotion/styled"
 import { AlignBox } from '../../styles/atom';
 
-const db = [
-
-  {
-    question: 'What is your favorite color?',
-    content: '1',
-    writer: '1',
-  },
-  {
-    question: 'What is your favorite color?',
-    content: '2',
-    writer: '2',
-  },
-  {
-    question: 'What is your favorite color?',
-    content: '3',
-    writer: '3',
-  },
-  {
-    question: 'What is your favorite color?',
-    content: '4',
-    writer: '4',
-  },
-  {
-    question: 'What is your favorite color?',
-    content: '5',
-    writer: '5',
-  },
-]
 
 const CardContainer = styled.div`
   position: relative;
@@ -50,37 +22,39 @@ const TinderCardComponent = styled(TinderCard)`
 `
 
 
-function Advanced({SwipeRight, SwipeLeft}) {
+function Advanced({db, SwipeRight, SwipeLeft}) {
 
   const [posts, setPosts] = useState(db);
   const [lastDirection, setLastDirection] = useState();
 
   const swiped = (direction, nameToDelete) => {
     setLastDirection(direction);
+  };
 
-    if(direction === 'right') {
+  const outOfFrame = (name, idx) => {
+    
+    setPosts(prevPosts => prevPosts.filter((_, index) => index !== idx));
+
+    if(lastDirection === 'right') {
       SwipeRight()
     }else {
       SwipeLeft()
     }
-  };
 
-  const outOfFrame = (name, idx) => {
-    setPosts(prevPosts => prevPosts.filter((_, index) => index !== idx));
+    
   };
 
   return (
     <AlignBox align="center">
-      <h2 className="infoText">You swiped {lastDirection}</h2>
       <CardContainer>
         {posts.map((post, index) => (
           <TinderCardComponent
             key={post.writer}
-            onSwipe={(dir) => swiped(dir, post.writer)}
-            onCardLeftScreen={() => outOfFrame(post.writer, index)}
+            onSwipe={(dir) => swiped(dir, post.user.nickname)}
+            onCardLeftScreen={() => outOfFrame(post.user.nickname, index)}
             isActive={index === posts.length - 1}
           >
-            <Post question={post.question} content={post.content} writer={post.writer} />
+            <Post question={post.question} content={post.content} writer={post.user.nickname} />
           </TinderCardComponent>
         ))}
       </CardContainer>
