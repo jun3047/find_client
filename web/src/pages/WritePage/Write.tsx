@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Dropdown } from '../../components/Dropdown';
-import { Post } from '../../components/Post';
+import { WritePost } from '../../components/Post';
 import { AlignBox, EmtpyBox, MarginBox, PaddingBox, SubBtn } from '../../styles/atom';
 
 
@@ -24,10 +24,8 @@ const Write = () => {
                 setValue={setQuestion}
             />
             <EmtpyBox height={25} />
-            <Post
-                mode={"write"}
+            <WritePost
                 question={"질문"}
-                content={"lorem"}
                 writer={'jun'}
             />
             <EmtpyBox height={20} />

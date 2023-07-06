@@ -7,10 +7,9 @@ type PostProps = {
     question: string;
     content: string;
     writer: string;
-    mode?: "read" | "write"
 }
 
-export const Post = ({question, content, writer, mode = "read"}:PostProps) => {
+export const Post = ({question, content, writer}:PostProps) => {
     
     
     return(<PostContainer>
@@ -20,13 +19,35 @@ export const Post = ({question, content, writer, mode = "read"}:PostProps) => {
         <EmtpyBox height={4} />
         <AlignBox align="left" justify="top">
             <PaddingBox left={6} right={6}>
-                {
-                    mode === "read" ? 
-                    <Text content={content} fontsize={14} /> :
-                    <TextAreaInputBox 
-                        setValue={()=>{}}
-                        lableText={""} />
-                }
+                <Text content={content} fontsize={14} />
+            </PaddingBox>
+        </AlignBox>
+    </AlignBox>
+    <WriterContainer>
+    <Text content={"@"+writer} fontsize={14} weight={700}/>
+    </WriterContainer>
+    </PostContainer>)
+
+}
+
+type WritePostProps = {
+    question: string;
+    writer: string;
+}
+
+export const WritePost = ({question, writer}:WritePostProps) => {
+    
+    
+    return(<PostContainer>
+    <EmtpyBox height={4} />
+    <AlignBox align="center" justify="top">
+        <Text content={question} fontsize={16} weight={700}/>
+        <EmtpyBox height={4} />
+        <AlignBox align="left" justify="top">
+            <PaddingBox left={6} right={6}>
+            <TextAreaInputBox 
+                setValue={()=>{}}
+                lableText={""} />
             </PaddingBox>
         </AlignBox>
     </AlignBox>
