@@ -1,18 +1,21 @@
-import React, { useState, useMemo, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import TinderCard from 'react-tinder-card'
 import { Post } from '../Post';
 import styled from "@emotion/styled"
-import { AlignBox } from '../../styles/atom';
+import { AlignBox, EmtpyBox, MarginBox } from '../../styles/atom';
+import { PostType } from "../../types/post.type";
 
 
 const CardContainer = styled.div`
   position: relative;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 const TinderCardComponent = styled(TinderCard)`
   position: absolute;
-  right: -30vw;
-  bottom: -40vh;
   transition: transform 0.3s ease;
 
   z-index : ${({ isActive }) => isActive ? 2 : 1 };
@@ -22,42 +25,82 @@ const TinderCardComponent = styled(TinderCard)`
 `
 
 
-function Advanced({db, SwipeRight, SwipeLeft}) {
-
-  const [posts, setPosts] = useState(db);
+function Advanced({setPostInfo, setOtherUserInfo, setDB, db, SwipeRight, SwipeLeft}) {
+  
   const [lastDirection, setLastDirection] = useState();
+  
+  let lastIdx = db[db.length - 1]?._id;
+  let nowId = db[0]?._id;
+  
+  const popPost = (prevPosts) => prevPosts.slice(1);
+  const selectInDB = (prevPosts) => {
+    
+    // setDB(prevPosts.slice(21));
+    
+    return prevPosts.slice(0, 21)
+  };
+  
+  const [showDB, setShowDB] = useState(selectInDB(db));
 
-  const swiped = (direction, nameToDelete) => {
+  useEffect(() => {
+
+    setPostInfo(showDB[0])
+    setOtherUserInfo(showDB[0]?.userInfo)
+  
+    if(showDB.length < 10) {
+      const _posts = selectInDB(db)
+      setDB(db.slice(21));
+
+      setShowDB([...showDB, ..._posts]);
+      
+    }
+
+  }, [showDB]);
+
+  const swiped = (direction) => {
     setLastDirection(direction);
   };
 
   const outOfFrame = (name, idx) => {
-    
-    setPosts(prevPosts => prevPosts.filter((_, index) => index !== idx));
+    //삭제
 
-    if(lastDirection === 'right') {
-      SwipeRight()
-    }else {
-      SwipeLeft()
+    const _posts = popPost(showDB);
+    setShowDB([..._posts]);
+    //추가
+
+    if (lastDirection === "right") {
+      SwipeRight();
+    } else {
+      SwipeLeft();
     }
-
-    
   };
+
 
   return (
     <AlignBox align="center">
+      {showDB.length}
+      <EmtpyBox height={50} />
       <CardContainer>
-        {posts.map((post, index) => (
+        {showDB.map((post, index) => {
+          
+          return (<>
           <TinderCardComponent
-            key={post.writer}
-            onSwipe={(dir) => swiped(dir, post.user.nickname)}
-            onCardLeftScreen={() => outOfFrame(post.user.nickname, index)}
-            isActive={index === posts.length - 1}
+            key={post._id}
+            onSwipe={(dir) => swiped(dir, post.userInfo.nickname)}
+            onCardLeftScreen={() => outOfFrame(post.userInfo.nickname, index)}
+            isActive={index === db.length - 1}
           >
-            <Post question={post.question} content={post.content} writer={post.user.nickname} />
+          <Post
+            key={post._id}
+            question={post.question}
+            content={post.content}
+            writer={post.userInfo.nickname}
+          />
           </TinderCardComponent>
-        ))}
+          </>)
+        })}
       </CardContainer>
+      <EmtpyBox height={20} />
     </AlignBox>
   );
 }
