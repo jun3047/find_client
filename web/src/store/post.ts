@@ -16,10 +16,8 @@ export type UsePostType = Post & Actions;
 export const usePost = create<UsePostType>()((set) => ({
     posts: [],
     setPosts: (posts) => {
-        console.log("posts: ", posts);
         set((state) => ({
             posts: posts,
         }))
-        console.log("posts: ", posts);
     },
-}));
+}));   

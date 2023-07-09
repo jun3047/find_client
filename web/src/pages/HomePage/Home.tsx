@@ -35,8 +35,6 @@ const Home = () => {
     //     const _filteredPosts = posts.filter((post: PostType) => post.question === question);
     //     setFilteredPosts([..._filteredPosts])
     // }, [question])
-    
-    console.log("posts:", posts);
 
     
     return (

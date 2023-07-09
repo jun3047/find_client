@@ -10,7 +10,8 @@ export const writePost = async ({userInfo, content, question}:{
     question: string
 }) => {
     const res = await postAPI('writePost', {userInfo: userInfo, content: content, question: question});
-    console.log(res)
+
+    return res;
 }
 
 
@@ -21,12 +22,11 @@ export const getPosts = async (last_postId?: number) => {
     
     const res = await postAPI('posts', { last_postId: last_postId });
 
-    console.log(res);
     return res;
 };
 
 export const getPostsById = async (postIds: number[]) => {
     const res = await postAPI('posts_by_ids', { postIds: postIds });
-    console.log(res);
+
     return res;
   };

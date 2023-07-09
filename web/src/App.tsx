@@ -34,7 +34,7 @@ function App() {
           <Route path="/write" element={<Write />} />
           <Route path="/alarm" element={<Alarm />} />
           <Route path="/my" element={<My />} />
-          <Route path="/profile/:username" element={<Other />} />
+          <Route path="/profile/:_id" element={<Other />} />
         </Routes>
       </Suspense>
     </ErrorBoundary>

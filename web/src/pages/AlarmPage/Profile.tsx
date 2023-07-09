@@ -1,8 +1,62 @@
 import styled from "@emotion/styled";
 import { Post } from "../../components/Post";
 import { AlignBox, EmtpyBox, MainBtn, MarginBox, Text } from "../../styles/atom";
+import { useLocation, useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { getUserInfo } from "../../apis/user";
+import { SimpleCard } from '../../components/SwipeCard/SwipeCard';
+import { getPostsById } from "../../apis/post";
+import { PostType } from "../../types/post.type";
+
+
+type OtherUserInfoType = {
+    post: number[],
+    nickname: string,
+    find_count: number,
+}
 
 const Other = () => {
+
+    const parseId = useParams()._id
+    const _id = parseId ? parseInt(parseId) : 0;
+
+    const [otherUserInfo, setOtherUserInfo] = useState<OtherUserInfoType>({
+        post: [],
+        nickname: "",
+        find_count: 0,
+    })
+
+    const [otherUserPost, setOtherUserPost] = useState<PostType[]>([])
+
+    const fetchData = async () => {
+        await fetchOtherUserInfo();
+        await fetchOtherUserPost();
+        
+    }
+
+    const fetchOtherUserPost = async () => {
+        const _userPosts = await getPostsById(otherUserInfo.post);
+        setOtherUserPost(_userPosts);            
+    }
+
+    const fetchOtherUserInfo = async () => {
+        if (!_id) return;
+
+        const otherUserId = _id;
+        const field = { post: 1, nickname: 1, find_count: 1 };
+
+        const _otherUserInfo = await getUserInfo(otherUserId, field);
+
+        setOtherUserInfo(_otherUserInfo);
+
+        console.log("_otherUserInfo:", _otherUserInfo);
+
+    };
+
+    useEffect(() => {fetchData()}, [])
+
+    
+
 
     return (<>
         <AlignBox align="center" justify="top">
@@ -15,19 +69,21 @@ const Other = () => {
             />
             <EmtpyBox height={1} />
             <Text
-                content="@id"
+                content={"@" + otherUserInfo.nickname}
                 fontsize={12}
                 color="#707070"
             />
             <EmtpyBox height={10} />
             <AlignBox direction="row" style={{}}>
-                <FeedInfo num={1} title="글"/>
-                <FeedInfo num={1} title="파인드"/>
+                <FeedInfo num={otherUserPost.length} title="글"/>
+                <FeedInfo num={otherUserInfo.find_count} title="파인드"/>
             </AlignBox>
             <EmtpyBox height={10} />
             <PostInfo />
-            <EmtpyBox height={10} />
-            <Post question={"질문"} content={"내용"} writer={"id"} />
+            <SimpleCard
+                db={otherUserPost}
+                setDB={setOtherUserPost}
+            />
             <EmtpyBox height={12} />
             <MainBtn>
                 대화하기
