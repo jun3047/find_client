@@ -1,3 +1,8 @@
+export type SimpleUserType = {
+    _id: number,
+    nickname: string
+}
+
 export type UserType = {
     _id: number;
     nickname: string;
