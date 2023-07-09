@@ -1,35 +1,55 @@
 import styled from "@emotion/styled";
 import { Post } from "../../components/Post";
 import { AlignBox, EmtpyBox, MarginBox, Text } from "../../styles/atom";
+import { UseUserType, useUserInfo } from "../../store/userInfo";
+import Advanced, { SimpleCard } from "../../components/SwipeCard/SwipeCard";
+import { getPosts, getPostsById } from "../../apis/post";
+import { useEffect, useState } from "react";
+import { PostType } from "../../types/post.type";
 
 const My = () => {
+    
+    const {userInfo} = useUserInfo<UseUserType>(setUserInfo => setUserInfo);
+    const [userPosts, setUserPosts] = useState<PostType[]>([])
 
 
-    return (<>
+    useEffect(() => {
+        const getUserPosts = async () => {
+          const _userPosts = await getPostsById(userInfo.post);
+          setUserPosts(_userPosts);
+        };
+      
+        if (userInfo) getUserPosts();
+      }, [userInfo]);
+
+          return (<>
         <AlignBox align="center" justify="top">
             <EmtpyBox height={10} />
             <Profile />
             <EmtpyBox height={5} />
             <Text
-                content="My"
+                content="익명"
                 fontsize={20}
             />
             <EmtpyBox height={1} />
             <Text
-                content="@id"
+                content={"@" + userInfo.nickname}
                 fontsize={12}
                 color="#707070"
             />
             <EmtpyBox height={10} />
             <AlignBox direction="row" style={{}}>
-                <FeedInfo num={1} title="글"/>
-                <FeedInfo num={1} title="파인드"/>
+                <FeedInfo num={userInfo.post.length} title="글"/>
+                <FeedInfo num={userInfo.find_count} title="파인드"/>
             </AlignBox>
             <EmtpyBox height={10} />
             <PostInfo />
             <EmtpyBox height={10} />
-            <Post question={"질문"} content={"내용"} writer={"id"} />
-        </AlignBox>
+                  <SimpleCard
+                      db={userPosts}
+                      setDB={setUserPosts}
+                  />
+              </AlignBox>
     </>)
 }
 

@@ -24,3 +24,9 @@ export const getPosts = async (last_postId?: number) => {
     console.log(res);
     return res;
 };
+
+export const getPostsById = async (postIds: number[]) => {
+    const res = await postAPI('posts_by_ids', { postIds: postIds });
+    console.log(res);
+    return res;
+  };

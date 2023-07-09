@@ -5,14 +5,14 @@ import { UserType } from '../types/user.type';
 
 const userInfo = {
     _id: 1,
-    nickname: "닉네임",
+    nickname: "겁나긴닉네임",
     phone: "번호임",
     school: "학교임",
     major: "전공임",
     grade: 22,
-    post: [],
+    post: [1,2,3,4,5],
     pass_count: 0,
-    find_count: 0,
+    find_count: 20,
     warn_count: 0,
     pass_post: [],
     find_post: [],
@@ -21,7 +21,7 @@ const userInfo = {
 }
 
 export type Status = {
-    userInfo: object
+    userInfo: UserType
 };
 
 export type Actions = {
@@ -32,10 +32,9 @@ export type UseUserType = Status & Actions;
 
 export const useUserInfo = create<UseUserType> ((set) => ({
     userInfo: userInfo,
-    setUserInfo: (userInfo: UserType) => {
-        set((userInfo) => ({
-            userInfo: userInfo,
-        }))
-        console.log("userInfo:", userInfo);
+    setUserInfo: (newUserInfo: UserType) => {
+        set((state) => ({
+          userInfo: newUserInfo,
+        }));
     },
 }));

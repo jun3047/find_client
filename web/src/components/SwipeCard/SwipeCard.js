@@ -25,6 +25,45 @@ const TinderCardComponent = styled(TinderCard)`
 `
 
 
+export function SimpleCard({db, setDB}) {
+  
+  const popPost = (prevPosts) => prevPosts.slice(0, prevPosts.length - 1);
+
+  const outOfFrame = (name, idx) => {
+    const _posts = popPost(db);
+    setDB([..._posts]);
+  };
+
+
+  return (
+    <AlignBox align="center">
+      {db.length}
+      <EmtpyBox height={50} />
+      <CardContainer>
+        {db.map((post, index) => {
+          
+          return (<>
+          <TinderCardComponent
+            key={post._id}
+            onCardLeftScreen={() => outOfFrame(post.userInfo.nickname, index)}
+            isActive={index === db.length - 1}
+          >
+          <Post
+            key={post._id}
+            question={post.question}
+            content={post.content}
+            writer={post.userInfo.nickname}
+          />
+          </TinderCardComponent>
+          </>)
+        })}
+      </CardContainer>
+      <EmtpyBox height={20} />
+    </AlignBox>
+  );
+}
+
+
 function Advanced({setPostInfo, setOtherUserInfo, setDB, db, SwipeRight, SwipeLeft}) {
   
   const [lastDirection, setLastDirection] = useState();
