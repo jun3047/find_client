@@ -1,7 +1,7 @@
 import styled from "@emotion/styled"
 import { AlignBox, Text, BackBtn, MarginBox, EmtpyBox } from "../styles/atom"
 import { useStatus, StatusType, Status, Actions } from '../store/status';
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useEffect } from "react";
 import { InitData } from "./InitData";
 
@@ -17,7 +17,7 @@ const meun = [
 
 export const AppBar = () => {
     
-    const {status, setStatus} = useStatus<StatusType>(setStatus => setStatus);
+    const {status} = useStatus<StatusType>(setStatus => setStatus);
     
     const nowMeun = meun.find(item => item.meun === status) || meun[0];
     
@@ -34,10 +34,6 @@ export const AppBar = () => {
     const navigate = useNavigate();
 
     const backBtn = () => {
-
-        const nextStatus = status === "room" ? "chat" : "alarm";
-
-        setStatus({status: nextStatus})
         navigate(-1)
     }
     

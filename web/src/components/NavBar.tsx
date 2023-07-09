@@ -1,7 +1,8 @@
 import styled from "@emotion/styled"
 import { AlignBox, Text } from "../styles/atom"
-import { useNavigate } from "react-router"
+import { useLocation, useNavigate } from "react-router"
 import { StatusType, useStatus, Status } from "../store/status"
+import { useEffect } from "react"
 
 
 
@@ -17,6 +18,23 @@ const meun : (Status & {content: string})[]
 export const NavBar = () => {
     
     const {status, setStatus} = useStatus<StatusType>(setStatus => setStatus);
+
+    const location = useLocation();
+
+    useEffect(() => {
+        const path = location.pathname.split("/")[1];
+        console.log("path:", path);
+
+        if (/^\/chat\/\d+$/.test(location.pathname)) {
+            setStatus({status:"room"});
+        }else{
+            setStatus({ status: path as "home" | "login" | "register" | "chat" | "write" | "alarm" | "my" | "room" | "profile" });
+        }
+
+
+    }, [location.pathname])
+    
+
 
     const nowMeun = meun.find(item => item.status === status) || meun[0];
 
