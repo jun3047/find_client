@@ -6,9 +6,11 @@ import { io } from 'socket.io-client';
 import { useEffect } from "react";
 import { Post } from "../../components/Post";
 import Advanced from "../../components/SwipeCard/SwipeCard";
-
-
-
+import { joinRoom, sendAlarm, sendChatBubble, sendQuestion, socket, socketListenr } from "../../apis/socket";
+import { sendAuthMsg } from "../../apis/sendAuthMsg";
+import { getPosts, writePost } from "../../apis/post";
+import { getRoomsInfo, makeRoom } from "../../apis/room";
+import { getUserInfo, registerUser } from "../../apis/user";
 
 
     // 예시 데이터
@@ -45,116 +47,46 @@ import Advanced from "../../components/SwipeCard/SwipeCard";
             warn: 0,
             pass: 0,
             find: 0,
-            user: {_id: 1, nickname: "닉네임"}
+            userInfo: {_id: 1, nickname: "닉네임"}
         },
         {
-            _id: 1,
+            _id: 3,
             question: "질문",
             content: "내용",
             warn: 0,
             pass: 0,
             find: 0,
-            user: {_id: 1, nickname: "닉네임"}
+            userInfo: {_id: 1, nickname: "닉네임"}
         },
         {
-            _id: 1,
+            _id: 4,
             question: "질문",
             content: "내용",
             warn: 0,
             pass: 0,
             find: 0,
-            user: {_id: 1, nickname: "닉네임"}
+            userInfo: {_id: 1, nickname: "닉네임"}
         },
         {
-            _id: 1,
+            _id: 5,
             question: "질문",
             content: "내용",
             warn: 0,
             pass: 0,
             find: 0,
-            user: {_id: 1, nickname: "닉네임"}
+            userInfo: {_id: 1, nickname: "닉네임"}
         },
     ]
     
 
 //소켓 세팅
 
-const server_url: string = process.env.REACT_APP_HOST || "";
-
-console.log("server_url:", server_url);
-const socket = io(server_url);
-
-const socketListenr = () => {
-    socket.on('send_message', ({ roomId, msg, nickname, date }) => {
-        console.log('send_message');
-        console.log(roomId, msg, nickname, date);
-    });
-    socket.on('send_question', ({ roomId, question }) => {
-        console.log('send_question');
-        console.log(roomId, question);
-    });
-    
-    socket.on('send_alarm', ({ userInfo, question }) => {
-        console.log('send_alarm');
-        console.log(userInfo, question);
-    });
-    
-    socket.on('disconnect', () => {
-        console.log('disconnect');
-        setTimeout(() => {
-            socket.connect();
-        }, 5000);
-    });
-}
-
-
-
-const joinRoom = (roomId: number | string) => {
-    console.log('join_room');
-    socket.emit('join_room', {roomId: roomId});
-}
-
-const sendChatBubble = (roomId: number, nickname: string, msg: string) => {
-    console.log("sendChatBubble");
-    socket.emit('send_message', { roomId: roomId, msg: msg, nickname: nickname });
-};
-
-const sendQuestion = (roomId: number, question: string) => {
-    console.log('sendQuestion');
-    socket.emit('send_question', { roomId: roomId, question: question });
-};
-
-const sendAlarm = (
-    userInfo: object,
-    otherUserInfo: object,
-    postInfo: object,
-    expression: string
-    ) => {
-
-    socket.emit(
-        'send_alarm',
-        {
-            userInfo: userInfo,
-            otherUserInfo: otherUserInfo, 
-            postInfo: postInfo,
-            expression: expression,
-        });
-};
-
-const sendAuthMsg = async (phone: string) => {
-
-    const res = await postAPI("sendAuthMsg", {phone: phone})
-
-    console.log(res);
-}
-  
   
 export const Test = () => {
 
     useEffect(() => {
 
         console.log("useEffect");
-        
 
         socket.on('connect', () => {
             console.log('Connected to the server');
@@ -182,57 +114,16 @@ export const Test = () => {
             <Btn onClick={() => sendAuthMsg("01075601770")}>sendAuthMsg</Btn>
 
             <Advanced
+                setDB={() => {} }
                 db={posts}
-                SwipeLeft={() => {console.log("left")}}
-                SwipeRight={() => {console.log("right")}}
-            />
+                SwipeLeft={() => { console.log("left"); } }
+                SwipeRight={() => { console.log("right"); } } 
+                setPostInfo={()=>{}}
+                setOtherUserInfo={()=>{}}/>
         </>
     );
 };
 
-
-const writePost = async ({userInfo, content, question}:{
-    userInfo: object,
-    content: string,
-    question: string
-}) => {
-    const res = await postAPI('writePost', {userInfo: userInfo, content: content, question: question});
-    console.log(res)
-}
-
-
-const getPosts = async (last_postId?: number) => {
-
-    last_postId = last_postId ?? 0;
-    
-    const res = await postAPI('posts', { last_postId: last_postId });
-
-    console.log(res);
-    return res;
-};
-
-const getUserInfo = async (userId: number, field: object) => {
-    const res = await postAPI('userInfo', {userId: userId, field: field})
-    console.log(res)
-}
-
-const registerUser = async (userInfo: object) => {
-    const res = await postAPI('register', {userInfo: userInfo})
-    console.log(res)
-}
-
-
-const getRoomsInfo = async (roomIdList: number[]) => {
-    const res = await postAPI('rooms', {roomIdList: roomIdList})
-    
-    console.log(res)
-}
-
-const makeRoom = async (users: object[]) => {
-    const res = await postAPI('makeRoom', {users: users})
-    
-    console.log(res)
-}
 
 const Btn = styled.div`
 

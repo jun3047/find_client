@@ -33,9 +33,11 @@ export const Post = ({question, content, writer}:PostProps) => {
 type WritePostProps = {
     question: string;
     writer: string;
+    setValue: (value:string) => void;
+    value: string;
 }
 
-export const WritePost = ({question, writer}:WritePostProps) => {
+export const WritePost = ({question, writer, setValue, value}:WritePostProps) => {
     
     
     return(<PostContainer>
@@ -46,7 +48,7 @@ export const WritePost = ({question, writer}:WritePostProps) => {
         <AlignBox align="left" justify="top">
             <PaddingBox left={6} right={6}>
             <TextAreaInputBox 
-                setValue={()=>{}}
+                setValue={(e)=>setValue(e.target.value)}
                 lableText={""} />
             </PaddingBox>
         </AlignBox>

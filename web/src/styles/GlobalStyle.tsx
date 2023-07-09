@@ -1,4 +1,6 @@
 import { Global, css } from '@emotion/react';
+import { useEffect } from 'react';
+import { InitData } from '../components/InitData';
 
 const style = css`
   * {
@@ -35,6 +37,7 @@ const style = css`
 `;
 
 const GlobalStyle = () => {
+
   return <Global styles={style} />;
 };
 

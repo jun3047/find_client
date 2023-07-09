@@ -25,6 +25,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       error: error,
     });
     console.error(error, errorInfo);
+    console.log("error", error);
   }
 
   render() {

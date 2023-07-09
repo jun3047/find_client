@@ -2,6 +2,8 @@ import styled from "@emotion/styled"
 import { AlignBox, Text, BackBtn, MarginBox, EmtpyBox } from "../styles/atom"
 import { useStatus, StatusType, Status, Actions } from '../store/status';
 import { useNavigate } from "react-router";
+import { useEffect } from "react";
+import { InitData } from "./InitData";
 
 const meun = [
     {meun: "login", content: ""},
@@ -15,21 +17,20 @@ const meun = [
 
 export const AppBar = () => {
     
-    
     const {status, setStatus} = useStatus<StatusType>(setStatus => setStatus);
-
+    
     const nowMeun = meun.find(item => item.meun === status) || meun[0];
-
+    
     // room이면 roomId 가져오기
     // profile이면 userId 가져오기
     // 그리고 detailTitle에 넣기
-
+    
     const detailTitle = "id";
-
+    
     const isDetail = (status === "room" || status === "profile")
-
+    
     const title = isDetail ? detailTitle : nowMeun?.content;
-
+    
     const navigate = useNavigate();
 
     const backBtn = () => {

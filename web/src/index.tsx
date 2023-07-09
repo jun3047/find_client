@@ -4,14 +4,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { RenderErrorBoundary } from 'react-router/dist/lib/hooks';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { InitData } from './components/InitData';
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(  
   <BrowserRouter>
     <React.StrictMode>
-          <App/>
+      <QueryClientProvider client={queryClient}>
+        <App/>
+      </QueryClientProvider>
     </React.StrictMode>
   </BrowserRouter>
 );

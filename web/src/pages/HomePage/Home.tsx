@@ -1,26 +1,44 @@
 import { AlignBox, EmtpyBox, MarginBox, PaddingBox, SubBtn, Text } from "../../styles/atom";
 import { Dropdown } from '../../components/Dropdown';
-import { useState } from "react";
-import { Post } from "../../components/Post";
+import { useEffect, useState } from "react";
+import { getPosts } from "../../apis/post";
+import { PostType } from "../../types/post.type";
+import Advanced from "../../components/SwipeCard/SwipeCard";
+import { questionList } from "../../contants/question";
+import { sendAlarm } from "../../apis/socket";
+import { UsePostType, usePost } from "../../store/post";
+import { UseUserType, useUserInfo } from "../../store/userInfo";
 
-const questionList = [
-    "모든 질문",
-    "취업",
-    "취업준비",
-    "취업준비생",
-]
 
-const postList = [
-    {questino: "취업", post: {}},
-    {questino: "취업", post: {}},
-    {questino: "취업", post: {}},
-    {questino: "취업", post: {}},
-    {questino: "취업", post: {}},
-]
+
 
 const Home = () => {
+    
+    const {posts, setPosts} = usePost<UsePostType>(setPosts => setPosts);
+    const {userInfo} = useUserInfo<UseUserType>(setUserInfo => setUserInfo);
+    const [otherUserInfo, setOtherUserInfo] = useState({});
+    const [postInfo, setPostInfo] = useState({_id: 1});
+    const [alarmList, setAlarmList] = useState([0]);
 
-    const [question, setQuestion] = useState<string>("모든 질문")
+    // const [filteredPosts, setFilteredPosts] = useState<PostType[]>(posts)
+    // const [question, setQuestion] = useState<string>("모든 질문")
+
+    // useEffect(() => {
+
+    //     if(question === "모든 질문"){
+    //         console.log("모든 질문", [...posts]);
+
+    //         setFilteredPosts([...posts])
+    //         return;
+    //     }
+
+    //     const _filteredPosts = posts.filter((post: PostType) => post.question === question);
+    //     setFilteredPosts([..._filteredPosts])
+    // }, [question])
+    
+    console.log("posts:", posts);
+
+    
     return (
     <PaddingBox left={2} right={2}>
         <AlignBox align="center">
@@ -40,24 +58,42 @@ const Home = () => {
                 />
             </AlignBox>
             <MarginBox top={1}/>
-            <Dropdown
+            {/* <Dropdown
                 list={questionList}
                 value={question}
                 setValue={setQuestion}
+            /> */}
+            {posts.length}
+            <Advanced
+                setPostInfo={setPostInfo}
+                setOtherUserInfo={setOtherUserInfo}
+                setDB={setPosts}
+                db={posts}
+                SwipeLeft={() => {
+                    if (postInfo === undefined) return;
+
+                    if (!alarmList.includes(postInfo._id)) {
+                        sendAlarm(userInfo, otherUserInfo, postInfo, "pass")
+                        alarmList.push(postInfo._id);
+                    }
+                }}
+                SwipeRight={() => {
+                    if (postInfo === undefined) return;
+
+                    if (!alarmList.includes(postInfo._id)) {
+                        sendAlarm(userInfo, otherUserInfo, postInfo, "find")
+                        alarmList.push(postInfo._id);
+                    }
+                }}
             />
             <MarginBox top={8} />
-            <Post
-                question={"Q. 오늘 하루는 어때"}
-                content={"A.lorem ipsum dolor sit amet, con\nsectetur adipiscing elit. lorem ipsum dolor sit amet, consectetur adipiscing elit. lorem ipsum dolor sit amet, consectetur adipiscing elit. lorem ipsum dolor sit amet, consectetur adipiscing elit. lorem ipsum dolor sit"}
-                writer="김민수"
-            />
             <MarginBox top={10} />
             <AlignBox direction="row">
-                <SubBtn theme={"pass"} />
+                <SubBtn onClick={()=>{}} theme={"pass"} />
                 <EmtpyBox width={13} />
-                <SubBtn theme={"warn"} />
+                <SubBtn onClick={()=>{}} theme={"warn"} />
                 <EmtpyBox width={13} />
-                <SubBtn theme={"find"} />
+                <SubBtn onClick={()=>{}} theme={"find"} />
             </AlignBox>
         </AlignBox>
     </PaddingBox>

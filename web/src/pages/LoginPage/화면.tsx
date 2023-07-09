@@ -4,14 +4,16 @@ import { PaddingBox, MarginBox, Text, AlignBox, BigIcon, MainBtn, ShortInputBox 
 import { useState } from "react";
 
 
-type onNextType = {
-    onNext: (data?: string) => void; 
+type onNextString = {
+    onNext: (data: string) => void; 
 };
 
-type NavFunction = (onNext: onNextType) => JSX.Element;
+type onNextProps = {
+    onNext: () => void;
+};
 
 
-export const 초기화면: NavFunction = ({onNext}:onNextType) => {
+export const 초기화면 = ({onNext}:onNextProps) => {
     return (
         <AlignBox align="center">
             <MarginBox top={28}/>
@@ -26,7 +28,7 @@ export const 초기화면: NavFunction = ({onNext}:onNextType) => {
     )
 }
 
-export const 휴대폰인증: NavFunction = ({onNext}:onNextType) => {
+export const 휴대폰인증 = ({onNext}:onNextString) => {
 
     const [phone, setPhone] = useState<string>("")
 
@@ -46,7 +48,7 @@ export const 휴대폰인증: NavFunction = ({onNext}:onNextType) => {
     )
 }
 
-export const 인증번호입력: NavFunction = ({onNext}:onNextType) => {
+export const 인증번호입력 = ({onNext}:onNextString) => {
 
     const [인증번호, set인증번호] = useState<string>("")
 
@@ -60,7 +62,7 @@ export const 인증번호입력: NavFunction = ({onNext}:onNextType) => {
             <ShortInputBox setValue={set인증번호} lableText="인증번호"/>
         </AlignBox>
         <AlignBox align="center">
-            <MainBtn onClick={()=>{onNext()}}>다음</MainBtn>
+            <MainBtn onClick={()=>{onNext(인증번호)}}>다음</MainBtn>
         </AlignBox>
         </PaddingBox>)
 }
@@ -80,7 +82,7 @@ const departments: string[] = [
   "화학공학과",
 ];
 
-export const 학과선택: NavFunction = ({onNext}:onNextType) => {
+export const 학과선택 = ({onNext}:onNextString) => {
     
     const [학과, set학과] = useState<string>("")
 
@@ -122,7 +124,7 @@ const 학번목록 = [
     "10",
 ]
 
-export const 학번선택: NavFunction = ({onNext}:onNextType) => {
+export const 학번선택 = ({onNext}:onNextString) => {
 
     const [학번, set학번] = useState<string>("")
 
@@ -149,7 +151,7 @@ export const 학번선택: NavFunction = ({onNext}:onNextType) => {
 }
 
 
-export const 아이디선택: NavFunction = ({onNext}:onNextType) => {
+export const 아이디선택 = ({onNext}:onNextString) => {
 
     const [id, setID] = useState<string>("@")
 
@@ -170,7 +172,7 @@ export const 아이디선택: NavFunction = ({onNext}:onNextType) => {
 
 
 
-export const 입장: NavFunction = ({onNext}:onNextType) => {
+export const 입장 = ({onNext}:onNextProps) => {
 
     const {setStatus} = useStatus()
 

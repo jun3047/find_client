@@ -116,12 +116,13 @@ export const MainBtn = styled.div`
     justify-content: center;
 `
 
-type SubBtnProps = {
+interface SubBtnProps extends HTMLAttributes<HTMLDivElement> {
     theme: "find" | "pass" | "warn" | "send";
+    onClick: () => void;
 }
 
 
-export const SubBtn = ({ theme }: SubBtnProps) => {
+export const SubBtn = ({ theme, onClick }: SubBtnProps) => {
 
     const themeColor = theme === "find" ? "1px solid #466FFF" :
                         theme === "pass" ? "1px solid #FF7979" :
@@ -140,7 +141,7 @@ export const SubBtn = ({ theme }: SubBtnProps) => {
 
     const imgUrl = process.env.PUBLIC_URL + `/icons/${theme}.svg`
 
-    return(<SubBtnContainer>
+    return(<SubBtnContainer onClick={onClick}>
         <img src={imgUrl} />
     </SubBtnContainer>)
 }
@@ -280,14 +281,14 @@ export const TextAreaField = styled.textarea<TextAreaFieldProps>`
 
 
 type TextAreaBoxProps = {
-    setValue: (phone:string) => void,
+    setValue: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
     value?: string,
     lableText: string,
     defaultValue?: string,
     type?: string
 }
 
-export const TextAreaInputBox = ({defaultValue, value, type}:TextAreaBoxProps) => {
+export const TextAreaInputBox = ({setValue, defaultValue, value, type}:TextAreaBoxProps) => {
 
     const style: React.CSSProperties = {
         height: '13vh',
@@ -304,7 +305,7 @@ export const TextAreaInputBox = ({defaultValue, value, type}:TextAreaBoxProps) =
             style={style}
             value={value}
             defaultValue={defaultValue}
-            onChange={()=>{}}
+            onChange={setValue}
             type={type} />
     </>)
 }
