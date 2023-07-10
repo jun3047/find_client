@@ -34,6 +34,7 @@ export function SimpleCard({db, setDB}) {
     setDB([..._posts]);
   };
 
+  console.log("db", db);
 
   return (
     <AlignBox align="center">
@@ -48,11 +49,12 @@ export function SimpleCard({db, setDB}) {
             onCardLeftScreen={() => outOfFrame(post.userInfo.nickname, index)}
             isActive={index === db.length - 1}
           >
-          <Post
+            <Post
             key={post._id}
             question={post.question}
             content={post.content}
-            writer={post.userInfo.nickname}
+            // writer={post.userInfo.nickname}
+            writer={post._id}
           />
           </TinderCardComponent>
           </>)
@@ -71,12 +73,31 @@ function Advanced({setPostInfo, setOtherUserInfo, setDB, db, SwipeRight, SwipeLe
   let lastIdx = db[db.length - 1]?._id;
   let nowId = db[0]?._id;
   
-  const popPost = (prevPosts) => prevPosts.slice(1);
+
+  
+  const popPost = (prevPosts) => prevPosts.slice(0, prevPosts.length - 1);
   const selectInDB = (prevPosts) => {
     
-    // setDB(prevPosts.slice(21));
-    
     return prevPosts.slice(0, 21)
+  };
+  
+  const swiped = (direction) => {
+    setLastDirection(direction);
+  };
+  
+  const outOfFrame = (name, idx) => {
+    //삭제
+    alert("outOfFrame", name, idx);
+  
+    const _posts = popPost(showDB);
+    setShowDB([..._posts]);
+    //추가
+  
+    if (lastDirection === "right") {
+      SwipeRight();
+    } else {
+      SwipeLeft();
+    }
   };
   
   const [showDB, setShowDB] = useState(selectInDB(db));
@@ -96,24 +117,9 @@ function Advanced({setPostInfo, setOtherUserInfo, setDB, db, SwipeRight, SwipeLe
 
   }, [showDB]);
 
-  const swiped = (direction) => {
-    setLastDirection(direction);
-  };
 
-  const outOfFrame = (name, idx) => {
-    //삭제
 
-    const _posts = popPost(showDB);
-    setShowDB([..._posts]);
-    //추가
-
-    if (lastDirection === "right") {
-      SwipeRight();
-    } else {
-      SwipeLeft();
-    }
-  };
-
+  const [yetPost, setYetPost] = useState([]);
 
   return (
     <AlignBox align="center">
@@ -126,7 +132,14 @@ function Advanced({setPostInfo, setOtherUserInfo, setDB, db, SwipeRight, SwipeLe
           <TinderCardComponent
             key={post._id}
             onSwipe={(dir) => swiped(dir, post.userInfo.nickname)}
-            onCardLeftScreen={() => outOfFrame(post.userInfo.nickname, index)}
+            onCardLeftScreen={() => {
+
+              if(yetPost.includes(post._id)) return;
+
+              alert("onCardLeftScreen", post.userInfo.nickname, index)
+              yetPost.push(post._id)
+              outOfFrame(post.userInfo.nickname, index)
+            }}
             isActive={index === db.length - 1}
           >
           <Post

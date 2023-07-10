@@ -16,14 +16,17 @@ import { Test } from './pages/TestPage/Test';
 import ErrorBoundary from './components/ErrorBoundary';
 import { InitData } from './components/InitData';
 import PrivateRoute from './routes/PrivateRoute';
+import { useUserInfo } from './store/userInfo';
 
 
 function App() {
 
+  const {userInfo} = useUserInfo()
+
   return (<>
     <GlobalStyle />
-    <InitData />
     <AppBar />
+    {userInfo._id !== 0 && <InitData />}
     <ErrorBoundary fallback={<div><p>이런.. 부족한 개발 실력 땜에 에러남...</p><p>아직 부족한 부분이 많아요 😭 빠르게 수정해볼게요</p></div>}>
       <Suspense fallback={<div><img src={process.env.PUBLIC_URL + '/loading.gif'} /></div>}>
         <Routes>

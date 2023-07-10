@@ -20,4 +20,4 @@ export const usePost = create<UsePostType>()((set) => ({
             posts: posts,
         }))
     },
-}));   
+}));

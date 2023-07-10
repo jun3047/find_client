@@ -11,7 +11,6 @@ const AdminRoute = ({
   component: Component,
 }: AdminRouteProps): JSX.Element => {
     
-    const navigate = useNavigate()
     const {userInfo} = useUserInfo()
 
     if(userInfo._id === -1){
