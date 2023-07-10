@@ -14,8 +14,10 @@
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "axios": "^1.4.0",
+    "crypto-js": "^4.1.1",
     "http-proxy-middleware": "^2.0.6",
     "react": "^18.2.0",
+    "react-cookie": "^4.1.1",
     "react-deck-swiper": "^1.0.9",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
@@ -50,5 +52,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.1.1"
   }
 }

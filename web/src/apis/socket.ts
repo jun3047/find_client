@@ -1,27 +1,34 @@
 import { io } from "socket.io-client";
-import { postAPI } from "../hooks/useAPI";
+import { postAPI } from "./useAPI";
+import { ChatType } from "../types/room.type";
+import { AlamrUserType, AlarmType } from "../types/alarm.type";
 
 export const server_url: string = process.env.REACT_APP_HOST || "";
 
 console.log("server_url:", server_url);
 export const socket = io(server_url);
 
+interface socketListenerProps {
+    setChats: (chats: ChatType[]) => void,
+    chats: ChatType[],
+}
 
-export const socketListenr = () => {
+
+export const socketListener = ({ setChats, chats}: socketListenerProps) => {
+
     socket.on('send_message', ({ roomId, msg, nickname, date }) => {
+
+        const newChat : ChatType = {msg: msg, nickname: nickname, date: date};
+
+        setChats([...chats, newChat])
+
         console.log('send_message');
         console.log(roomId, msg, nickname, date);
     });
     socket.on('send_question', ({ roomId, question }) => {
         console.log('send_question');
         console.log(roomId, question);
-    });
-    
-    socket.on('send_alarm', ({ userInfo, question }) => {
-        console.log('send_alarm');
-        console.log(userInfo, question);
-    });
-    
+    });    
     socket.on('disconnect', () => {
         console.log('disconnect');
         setTimeout(() => {
@@ -29,6 +36,38 @@ export const socketListenr = () => {
         }, 5000);
     });
 }
+
+interface socketAlarmListenerProps {
+    setAlarms: (chats: AlarmType[]) => void,
+    alarms: AlarmType[],
+}
+
+export const socketAlarmListener = ({ setAlarms, alarms}: socketAlarmListenerProps) => {
+
+    socket.on('send_alarm', ({ userInfo, question }) => {
+        console.log('send_alarm');
+        console.log(userInfo, question);
+
+        const newAlarm: AlarmType = {
+            userInfo: userInfo,
+            question: question,
+            _id: 0,
+            date: new Date()
+        }
+
+        setAlarms([...alarms, newAlarm]);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('disconnect');
+        setTimeout(() => {
+            socket.connect();
+        }, 5000);
+    });
+}
+
+
+
 
 export const joinRoom = (roomId: number | string) => {
     console.log('join_room');
@@ -46,7 +85,7 @@ export const sendQuestion = (roomId: number, question: string) => {
 };
 
 export const sendAlarm = (
-    userInfo: object,
+    userInfo: AlamrUserType,
     otherUserInfo: object,
     postInfo: object,
     expression: string

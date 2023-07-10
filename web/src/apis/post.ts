@@ -1,5 +1,5 @@
 import { QueryFunction } from "react-query";
-import { postAPI } from "../hooks/useAPI";
+import { postAPI } from "./useAPI";
 import { PostType, PostUserType } from "../types/post.type";
 
 
@@ -27,6 +27,6 @@ export const getPosts = async (last_postId?: number) => {
 
 export const getPostsById = async (postIds: number[]) => {
     const res = await postAPI('posts_by_ids', { postIds: postIds });
-
+    
     return res;
   };

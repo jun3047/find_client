@@ -1,31 +1,124 @@
 import styled from "@emotion/styled";
 import { StatusType, useStatus } from "../../store/status";
 import { EmtpyBox, PaddingBox, Text } from "../../styles/atom";
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { ChatType } from "../../types/room.type";
+import { UseUserType, useUserInfo } from "../../store/userInfo";
+import { socket, socketListener } from "../../apis/socket";
+import { questionList } from "../../contants/question";
 
 
 const Chating = () => {
-    const {status, setStatus} = useStatus<StatusType>(setStatus => setStatus);
-    const { roomNum } = useParams();
-    const {roomId} = useParams();
+  
+  
+  const {userInfo, setUserInfo} = useUserInfo<UseUserType>(setStatus => setStatus);
+  
+  const [keyboardValue, setKeyboardValue] = useState<string>("");
+  const [question, setQuestion] = useState<string>("?로 질문을 해봐요");
+  const [chats, setChats] = useState<ChatType[]>([
+    {
+      nickname: userInfo.nickname,
+      msg: "안녕하세요",
+    }
+  ]);
+  
+  
+    useEffect(() => {
+  
+      console.log("useEffect");
+  
+      socket.on('connect', () => {
+          console.log('Connected to the server');
+          socketListener({
+            setChats: setChats,
+            chats: chats
+          });
+        });
+      
+  }, [socket])
+  
+  
+  return (
+    <ChatWarrper>
+      <EmtpyBox height={2} />
+      {
+        chats.map((chat, i) => {
+          const isMyNickname = chat.nickname === userInfo.nickname;
+          const isLastChatNickname = i > 0 && chats[i-1].nickname == chat.nickname;
+          const isNextNameSame = i < chats.length - 1 && chats[i+1].nickname == chat.nickname;
+          const formattedDate = new Date().toLocaleString("ko-KR", {
+            hour12: false,
+            day: "2-digit",
+            month: "2-digit",
+            year: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          });    
 
-    return (
-        <>
-          <EmtpyBox height={2} />
-          <ChatBar
-            active={true}
-            onKeyDownHandler={()=>{console.log("onKeyDownHandler")}}
-            sendBtnHandler={()=>console.log("sendBtnHandler")}
-            onChangeHandler={()=>console.log("onChangeHandler")}
-            msg={"msg"}
-            inputRef={()=>{}}
-          />
-        </>
-    )
+          return (
+            <ChatBubbleWrapper me={isMyNickname} key={i}>
+              {isLastChatNickname || 
+                <NickName>
+                  {chat.nickname}
+                </NickName> 
+              } 
+              <ChatBubble key={i}>
+                {chat.msg}
+              {isNextNameSame ||
+                <ChatDate me={isMyNickname}>
+                  {formattedDate}
+                </ChatDate>
+              }
+              </ChatBubble>
+            </ChatBubbleWrapper>
+          );
+        })
+      }
+      <ChatBar
+        active={true}
+        onKeyDownHandler={(e) => { setKeyboardValue(e.target.value) }}
+        sendBtnHandler={() => { 
+          sendMsg({ 
+            setChats: setChats,
+            chats: chats,
+            setMsg: setKeyboardValue,
+            msg: keyboardValue
+          })}}
+        onChangeHandler={(e) => { setKeyboardValue(e.target.value) }}
+        msg={keyboardValue}
+        inputRef={() => {}}
+        question={question}
+        setQuestion={setQuestion}
+      />
+    </ChatWarrper>
+  )
+}
+
+interface SendMsgProps {
+  msg: string,
+  chats: ChatType[],
+  setChats: (chats: ChatType[]) => void,
+  setMsg: (msg: string) => void
+}
+
+const sendMsg = ({msg, setMsg, chats, setChats}: SendMsgProps) => {
+  
+  if (msg === "") return;
+  
+  const newMsg: ChatType = {
+    nickname: "test",
+    msg: msg,
+    date: new Date()
+  }
+  
+  setMsg("");
 }
 
 type ChatBarProps = {
     active: boolean,
+    question: string,
+    setQuestion: (question: string) => void,
     onKeyDownHandler: (e: any) => void,
     sendBtnHandler: () => void,
     onChangeHandler: (e: any) => void,
@@ -33,13 +126,27 @@ type ChatBarProps = {
     inputRef: any
 }
 
-const ChatBar = ({active, sendBtnHandler, onKeyDownHandler, onChangeHandler, msg, inputRef}:ChatBarProps) => {
+const ChatBar = ({ 
+  active, 
+  sendBtnHandler, 
+  onKeyDownHandler, 
+  onChangeHandler, 
+  msg,
+  question,
+  setQuestion,
+  inputRef
+}: ChatBarProps) => {
 
   return (<>
-    <QuestionHeader>당신은 어떨 때 행복한가요?</QuestionHeader>
+    <QuestionHeader>{question}</QuestionHeader>
     <ChatFieldLayout>
       <ChatQuestionImg
-        onClick={() => {console.log("ChatQuestionImg")}}
+        onClick={() => {
+          const randomIndex = Math.floor(Math.random() * questionList.length);
+          const _question = questionList[randomIndex];
+                  
+          setQuestion(_question);
+        }}
         src={`${process.env.PUBLIC_URL}/icons/questionMark.png`}
       />
       <ChatField
@@ -60,10 +167,14 @@ const ChatBar = ({active, sendBtnHandler, onKeyDownHandler, onChangeHandler, msg
   }
 };
 
+const ChatWarrper = styled.div`
+  padding-top: 60px;
+`
+
 
 const QuestionHeader = styled.div`
   position: fixed;
-  top: 48px;
+  top: 42.5px;
   z-index: 1;
   box-sizing: border-box;
 
@@ -161,43 +272,60 @@ const ChatQuestionImg = styled.img`
 `
 
 
-//   const NickName = styled.div`
-//     font-weight: 700;
-//     font-size: 12px;
-//     line-height: 14px;
-//     letter-spacing: -0.3px;
-//     width: fit-content;
+interface ChatBubbleProps {
+  me: boolean;
+}
 
-//     color: #000000;
-//   `;
+const ChatBubbleWrapper = styled.div<ChatBubbleProps>`
+  background-color: white;
+  min-height: 50px;
+  padding: 0px 31px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: ${(props) => (props.me ? "flex-end" : "flex-start")}
+`
 
-//   const ChatBubble = styled.div`
-//     width: fit-content;
-//     padding: 10px 13px;
-//     background-color: #4579df;
-//     position: relative;
+const NickName = styled.div`
+  position: absolute;
+  top: -24px;
+  font-weight: 700;
+  font-size: 12px;
+  width: fit-content;
 
-//     font-weight: 400;
-//     font-size: 12px;
-//     color: white;
+  color: #000000;
+`;
 
-//     border-radius: 15px;
-//     margin-top: 13px;
-//   `;
+const ChatBubble = styled.div`
+  width: fit-content;
+  padding: 10px 13px;
+  background-color: #4579df;
+  position: relative;
+  
+  font-weight: 400;
+  font-size: 14px;
+  color: white;
+  
+  border-radius: 15px;
+ `;
 
-//   const ChatDate = styled.div`
-//     position: absolute;
-//     bottom: 6px;
 
-//     left: ${(props) => (props.me ? "-80px" : "")};
-//     right: ${(props) => (props.me ? "" : "-80px")};
+interface ChatDateProps {
+  me: boolean;
+}
 
-//     font-weight: 400;
-//     font-size: 10px;
+const ChatDate = styled.div<ChatDateProps>`
+  position: absolute;
+  bottom: 6px;
 
-//     color: #858585;
-//   `;
+  left: ${(props) => (props.me ? "-90px" : "")};
+  right: ${(props) => (props.me ? "" : "-90px")};
 
+  font-weight: 400;
+  font-size: 10px;
+
+  color: #858585;
+`;
 
 
 export default Chating;

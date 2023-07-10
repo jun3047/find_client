@@ -1,10 +1,8 @@
-import { postAPI } from "../hooks/useAPI";
+import { postAPI } from "./useAPI";
 
 export const sendAuthMsg = async (phone: string) => {
 
-    const authCode = await postAPI("sendAuthMsg", {phone: phone})
-
-    console.log(phone, authCode);
-
-    return authCode;
+    const {authCode, userInfo} = await postAPI("sendAuthMsg", {phone: phone})
+    
+    return {authCode: authCode, userInfo: userInfo};
 }

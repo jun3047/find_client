@@ -3,16 +3,20 @@ import { ChatBox } from "../../components/ChatBox";
 import { EmtpyBox, PaddingBox, Text } from "../../styles/atom";
 import { useNavigate } from "react-router";
 import { StatusType, useStatus } from "../../store/status";
+import { UseUserType, useUserInfo } from "../../store/userInfo";
+import { useEffect, useState } from "react";
+import { RoomType } from "../../types/room.type";
+import { useRoomInfo, useRoomInfoType } from "../../store/room";
 
 const Chat = () => {
     
-    const naviagte = useNavigate();
+    const navigate = useNavigate();
     const {status, setStatus} = useStatus<StatusType>(setStatus => setStatus);
+    const {userInfo, setUserInfo} = useUserInfo<UseUserType>(setStatus => setStatus);
+    const {roomInfo, setRoomInfo} = useRoomInfo<useRoomInfoType>(setStatus => setStatus);
 
-
-    const goDetail = (roomId: number) => {
-        setStatus({status: "room"})
-        naviagte(`/chat/${roomId}`)
+    const goDetail = (_roomInfo: RoomType) => {
+        navigate(`/chat/${_roomInfo._id}`, { state: { nowRoomInfo: _roomInfo } });
     }
 
     return(
@@ -24,22 +28,21 @@ const Chat = () => {
             <NoticeText>앱 다운로드</NoticeText>
         </NoticeContainer>
     <EmtpyBox height={2} />
-    <ChatBox
-        id={2}
-        key={2}
-        nickname={"닉넴"}
-        date={"오늘"}
-        LastMsg={"얍"}
-        clickEvent={(roomId:number) => goDetail(roomId)}
-    />
-    <ChatBox
-        id={2}
-        key={2}
-        nickname={"닉넴"}
-        date={"오늘"}
-        LastMsg={"얍"}
-        clickEvent={(roomId:number) => goDetail(roomId)}
-    />
+    {
+        roomInfo.map((room: RoomType) => {
+            return (
+                <ChatBox
+                    id={room._id}
+                    key={room._id}
+                    nickname={room.members[0].nickname}
+                    date={"오늘"}
+                    LastMsg={"눌러서 확인"}
+                    clickEvent={() => goDetail(room)}
+                />
+            )
+        }
+        )    
+    }
     </>)
 }
 

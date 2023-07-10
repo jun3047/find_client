@@ -1,12 +1,8 @@
 import styled from "@emotion/styled";
-import { postAPI } from "../../hooks/useAPI";
-import TinderCard from 'react-tinder-card'
 
-import { io } from 'socket.io-client';
 import { useEffect } from "react";
-import { Post } from "../../components/Post";
 import Advanced from "../../components/SwipeCard/SwipeCard";
-import { joinRoom, sendAlarm, sendChatBubble, sendQuestion, socket, socketListenr } from "../../apis/socket";
+import { joinRoom, sendAlarm, sendChatBubble, sendQuestion, socket, socketAlarmListener, socketListener } from "../../apis/socket";
 import { sendAuthMsg } from "../../apis/sendAuthMsg";
 import { getPosts, writePost } from "../../apis/post";
 import { getRoomsInfo, makeRoom } from "../../apis/room";
@@ -18,6 +14,9 @@ import { getUserInfo, registerUser } from "../../apis/user";
     const userInfo = {
         nickname: "닉네임1",
         _id: 1,
+        school: "학교",
+        major: "전공",
+        grade: 22,
     }
 
     const otherUserInfo = {
@@ -90,8 +89,16 @@ export const Test = () => {
 
         socket.on('connect', () => {
             console.log('Connected to the server');
-            socketListenr();
-          });        
+            socketListener({
+                setChats: ()=>{},
+                chats: [],
+            });
+
+            socketAlarmListener({
+                setAlarms: ()=>{},
+                alarms: [],
+            });
+          });
     }, [socket])
     
     return (

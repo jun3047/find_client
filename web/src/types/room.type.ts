@@ -1,10 +1,10 @@
 import { SimpleUserType } from "./user.type"
 
 
-type ChatType = {
+export type ChatType = {
     msg: string,
     nickname: string
-    date: Date
+    date?: Date
 }
 
 export type RoomType = {

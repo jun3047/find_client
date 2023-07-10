@@ -1,30 +1,33 @@
 import {create} from 'zustand'
-import { UserType } from '../types/user.type';
+import { RoomType } from '../types/room.type';
 
 
 
-const userInfo = {
+const roomInfo = [{
     _id: 1,
     chats: [],
     members: [],
-}
+}]
 
 export type Status = {
-    userInfo: object
+    roomInfo: RoomType[]
 };
 
 export type Actions = {
-    setUserInfo: (userInfo: UserType) => void;
+    setRoomInfo: (newRoomInfo: RoomType[]) => void;
 };
 
-export type UseUserType = Status & Actions;
+export type useRoomInfoType = Status & Actions;
 
-export const useUserInfo = create<UseUserType> ((set) => ({
-    userInfo: userInfo,
-    setUserInfo: (userInfo: UserType) => {
-        set((userInfo) => ({
-            userInfo: userInfo,
-        }))
-        console.log("userInfo:", userInfo);
+export const useRoomInfo = create<useRoomInfoType> ((set) => ({
+    roomInfo: roomInfo,
+    setRoomInfo: (newRoomInfo: RoomType[]) => {
+        set((state) => ({
+            roomInfo: newRoomInfo,
+        }));
     },
 }));
+
+// 2. 유저 정보에서 roomList를 불러오고, getRoom으로 roomInfo를 가져옴
+// 3. 그렇게 가져온 roomList는 RoomInfo 에 저장
+// 4. room 페이지 가면, RoomInfo에서 뿌려주기

@@ -5,17 +5,20 @@ import { AlignBox, EmtpyBox, MarginBox, PaddingBox, SubBtn } from '../../styles/
 import { questionList } from '../../contants/question';
 import { writePost } from '../../apis/post';
 import { useNavigate } from 'react-router';
+import { useUserInfo } from '../../store/userInfo';
 
 
 const Write = () => {
 
     const [question, setQuestion] = useState<string>(questionList[0])
     const [content, setContent] = useState<string>("")
+    const {userInfo} = useUserInfo()
+
     const navigate = useNavigate()
 
-    const userInfo = {
-        nickname: "jun",
-        _id: 1
+    const _userInfo = {
+        _id: userInfo._id,
+        nickname: userInfo.nickname,
     }
     
     return (
@@ -38,7 +41,7 @@ const Write = () => {
             <SubBtn
                 onClick={async () => {
 
-                    console.log({question, content, userInfo});
+                    console.log({question, content, _userInfo});
 
                     var result = window.confirm("글을 등록하시겠습니까?");
 
@@ -48,7 +51,7 @@ const Write = () => {
                         {
                             question: question,
                             content: content,
-                            userInfo: userInfo
+                            userInfo: _userInfo
                         }
                     )
 

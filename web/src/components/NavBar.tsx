@@ -36,7 +36,7 @@ export const NavBar = () => {
     
 
 
-    const nowMeun = meun.find(item => item.status === status) || meun[0];
+    const nowMeun = meun.find(item => item.status === status) || "";
 
     const navigate = useNavigate();
 
@@ -49,6 +49,7 @@ export const NavBar = () => {
         <NavBarContainer>
             <AlignBox direction={"row"}>
                 {
+                    nowMeun &&
                     meun.map((item, index) => {
                         return <NavBarContent 
                         key={index} 
@@ -68,6 +69,7 @@ export const NavBar = () => {
 }
 
 const NavBarContainer = styled.ul`
+    z-index: 1000;
     margin: 0;
     background-color: #FFFFFF;
     width: 100vw;

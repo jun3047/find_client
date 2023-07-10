@@ -7,6 +7,9 @@ import { getUserInfo } from "../../apis/user";
 import { SimpleCard } from '../../components/SwipeCard/SwipeCard';
 import { getPostsById } from "../../apis/post";
 import { PostType } from "../../types/post.type";
+import { ReportHandler } from 'web-vitals';
+import { UseUserType, useUserInfo } from "../../store/userInfo";
+import { RoomUserInfo, makeRoom } from "../../apis/room";
 
 
 type OtherUserInfoType = {
@@ -20,6 +23,8 @@ const Other = () => {
     const parseId = useParams()._id
     const _id = parseId ? parseInt(parseId) : 0;
 
+    const {userInfo} = useUserInfo<UseUserType>(setUserInfo => setUserInfo);
+
     const [otherUserInfo, setOtherUserInfo] = useState<OtherUserInfoType>({
         post: [],
         nickname: "",
@@ -29,13 +34,20 @@ const Other = () => {
     const [otherUserPost, setOtherUserPost] = useState<PostType[]>([])
 
     const fetchData = async () => {
-        await fetchOtherUserInfo();
-        await fetchOtherUserPost();
-        
+        const _otherUserInfo = await fetchOtherUserInfo();
+        await fetchOtherUserPost(_otherUserInfo);
     }
 
-    const fetchOtherUserPost = async () => {
+    type OtherUserInfoType = {
+        post: number[],
+        nickname: string,
+        find_count: number,
+    }
+
+    const fetchOtherUserPost = async (otherUserInfo : OtherUserInfoType) => {
+
         const _userPosts = await getPostsById(otherUserInfo.post);
+
         setOtherUserPost(_userPosts);            
     }
 
@@ -49,14 +61,10 @@ const Other = () => {
 
         setOtherUserInfo(_otherUserInfo);
 
-        console.log("_otherUserInfo:", _otherUserInfo);
-
+        return _otherUserInfo;
     };
 
     useEffect(() => {fetchData()}, [])
-
-    
-
 
     return (<>
         <AlignBox align="center" justify="top">
@@ -82,10 +90,25 @@ const Other = () => {
             <PostInfo />
             <SimpleCard
                 db={otherUserPost}
-                setDB={setOtherUserPost}
+                setDB={()=>{}}
             />
-            <EmtpyBox height={12} />
-            <MainBtn>
+            <EmtpyBox height={20} />
+            <MainBtn
+                onClick={()=>{
+
+                    const myRoomInfo = {
+                        _id: userInfo._id,
+                        nickname: userInfo.nickname,
+                    }
+
+                    const otherRoomInfo = {
+                        _id: _id,
+                        nickname: otherUserInfo.nickname,
+                    }
+
+                    MainBtnHandler([myRoomInfo, otherRoomInfo])
+                }}
+            >
                 대화하기
             </MainBtn>
         </AlignBox>
@@ -100,6 +123,11 @@ const Profile = () => {
             <EmtpyBox width={10} />
         </AlignBox>
     )
+}
+
+const MainBtnHandler = (members: RoomUserInfo[]) => {
+    makeRoom(members)
+    // 방 만들기
 }
 
 const ProfileCircle = styled.div`

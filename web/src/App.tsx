@@ -15,6 +15,7 @@ import axios from "axios";
 import { Test } from './pages/TestPage/Test';
 import ErrorBoundary from './components/ErrorBoundary';
 import { InitData } from './components/InitData';
+import PrivateRoute from './routes/PrivateRoute';
 
 
 function App() {
@@ -28,12 +29,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/test" element={<Test />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/chat/:roomNum" element={<Chating />} />
-          <Route path="/write" element={<Write />} />
-          <Route path="/alarm" element={<Alarm />} />
-          <Route path="/my" element={<My />} />
+          <Route path="/home" element={<PrivateRoute component={Home} />} />
+          <Route path="/chat" element={<PrivateRoute component={Chat} />} />
+          <Route path="/chat/:roomNum" element={<PrivateRoute component={Chating} />} />
+          <Route path="/write" element={<PrivateRoute component={Write} />} />
+          <Route path="/alarm" element={<PrivateRoute component={Alarm} />} />
+          <Route path="/my" element={<PrivateRoute component={My} />} />
           <Route path="/profile/:_id" element={<Other />} />
         </Routes>
       </Suspense>

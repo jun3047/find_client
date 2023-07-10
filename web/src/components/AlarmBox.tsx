@@ -1,16 +1,11 @@
 import styled from "@emotion/styled";
 import { AlignBox, EmtpyBox, PaddingBox, Text } from "../styles/atom"
+import { AlamrUserType } from "../types/alarm.type";
 
-
-type user = {
-    school: string;
-    major: string;
-    grade: string;
-}
 
 type AlarmBoxProps = {
     question: string;
-    user: user
+    user: AlamrUserType;
     onClick: () => void;
     theme?: "find" | "pass" | "warn" | "send";
 }

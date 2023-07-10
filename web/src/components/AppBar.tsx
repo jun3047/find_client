@@ -4,6 +4,7 @@ import { useStatus, StatusType, Status, Actions } from '../store/status';
 import { useLocation, useNavigate } from "react-router";
 import { useEffect } from "react";
 import { InitData } from "./InitData";
+import { UseUserType, useUserInfo } from "../store/userInfo";
 
 const meun = [
     {meun: "login", content: ""},
@@ -18,16 +19,24 @@ const meun = [
 export const AppBar = () => {
     
     const {status} = useStatus<StatusType>(setStatus => setStatus);
+    const {userInfo, setUserInfo} = useUserInfo<UseUserType>(setStatus => setStatus);
     
     const nowMeun = meun.find(item => item.meun === status) || meun[0];
     
     // room이면 roomId 가져오기
     // profile이면 userId 가져오기
     // 그리고 detailTitle에 넣기
+
+    const location = useLocation();
+
+    console.log(location.state);
     
-    const detailTitle = "id";
+    const members = location.state?.nowRoomInfo.members;
     
+
     const isDetail = (status === "room" || status === "profile")
+
+    const detailTitle = members? members.find((member:any) => member._id !== userInfo._id)?.nickname: ""
     
     const title = isDetail ? detailTitle : nowMeun?.content;
     
@@ -54,6 +63,7 @@ interface AppBarContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const AppBarContainer = styled.div<AppBarContainerProps>`
+    z-index: 1000;
     position: fixed;
     top: 0;
     right: 0;
