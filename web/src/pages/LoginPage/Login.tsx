@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router"
 import { AlignBox } from "../../styles/atom";
-import { 초기화면, 휴대폰인증, 인증번호입력, 학과선택, 학번선택, 아이디선택, 입장 } from "./화면";
+import { 초기화면, 휴대폰인증, 인증번호입력, 학과선택, 학번선택, 아이디선택, 입장, 개인정보동의 } from "./화면";
 import { sendAuthMsg } from "../../apis/sendAuthMsg";
-import { getUserInfo, registerUser } from "../../apis/user";
+import { getUserInfo, isExistId, registerUser } from "../../apis/user";
 import { useUserInfo } from "../../store/userInfo";
 import { getUserInfoCookie, setUserInfoCookie } from "../../hooks/cookies.js";
 import { UserType } from "../../types/user.type";
+import { isPhone } from "../../utils/isPhone";
+import { isNickname } from "../../utils/isNickname";
 
 
 const Login = () => {
     
-    type RegisterPage = "초기화면"|"휴대폰인증"|"인증번호입력"|"학과선택"|"학번선택"|"아이디선택"|"입장"
+    type RegisterPage = "초기화면"|"휴대폰인증"|"인증번호입력"|"학과선택"|"학번선택"|"아이디선택"|"개인정보동의"|"입장"
     
     const {userInfo, setUserInfo} = useUserInfo()
     
@@ -30,7 +32,7 @@ const Login = () => {
                 if(userCookieId !== undefined){
                     const _userInfo = await getUserInfo(userCookieId)
 
-                    console.log(_userInfo);
+                    console.log("_userInfo:", userInfo);
                     
                     setUserInfo(_userInfo)
                     navigate("/home")
@@ -39,7 +41,11 @@ const Login = () => {
                 setStep("휴대폰인증")
             }}/>}
             {step == "휴대폰인증" && <휴대폰인증 onNext={ async (data: string)=>{
+
+                if(!isPhone(data)) return alert("휴대폰 번호 양식이 아닙니다 😭")
+
                 setResgisterData(prev => ({...prev, "phone": data}))
+
                 const res = await sendAuthMsg(data)
 
                 const _authCode = res.authCode
@@ -70,14 +76,30 @@ const Login = () => {
                 setStep("학번선택")
             }}/>}
             {step == "학번선택" && <학번선택 onNext={(data: string)=>{
+
+                
                 setResgisterData(prev => ({...prev, "grade": parseInt(data)}))
                 setStep("아이디선택")
             }}/>}
-            {step == "아이디선택" && <아이디선택 onNext={(data)=>{
-                //중복확인
+            {step == "아이디선택" && <아이디선택 onNext={async (data: string)=>{
+                
                 data = data.replace(/@/g, "");
+
+                const isExist = await isExistId(data)
+
+                console.log(isExist);
+
+                if(isExist) return alert("이미 존재하는 아이디에요 😭")
+                
+                //중복확인
+
+                if(!isNickname(data)) return alert("닉네임은 숫자, 영어, 한글, '-', '_', '.',로 이루어지는 최소 2자, 최대 10자만 가능해요 😭")
                 
                 setResgisterData(prev => ({...prev, "nickname": data}))
+                setStep("개인정보동의")
+            }}/>}
+            {step == "개인정보동의" && <개인정보동의 onNext={async ()=>{
+                
                 setStep("입장")
             }}/>}
             {step == "입장" && <입장 onNext={async ()=>{
