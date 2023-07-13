@@ -43,8 +43,7 @@ const Write = () => {
 
                     console.log({question, content, _userInfo});
 
-                    var result = window.confirm("글을 등록하시겠습니까?");
-
+                    let result = window.confirm("글을 등록하시겠습니까?");
                     if (!result) return
                     
                     await writePost(

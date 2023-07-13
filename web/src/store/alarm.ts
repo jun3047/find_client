@@ -1,5 +1,4 @@
 import {create} from 'zustand'
-import { PostType } from '../types/post.type';
 import { AlarmType } from '../types/alarm.type';
 
 export type State = {
@@ -13,9 +12,12 @@ export type Actions = {
 export type UseAlarmsType = State & Actions;
 
 
-export const usePost = create<UseAlarmsType>()((set) => ({
+export const useAlarms = create<UseAlarmsType>()((set) => ({
     alarms: [],
     setAlarms: (alarms) => {
+        console.log('setAlarms');
+        console.log(alarms);
+        
         set((state) => ({
             alarms: alarms,
         }))

@@ -22,29 +22,17 @@ export const AppBar = () => {
     const {userInfo, setUserInfo} = useUserInfo<UseUserType>(setStatus => setStatus);
     
     const nowMeun = meun.find(item => item.meun === status) || meun[0];
-    
-    // room이면 roomId 가져오기
-    // profile이면 userId 가져오기
-    // 그리고 detailTitle에 넣기
 
-    const location = useLocation();
-
-    console.log(location.state);
-    
-    const members = location.state?.nowRoomInfo.members;
-    
-
-    const isDetail = (status === "room" || status === "profile")
-
-    const detailTitle = members? members.find((member:any) => member._id !== userInfo._id)?.nickname: ""
-    
-    const title = isDetail ? detailTitle : nowMeun?.content;
-    
     const navigate = useNavigate();
 
-    const backBtn = () => {
-        navigate(-1)
-    }
+    const location = useLocation();
+    const members = location.state?.nowRoomInfo.members;
+
+    const isDetail = (status === "room" || status === "profile")
+    const detailTitle = members? members.find((member:any) => member._id !== userInfo._id)?.nickname: ""
+    const title = isDetail ? detailTitle : nowMeun?.content;
+    
+    const backBtn = () => navigate(-1)
     
     return (
     <AppBarContainer>

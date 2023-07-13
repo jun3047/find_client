@@ -46,11 +46,13 @@ const My = () => {
             <PostInfo />
             <EmtpyBox height={10} />
                   <SimpleCard
+                      setOtherUserInfo={() => { }}
+                      setPostInfo={() => {}}
                       db={userPosts}
                       setDB={setUserPosts}
                   />
               </AlignBox>
-    </>)
+          </>)
 }
 
 const Profile = () => {

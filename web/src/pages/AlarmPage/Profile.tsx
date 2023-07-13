@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Post } from "../../components/Post";
 import { AlignBox, EmtpyBox, MainBtn, MarginBox, Text } from "../../styles/atom";
-import { useLocation, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { getUserInfo } from "../../apis/user";
 import { SimpleCard } from '../../components/SwipeCard/SwipeCard';
@@ -20,6 +20,8 @@ type OtherUserInfoType = {
 
 const Other = () => {
 
+    const nav = useNavigate()
+
     const parseId = useParams()._id
     const _id = parseId ? parseInt(parseId) : 0;
 
@@ -30,8 +32,8 @@ const Other = () => {
         nickname: "",
         find_count: 0,
     })
-
     const [otherUserPost, setOtherUserPost] = useState<PostType[]>([])
+
 
     const fetchData = async () => {
         const _otherUserInfo = await fetchOtherUserInfo();
@@ -89,6 +91,8 @@ const Other = () => {
             <EmtpyBox height={10} />
             <PostInfo />
             <SimpleCard
+                setOtherUserInfo={()=>{}}
+                setPostInfo={()=>{}}
                 db={otherUserPost}
                 setDB={()=>{}}
             />
@@ -106,7 +110,7 @@ const Other = () => {
                         nickname: otherUserInfo.nickname,
                     }
 
-                    MainBtnHandler([myRoomInfo, otherRoomInfo])
+                    MainBtnHandler([myRoomInfo, otherRoomInfo], nav)
                 }}
             >
                 대화하기
@@ -125,9 +129,17 @@ const Profile = () => {
     )
 }
 
-const MainBtnHandler = (members: RoomUserInfo[]) => {
+const MainBtnHandler = (members: RoomUserInfo[], nav: any) => {
+
+    let result = window.confirm("대화방을 만드시겠습니까?");
+    
+    if (!result) return
+
     makeRoom(members)
-    // 방 만들기
+
+    alert("대화방이 만들어졌습니다!")
+
+    nav("/chat")
 }
 
 const ProfileCircle = styled.div`

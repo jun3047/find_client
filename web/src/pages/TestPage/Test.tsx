@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 import { useEffect } from "react";
 import Advanced from "../../components/SwipeCard/SwipeCard";
-import { joinRoom, sendAlarm, sendChatBubble, sendQuestion, socket, socketAlarmListener, socketListener } from "../../apis/socket";
+import { joinRoom, sendAlarm, sendChatBubble, sendQuestion } from "../../apis/socket";
 import { sendAuthMsg } from "../../apis/sendAuthMsg";
 import { getPosts, writePost } from "../../apis/post";
 import { getRoomsInfo, makeRoom } from "../../apis/room";
@@ -47,59 +47,12 @@ import { getUserInfo, registerUser } from "../../apis/user";
             pass: 0,
             find: 0,
             userInfo: {_id: 1, nickname: "닉네임"}
-        },
-        {
-            _id: 3,
-            question: "질문",
-            content: "내용",
-            warn: 0,
-            pass: 0,
-            find: 0,
-            userInfo: {_id: 1, nickname: "닉네임"}
-        },
-        {
-            _id: 4,
-            question: "질문",
-            content: "내용",
-            warn: 0,
-            pass: 0,
-            find: 0,
-            userInfo: {_id: 1, nickname: "닉네임"}
-        },
-        {
-            _id: 5,
-            question: "질문",
-            content: "내용",
-            warn: 0,
-            pass: 0,
-            find: 0,
-            userInfo: {_id: 1, nickname: "닉네임"}
-        },
-    ]
-    
+        }]
 
 //소켓 세팅
 
   
 export const Test = () => {
-
-    useEffect(() => {
-
-        console.log("useEffect");
-
-        socket.on('connect', () => {
-            console.log('Connected to the server');
-            socketListener({
-                setChats: ()=>{},
-                chats: [],
-            });
-
-            socketAlarmListener({
-                setAlarms: ()=>{},
-                alarms: [],
-            });
-          });
-    }, [socket])
     
     return (
         <>
@@ -115,9 +68,9 @@ export const Test = () => {
             <Btn onClick={() => joinRoom("닉네임")}>socket alarm join</Btn>
             <Btn onClick={() => sendChatBubble(roomId, "닉네임" ,"메세지")}>socket send</Btn>
             <Btn onClick={() => sendQuestion(roomId, "질문")}>socket question</Btn>
-            <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, posts[0], "find")}>socket alarm(find)</Btn>
+            {/* <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, posts[0], "find")}>socket alarm(find)</Btn>
             <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, posts[0], "pass")}>socket alarm(pass)</Btn>
-            <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, posts[0], "warn")}>socket alarm(warn)</Btn>
+            <Btn onClick={() => sendAlarm(userInfo, otherUserInfo, posts[0], "warn")}>socket alarm(warn)</Btn> */}
             <Btn onClick={() => sendAuthMsg("01075601770")}>sendAuthMsg</Btn>
 
             <Advanced

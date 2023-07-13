@@ -24,8 +24,7 @@ const TinderCardComponent = styled(TinderCard)`
 ;
 `
 
-
-export function SimpleCard({db, setDB}) {
+export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo}) {
   
   const popPost = (prevPosts) => prevPosts.slice(0, prevPosts.length - 1);
 
@@ -34,7 +33,10 @@ export function SimpleCard({db, setDB}) {
     setDB([..._posts]);
   };
 
-  console.log("db", db);
+  const nowPost = db[db.length - 1];
+  setPostInfo(nowPost)
+  console.log("nowPost", nowPost);
+  setOtherUserInfo(nowPost?.userInfo)
 
   return (
     <AlignBox align="center">
@@ -42,7 +44,6 @@ export function SimpleCard({db, setDB}) {
       <EmtpyBox height={50} />
       <CardContainer>
         {db.map((post, index) => {
-          
           return (<>
           <TinderCardComponent
             key={post._id}
@@ -53,8 +54,7 @@ export function SimpleCard({db, setDB}) {
             key={post._id}
             question={post.question}
             content={post.content}
-            // writer={post.userInfo.nickname}
-            writer={post._id}
+            writer={post.userInfo.nickname}
           />
           </TinderCardComponent>
           </>)

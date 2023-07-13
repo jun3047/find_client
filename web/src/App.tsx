@@ -22,6 +22,8 @@ import { useUserInfo } from './store/userInfo';
 function App() {
 
   const {userInfo} = useUserInfo()
+  console.log(userInfo);
+  
 
   return (<>
     <GlobalStyle />
@@ -34,7 +36,7 @@ function App() {
           <Route path="/test" element={<Test />} />
           <Route path="/home" element={<PrivateRoute component={Home} />} />
           <Route path="/chat" element={<PrivateRoute component={Chat} />} />
-          <Route path="/chat/:roomNum" element={<PrivateRoute component={Chating} />} />
+          <Route path="/chat/:roomId" element={<PrivateRoute component={Chating} />} />
           <Route path="/write" element={<PrivateRoute component={Write} />} />
           <Route path="/alarm" element={<PrivateRoute component={Alarm} />} />
           <Route path="/my" element={<PrivateRoute component={My} />} />

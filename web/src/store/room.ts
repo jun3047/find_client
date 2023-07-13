@@ -1,5 +1,5 @@
-import {create} from 'zustand'
-import { RoomType } from '../types/room.type';
+import { create } from 'zustand'
+import { ChatType, RoomType } from '../types/room.type';
 
 
 
@@ -15,15 +15,26 @@ export type Status = {
 
 export type Actions = {
     setRoomInfo: (newRoomInfo: RoomType[]) => void;
+    pushChatInfoById: (roomId: number, chat: ChatType) => void;
 };
 
-export type useRoomInfoType = Status & Actions;
+export type UseRoomInfoType = Status & Actions;
 
-export const useRoomInfo = create<useRoomInfoType> ((set) => ({
+export const useRoomInfo = create<UseRoomInfoType>((set) => ({
     roomInfo: roomInfo,
     setRoomInfo: (newRoomInfo: RoomType[]) => {
         set((state) => ({
             roomInfo: newRoomInfo,
+        }));
+    },
+    //push room
+    pushChatInfoById: (roomId: number, chat: ChatType) => {
+        set((state) => ({
+            roomInfo: state.roomInfo.map((room) => 
+                room._id === roomId ?
+                { ...room, chats: [...room.chats, chat] }
+                : room
+            ),
         }));
     },
 }));

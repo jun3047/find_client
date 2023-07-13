@@ -102,6 +102,9 @@ export const AlignBox = styled.div<AlignBoxProps>`
 //BUTTON
 
 export const MainBtn = styled.div`
+
+    position: fixed;
+    bottom: 10vh;
     width: 81vw;
     height: 7vh;
     background: #466FFF;

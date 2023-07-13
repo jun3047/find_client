@@ -2,48 +2,46 @@ import styled from "@emotion/styled";
 import { StatusType, useStatus } from "../../store/status";
 import { EmtpyBox, PaddingBox, Text } from "../../styles/atom";
 import { useLocation, useParams } from 'react-router-dom';
-import { useEffect, useState } from "react";
-import { ChatType } from "../../types/room.type";
+import { useEffect, useRef, useState } from "react";
+import { ChatType, RoomType } from "../../types/room.type";
 import { UseUserType, useUserInfo } from "../../store/userInfo";
-import { socket, socketListener } from "../../apis/socket";
+import { sendChatBubble, sendQuestion } from "../../apis/socket";
 import { questionList } from "../../contants/question";
+import { UserType } from "../../types/user.type";
+import { UseRoomInfoType, useRoomInfo } from "../../store/room";
+import { UseQuestionType, useQuestion } from "../../store/question";
 
 
 const Chating = () => {
   
-  
-  const {userInfo, setUserInfo} = useUserInfo<UseUserType>(setStatus => setStatus);
-  
+  const {userInfo} = useUserInfo<UseUserType>(setStatus => setStatus);
+  const {roomInfo} = useRoomInfo<UseRoomInfoType>(setRoomInfo => setRoomInfo);
+  const {question, setQuestion } = useQuestion<UseQuestionType>(setStatus => setStatus);
+
+  const chatsEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [keyboardValue, setKeyboardValue] = useState<string>("");
-  const [question, setQuestion] = useState<string>("?로 질문을 해봐요");
-  const [chats, setChats] = useState<ChatType[]>([
-    {
-      nickname: userInfo.nickname,
-      msg: "안녕하세요",
-    }
-  ]);
   
+  const _roomId = useParams().roomId;
+  const roomId = _roomId ? parseInt(_roomId) : 0;
   
-    useEffect(() => {
-  
-      console.log("useEffect");
-  
-      socket.on('connect', () => {
-          console.log('Connected to the server');
-          socketListener({
-            setChats: setChats,
-            chats: chats
-          });
-        });
-      
-  }, [socket])
+  const chats = roomInfo.find(room => room._id === roomId)?.chats || []
+  const _room = roomInfo.find(room => room._id === roomId) || {};
+
+  useEffect(() => {
+    inputRef.current&& inputRef.current.focus()
+    chatsEndRef.current && chatsEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }, [chats]);  
   
   
   return (
     <ChatWarrper>
       <EmtpyBox height={2} />
       {
+        
         chats.map((chat, i) => {
+
           const isMyNickname = chat.nickname === userInfo.nickname;
           const isLastChatNickname = i > 0 && chats[i-1].nickname == chat.nickname;
           const isNextNameSame = i < chats.length - 1 && chats[i+1].nickname == chat.nickname;
@@ -75,19 +73,22 @@ const Chating = () => {
           );
         })
       }
+      <div ref={chatsEndRef}></div>
       <ChatBar
+        inputRef={inputRef}
+        roomId={roomId}
         active={true}
         onKeyDownHandler={(e) => { setKeyboardValue(e.target.value) }}
         sendBtnHandler={() => { 
           sendMsg({ 
-            setChats: setChats,
-            chats: chats,
             setMsg: setKeyboardValue,
-            msg: keyboardValue
+            msg: keyboardValue,
+            roomId: roomId,
+            userInfo: userInfo,
+            roomInfo: roomInfo
           })}}
         onChangeHandler={(e) => { setKeyboardValue(e.target.value) }}
         msg={keyboardValue}
-        inputRef={() => {}}
         question={question}
         setQuestion={setQuestion}
       />
@@ -95,29 +96,27 @@ const Chating = () => {
   )
 }
 
+
 interface SendMsgProps {
+  userInfo: UserType,
   msg: string,
-  chats: ChatType[],
-  setChats: (chats: ChatType[]) => void,
+  roomId: number,
+  roomInfo: RoomType[],
   setMsg: (msg: string) => void
 }
 
-const sendMsg = ({msg, setMsg, chats, setChats}: SendMsgProps) => {
+const sendMsg = ({ msg, setMsg, roomInfo, roomId, userInfo }: SendMsgProps) => {
   
   if (msg === "") return;
-  
-  const newMsg: ChatType = {
-    nickname: "test",
-    msg: msg,
-    date: new Date()
-  }
-  
+  //우선 방번로 수신 받는 식으로
   setMsg("");
+  sendChatBubble(roomId, userInfo.nickname, msg);
 }
 
 type ChatBarProps = {
     active: boolean,
     question: string,
+    roomId: number,
     setQuestion: (question: string) => void,
     onKeyDownHandler: (e: any) => void,
     sendBtnHandler: () => void,
@@ -133,8 +132,8 @@ const ChatBar = ({
   onChangeHandler, 
   msg,
   question,
-  setQuestion,
-  inputRef
+  roomId,
+  inputRef,
 }: ChatBarProps) => {
 
   return (<>
@@ -144,8 +143,8 @@ const ChatBar = ({
         onClick={() => {
           const randomIndex = Math.floor(Math.random() * questionList.length);
           const _question = questionList[randomIndex];
-                  
-          setQuestion(_question);
+
+          sendQuestion(roomId, _question)
         }}
         src={`${process.env.PUBLIC_URL}/icons/questionMark.png`}
       />
@@ -157,18 +156,14 @@ const ChatBar = ({
       />
       <ChatSendBtn
         active={active}
-        onClick={chatSendBtnHandler}
+        onClick={sendBtnHandler}
       />
     </ChatFieldLayout>
     </>);
-
-  function chatSendBtnHandler() {
-    sendBtnHandler();
-  }
 };
 
 const ChatWarrper = styled.div`
-  padding-top: 60px;
+  padding: 60px 0;
 `
 
 

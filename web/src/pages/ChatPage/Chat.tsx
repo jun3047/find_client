@@ -6,14 +6,15 @@ import { StatusType, useStatus } from "../../store/status";
 import { UseUserType, useUserInfo } from "../../store/userInfo";
 import { useEffect, useState } from "react";
 import { RoomType } from "../../types/room.type";
-import { useRoomInfo, useRoomInfoType } from "../../store/room";
+import { useRoomInfo, UseRoomInfoType } from "../../store/room";
+import { getChatTime } from "../../utils/getChatTime";
 
 const Chat = () => {
     
     const navigate = useNavigate();
     const {status, setStatus} = useStatus<StatusType>(setStatus => setStatus);
     const {userInfo, setUserInfo} = useUserInfo<UseUserType>(setStatus => setStatus);
-    const {roomInfo, setRoomInfo} = useRoomInfo<useRoomInfoType>(setStatus => setStatus);
+    const {roomInfo, setRoomInfo} = useRoomInfo<UseRoomInfoType>(setStatus => setStatus);
 
     const goDetail = (_roomInfo: RoomType) => {
         navigate(`/chat/${_roomInfo._id}`, { state: { nowRoomInfo: _roomInfo } });
@@ -30,13 +31,22 @@ const Chat = () => {
     <EmtpyBox height={2} />
     {
         roomInfo.map((room: RoomType) => {
+
+            const lastChat = room.chats[room.chats.length - 1];
+
+            const {msg, date} = lastChat || {msg: undefined, date: undefined}; 
+
+            if(typeof date !== "string") return;
+
+            const chatDate = getChatTime(date);
+
             return (
                 <ChatBox
                     id={room._id}
                     key={room._id}
                     nickname={room.members[0].nickname}
-                    date={"오늘"}
-                    LastMsg={"눌러서 확인"}
+                    date={chatDate}
+                    LastMsg={msg}
                     clickEvent={() => goDetail(room)}
                 />
             )

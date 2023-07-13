@@ -31,3 +31,8 @@ export const registerUser = async (userInfo: object) => {
     return res
 }
 
+export const isExistId = async (nickname: string) => {
+    const res = await postAPI('isExistId', {nickname: nickname})
+
+    return res
+}

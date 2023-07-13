@@ -8,27 +8,28 @@ import { questionList } from "../../contants/question";
 import { sendAlarm } from "../../apis/socket";
 import { UsePostType, usePost } from "../../store/post";
 import { UseUserType, useUserInfo } from "../../store/userInfo";
-
+import { SimpleUserType } from "../../types/user.type";
+import { getFilteredPost } from "../../utils/getFitteredPost";
 
 
 
 const Home = () => {
     
-
-    // const {userInfo} = useUserInfo<UseUserType>(setUserInfo => setUserInfo);
-    // const [otherUserInfo, setOtherUserInfo] = useState({});
-    // const [alarmList, setAlarmList] = useState([0]);
-    // //실제 posts
-    // const [postInfo, setPostInfo] = useState({_id: 1});
-
-    //예삐 posts
+    
+    const {userInfo} = useUserInfo<UseUserType>(setUserInfo => setUserInfo);    
     const {posts, setPosts} = usePost<UsePostType>(setPosts => setPosts);
-    
-    
-    useEffect(() => {
-        console.log(posts);
-    }, [])
 
+    const [otherUserInfo, setOtherUserInfo] = useState<SimpleUserType>();
+    const [postInfo, setPostInfo] = useState<PostType>();
+    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
+
+    useEffect(()=>{
+        if (!posts) return;
+        
+        const filterPosts = [...userInfo.find_post, ...userInfo.post]
+
+        setFilteredPosts(getFilteredPost(posts, filterPosts))
+    }, [])
     
     return (
     <PaddingBox left={2} right={2}>
@@ -51,17 +52,22 @@ const Home = () => {
             <MarginBox top={1}/>
             {posts.length}
             <SimpleCard
+                setPostInfo={setPostInfo}
+                setOtherUserInfo={setOtherUserInfo}
                 setDB={setPosts}
-                db={posts}
+                db={filteredPosts}
             />
             <MarginBox top={8} />
             <MarginBox top={10} />
             <AlignBox direction="row" align="center">
-                {/* <SubBtn onClick={()=>{}} theme={"pass"} />
-                <EmtpyBox width={13} />
-                <SubBtn onClick={()=>{}} theme={"warn"} />
-                <EmtpyBox width={13} /> */}
-                <SubBtn onClick={()=>{}} theme={"find"} />
+                <SubBtn onClick={()=>{                    
+                    let result = window.confirm("FIND 일림을 보내시겠어요?");
+                    if (!result) return
+
+                    otherUserInfo && postInfo && sendAlarm(userInfo, otherUserInfo, postInfo, "find")
+
+                    alert("FIND 일림을 보냈습니다 ☺️ \n상대가 대화하기를 눌르면 방이 만들어져요!")
+                }} theme={"find"} />
             </AlignBox>
         </AlignBox>
     </PaddingBox>

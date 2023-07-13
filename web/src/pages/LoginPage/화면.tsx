@@ -1,6 +1,7 @@
+import { useNavigate } from "react-router";
 import { Dropdown } from "../../components/Dropdown";
 import { useStatus } from "../../store/status";
-import { PaddingBox, MarginBox, Text, AlignBox, BigIcon, MainBtn, ShortInputBox } from "../../styles/atom";
+import { PaddingBox, MarginBox, Text, AlignBox, BigIcon, MainBtn, ShortInputBox, EmtpyBox } from "../../styles/atom";
 import { useState } from "react";
 
 
@@ -172,18 +173,75 @@ export const 아이디선택 = ({onNext}:onNextString) => {
 
 
 
-export const 입장 = ({onNext}:onNextProps) => {
+export const 개인정보동의 = ({onNext}:onNextProps) => {
 
-    const {setStatus} = useStatus()
+    const navigate = useNavigate();
+    const [isChecked, setIsChecked] = useState<boolean>(false)
+
+    const termsURL = process.env.REACT_APP_TERMS || ""
+    console.log(termsURL);
+    console.log(process.env);    
 
     const clickHandler = () => {
-        setStatus({status: "home"})
+
+        if(!isChecked) return alert("개인정보 수집 및 이용에 동의해주세요")
+        onNext()
+    }
+
+    const handleCheckboxChange = (event: any) => {
+        setIsChecked(event.target.checked);
+    };
+
+
+    return (<PaddingBox left={10} right={10}>
+        <AlignBox align="left" justify="top">
+            <EmtpyBox height={20} />
+            <AlignBox align="center">
+                <Text fontsize={60} content={"FIND"} weight={700} color={"#2400FF"}/>
+            </AlignBox>
+            <EmtpyBox height={20} />
+            <Text fontsize={20} content={"환영합니다! "} weight={700} />
+            <EmtpyBox height={10} />
+            <Text fontsize={14} content={"질문을 통해, 진솔한 생각을 나눠봐요"} />
+            <EmtpyBox height={3} />
+            <Text fontsize={14} content={"진솔한 생각을 보고, 마음에 드는 사람을 찾아봐요"} />
+            <EmtpyBox height={13} />
+        </AlignBox>
+        <AlignBox align="center">
+            <MainBtn onClick={clickHandler}>동의하고 계속하기</MainBtn>
+        </AlignBox>
+        <div style={{position: "fixed", bottom: "20vh"}}>
+            <input
+              id="terms-and-conditions"
+              type="checkbox"
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+            />
+            <label
+              htmlFor="terms-and-conditions">
+              이용약관 및 개인정보수집 동의{" "}
+            </label>
+            <button
+              style={{ border: "none", background: "none", fontSize: "16px" }}
+              onClick={()=>{
+                window.open(termsURL, '_blank');
+              }}
+            >
+              {">"}
+            </button>
+          </div>
+        </PaddingBox>)
+}
+
+export const 입장 = ({onNext}:onNextProps) => {
+
+    const clickHandler = () => {
         onNext()
     }
 
     return (<PaddingBox left={9} right={9}>
         <AlignBox align="left" justify="top">
-            <MarginBox top={20} />
+            <MarginBox top={10} />
             <Text fontsize={24} content={"환영합니다"} weight={700} />
             <MarginBox top={1} />
             <Text fontsize={14} content={"진심이 담긴 글을 쓰고, 멋진 친구를 만나봐요"} />
