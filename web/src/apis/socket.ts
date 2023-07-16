@@ -7,7 +7,6 @@ import { PostType } from "../types/post.type";
 
 export const server_url: string = process.env.REACT_APP_HOST || "";
 
-console.log("server_url:", server_url);
 export const socket = io(server_url);
   
 interface socketListenerProps {
@@ -20,21 +19,17 @@ export const socketListener = ({ pushChatInfoById, setQuestion}: socketListenerP
 
     socket.on('send_message', ({ roomId, msg, nickname, date }) => {
 
-        console.log('get send message', msg, nickname, date);
-
         const newChat : ChatType = {msg: msg, nickname: nickname, date: date};
         
         pushChatInfoById(roomId, newChat);
     });
     
     socket.on('send_question', ({ roomId, question }) => {
-        console.log('send_question', question);
         
         setQuestion(question);
     });
 
     socket.on('disconnect', () => {
-        console.log('disconnect');
         setTimeout(() => {
             socket.connect();
         }, 5000);
@@ -49,7 +44,6 @@ interface socketAlarmListenerProps {
 export const socketAlarmListener = ({ setAlarms, alarms}: socketAlarmListenerProps) => {
 
     socket.on('send_alarm', ({ userInfo, _id, question, date }) => {
-        console.log('send_alarm from', userInfo.nickname, 'to me question:', question, 'date:', date, '_id:', _id);
 
         const newAlarm: AlarmType = {
             userInfo: userInfo,
@@ -92,9 +86,6 @@ export const sendAlarm = (
     postInfo: PostType,
     expression: string
     ) => {
-
-    console.log('sendAlarm to', otherUserInfo.nickname, 'from', userInfo.nickname, 'postInfo:', postInfo, 'expression:', expression);
-
     socket.emit(
         'send_alarm',
         {

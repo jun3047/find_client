@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import TinderCard from 'react-tinder-card'
 import { Post } from '../Post';
 import styled from "@emotion/styled"
-import { AlignBox, EmtpyBox, MarginBox } from '../../styles/atom';
+import { AlignBox, EmptyPage, EmtpyBox, MarginBox, Text } from '../../styles/atom';
 import { PostType } from "../../types/post.type";
+import { length } from '../../../node_modules/tailwindcss/src/util/dataTypes';
 
 
 const CardContainer = styled.div`
@@ -40,22 +41,30 @@ export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo}) {
       {db.length}
       <EmtpyBox height={50} />
       <CardContainer>
-        {db.map((post, index) => {
-          return (<>
-          <TinderCardComponent
-            key={post._id}
-            onCardLeftScreen={() => outOfFrame(post.userInfo.nickname, index)}
-            isActive={index === 0}
-          >
-            <Post
-            key={post._id}
-            question={post.question}
-            content={post.content}
-            writer={post.userInfo.nickname}
-          />
-          </TinderCardComponent>
-          </>)
-        })}
+        {db.length === 0 ? (
+          <EmptyPage>글이 없어요 😭</EmptyPage>
+        ) : (
+          db.map((post, index) => {
+            return (
+              <>
+                <TinderCardComponent
+                  key={post._id}
+                  onCardLeftScreen={() =>
+                    outOfFrame(post.userInfo.nickname, index)
+                  }
+                  isActive={index === 0}
+                >
+                  <Post
+                    key={post._id}
+                    question={post.question}
+                    content={post.content}
+                    writer={post.userInfo.nickname}
+                  />
+                </TinderCardComponent>
+              </>
+            );
+          })
+        )}
       </CardContainer>
       <EmtpyBox height={20} />
     </AlignBox>

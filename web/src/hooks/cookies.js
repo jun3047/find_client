@@ -20,7 +20,6 @@ const decryptString = (ciphertext, encryptionKey) => {
 const cookies = new Cookies();
 
 export const setUserInfoCookie = (_id) => {
-
 	const encryptedId = encryptString(_id.toString(), encryptionKey);
 
  	return cookies.set('user', encryptedId);
@@ -32,8 +31,6 @@ export const getUserInfoCookie = () => {
 	if(encryptedId === undefined) return undefined;
 
 	const decryptedText = decryptString(encryptedId, encryptionKey);
-
-	console.log("decryptedText:", decryptedText);
 
 	return parseInt(decryptedText)
 }

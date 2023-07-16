@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { ChatBox } from "../../components/ChatBox";
-import { EmtpyBox, PaddingBox, Text } from "../../styles/atom";
+import { AlignBox, EmtpyBox, PaddingBox, Text } from "../../styles/atom";
 import { useNavigate } from "react-router";
 import { StatusType, useStatus } from "../../store/status";
 import { UseUserType, useUserInfo } from "../../store/userInfo";
@@ -30,6 +30,15 @@ const Chat = () => {
         </NoticeContainer>
     <EmtpyBox height={2} />
     {
+        roomInfo.length === 0 ?
+        <AlignBox align="center" justify="center">
+            <PaddingBox top={30} left={2} right={2}>
+                <Text 
+                    content="아직 대화가 없어요 😭"
+                    fontsize={20}
+                />
+            </PaddingBox>
+        </AlignBox> : 
         roomInfo.map((room: RoomType) => {
 
             const lastChat = room.chats[room.chats.length - 1];

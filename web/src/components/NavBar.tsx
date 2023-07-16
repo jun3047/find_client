@@ -23,7 +23,6 @@ export const NavBar = () => {
 
     useEffect(() => {
         const path = location.pathname.split("/")[1];
-        console.log("path:", path);
 
         if (/^\/chat\/\d+$/.test(location.pathname)) {
             setStatus({status:"room"});

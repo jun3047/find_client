@@ -22,9 +22,7 @@ import { Terms } from './pages/TermsPage/Terms';
 
 function App() {
 
-  const {userInfo} = useUserInfo()
-  console.log(userInfo);
-  
+  const {userInfo} = useUserInfo()  
 
   return (<>
     <GlobalStyle />

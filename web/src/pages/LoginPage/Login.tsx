@@ -31,8 +31,6 @@ const Login = () => {
 
                 if(userCookieId !== undefined){
                     const _userInfo = await getUserInfo(userCookieId)
-
-                    console.log("_userInfo:", userInfo);
                     
                     setUserInfo(_userInfo)
                     navigate("/home")
@@ -72,11 +70,21 @@ const Login = () => {
                 //인증번호와 일치하는지 확인
             }}/>}
             {step == "학과선택" && <학과선택 onNext={(data: string)=>{
+
+                if(data === "") return alert("학과를 선택해주세요 😭")
+
+                const res = window.confirm("학과를 선택하시면 추후 변경이 불가능해요 😭 \n 정말로 선택하시겠어요?")
+                if(!res) return;
+
                 setResgisterData(prev => ({...prev, "major": data}))
                 setStep("학번선택")
             }}/>}
             {step == "학번선택" && <학번선택 onNext={(data: string)=>{
 
+                if(data === "") return alert("학번을 선택해주세요 😭")
+
+                const res = window.confirm("학번을 선택하시면 추후 변경이 불가능해요 😭 \n 정말로 선택하시겠어요?")
+                if(!res) return;
                 
                 setResgisterData(prev => ({...prev, "grade": parseInt(data)}))
                 setStep("아이디선택")
@@ -86,20 +94,18 @@ const Login = () => {
                 data = data.replace(/@/g, "");
 
                 const isExist = await isExistId(data)
-
-                console.log(isExist);
-
                 if(isExist) return alert("이미 존재하는 아이디에요 😭")
-                
-                //중복확인
 
                 if(!isNickname(data)) return alert("닉네임은 숫자, 영어, 한글, '-', '_', '.',로 이루어지는 최소 2자, 최대 10자만 가능해요 😭")
+
+                const res = window.confirm(`아이디가 서비스 약관에 위배될 경우 영구정지 될 수 있어요 🤔 \n 아이디를 ${data}로 확정하시겠어요?`)
+                if(!res) return;
                 
                 setResgisterData(prev => ({...prev, "nickname": data}))
                 setStep("개인정보동의")
             }}/>}
             {step == "개인정보동의" && <개인정보동의 onNext={async ()=>{
-                
+
                 setStep("입장")
             }}/>}
             {step == "입장" && <입장 onNext={async ()=>{

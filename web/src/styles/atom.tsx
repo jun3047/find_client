@@ -99,6 +99,20 @@ export const AlignBox = styled.div<AlignBoxProps>`
 `;
 
 
+
+export const EmptyPage = styled.div`
+  position: absolute;
+  min-width: 200px;
+  height: 100%;
+  background-color: #fff;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: #000;
+`
+
 //BUTTON
 
 export const MainBtn = styled.div`

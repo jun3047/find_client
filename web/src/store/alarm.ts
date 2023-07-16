@@ -15,9 +15,6 @@ export type UseAlarmsType = State & Actions;
 export const useAlarms = create<UseAlarmsType>()((set) => ({
     alarms: [],
     setAlarms: (alarms) => {
-        console.log('setAlarms');
-        console.log(alarms);
-        
         set((state) => ({
             alarms: alarms,
         }))
