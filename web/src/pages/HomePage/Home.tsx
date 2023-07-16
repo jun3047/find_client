@@ -23,14 +23,17 @@ const Home = () => {
     const [postInfo, setPostInfo] = useState<PostType>();
     const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
 
-    useEffect(()=>{
-        if (!posts) return;
+
+
+    const getFilterPosts = async (_posts: PostType[]) => {
+        if (!_posts) return;
         
         const filterPosts = [...userInfo.find_post, ...userInfo.post]
 
-        setFilteredPosts(getFilteredPost(posts, filterPosts))
-    }, [])
+        setPosts(getFilteredPost(_posts, filterPosts))
+    }
     
+
     return (
     <PaddingBox left={2} right={2}>
         <AlignBox align="center">
@@ -54,8 +57,8 @@ const Home = () => {
             <SimpleCard
                 setPostInfo={setPostInfo}
                 setOtherUserInfo={setOtherUserInfo}
-                setDB={setPosts}
-                db={filteredPosts}
+                setDB={getFilterPosts}
+                db={posts}
             />
             <MarginBox top={8} />
             <MarginBox top={10} />

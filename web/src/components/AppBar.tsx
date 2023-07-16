@@ -2,8 +2,6 @@ import styled from "@emotion/styled"
 import { AlignBox, Text, BackBtn, MarginBox, EmtpyBox } from "../styles/atom"
 import { useStatus, StatusType, Status, Actions } from '../store/status';
 import { useLocation, useNavigate } from "react-router";
-import { useEffect } from "react";
-import { InitData } from "./InitData";
 import { UseUserType, useUserInfo } from "../store/userInfo";
 
 const meun = [
@@ -28,7 +26,7 @@ export const AppBar = () => {
     const location = useLocation();
     const members = location.state?.nowRoomInfo.members;
 
-    const isDetail = (status === "room" || status === "profile")
+    const isDetail = (status === "room" || status === "profile" || status === "terms")
     const detailTitle = members? members.find((member:any) => member._id !== userInfo._id)?.nickname: ""
     const title = isDetail ? detailTitle : nowMeun?.content;
     

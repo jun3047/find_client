@@ -74,7 +74,7 @@ export const InitData = () => {
 
     const fetchPostData = async () => {
 
-        if (posts.length > 4) return;
+        if (posts.length > 1) return;
         
         const lastPostId = posts[posts.length - 1]?._id || 0
         const _posts = await getPosts(lastPostId)

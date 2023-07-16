@@ -17,6 +17,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { InitData } from './components/InitData';
 import PrivateRoute from './routes/PrivateRoute';
 import { useUserInfo } from './store/userInfo';
+import { Terms } from './pages/TermsPage/Terms';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
       <Suspense fallback={<div><img src={process.env.PUBLIC_URL + '/loading.gif'} /></div>}>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="/test" element={<Test />} />
           <Route path="/home" element={<PrivateRoute component={Home} />} />
           <Route path="/chat" element={<PrivateRoute component={Chat} />} />

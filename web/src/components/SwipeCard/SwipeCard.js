@@ -18,24 +18,21 @@ const TinderCardComponent = styled(TinderCard)`
   position: absolute;
   transition: transform 0.3s ease;
 
-  z-index : ${({ isActive }) => isActive ? 2 : 1 };
+  z-index: ${({ isActive }) => isActive ? 2 : 1 };
 
-  transform : ${({ isActive }) => isActive ? 'scale(1)' : 'scale(0)'}
+  transform: ${({ isActive }) => isActive ? 'scale(1)' : 'scale(0)'};
 ;
 `
 
 export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo}) {
   
-  const popPost = (prevPosts) => prevPosts.slice(0, prevPosts.length - 1);
+  const popPost = (prevPosts) => prevPosts.slice(1, prevPosts.length);
 
-  const outOfFrame = (name, idx) => {
-    const _posts = popPost(db);
-    setDB([..._posts]);
-  };
+  const outOfFrame = (name, idx) => setDB([...popPost(db)]);
 
-  const nowPost = db[db.length - 1];
+  const nowPost = db[0];
+
   setPostInfo(nowPost)
-  console.log("nowPost", nowPost);
   setOtherUserInfo(nowPost?.userInfo)
 
   return (
@@ -48,7 +45,7 @@ export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo}) {
           <TinderCardComponent
             key={post._id}
             onCardLeftScreen={() => outOfFrame(post.userInfo.nickname, index)}
-            isActive={index === db.length - 1}
+            isActive={index === 0}
           >
             <Post
             key={post._id}
