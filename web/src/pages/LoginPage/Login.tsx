@@ -48,8 +48,6 @@ const Login = () => {
 
                 const _authCode = res.authCode
                 const _userInfo = res.userInfo
-
-                console.log(_authCode);
                 
                 setRegisterUserInfo(_userInfo)
                 setAuthCode(_authCode)
