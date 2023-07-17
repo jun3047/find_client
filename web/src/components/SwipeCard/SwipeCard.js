@@ -19,7 +19,7 @@ const TinderCardComponent = styled(TinderCard)`
   position: absolute;
   transition: transform 0.3s ease;
 
-  z-index: ${({ isActive }) => isActive ? 2 : 1 };
+  z-index: ${({ isActive }) => isActive};
 
   transform: ${({ isActive }) => isActive ? 'scale(1)' : 'scale(0)'};
 ;
@@ -51,7 +51,7 @@ export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo}) {
                   onCardLeftScreen={() =>
                     outOfFrame(post.userInfo.nickname, index)
                   }
-                  isActive={index === 0}
+                  isActive={db.length - index}
                 >
                   <Post
                     key={post._id}
