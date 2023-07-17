@@ -38,7 +38,7 @@ export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo}) {
 
   return (
     <AlignBox align="center">
-      <EmtpyBox height={50} />
+      <EmtpyBox height={38} />
       <CardContainer>
         {db.length === 0 ? (
           <EmptyPage>글이 없어요 😭</EmptyPage>
