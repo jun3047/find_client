@@ -43,8 +43,8 @@ export const InitData = () => {
 
         setAlarms(userInfo.alarm)
         
-        userInfo?.room.map(roomId => socket.emit('join_room', {roomId: roomId}))
         socket.emit('join_room', {roomId: userInfo.nickname})
+        userInfo?.room.map(roomId => socket.emit('join_room', {roomId: roomId}))
     }, [])
     
     useEffect(() => {fetchRoomData(userInfo.room)}, [userInfo.room])
@@ -107,6 +107,7 @@ export const InitData = () => {
     const fetchRoomData = async (idList: number[]) => {
         const _rooms = await getRoomsInfo(idList)
         setRoomInfo(_rooms)
+        idList.map(roomId => socket.emit('join_room', {roomId: roomId}))
     }
 
     return null
