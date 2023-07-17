@@ -38,7 +38,6 @@ export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo}) {
 
   return (
     <AlignBox align="center">
-      {db.length}
       <EmtpyBox height={50} />
       <CardContainer>
         {db.length === 0 ? (

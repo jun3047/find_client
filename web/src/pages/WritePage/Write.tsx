@@ -12,7 +12,7 @@ const Write = () => {
 
     const [question, setQuestion] = useState<string>(questionList[0])
     const [content, setContent] = useState<string>("")
-    const {userInfo} = useUserInfo()
+    const {userInfo, setUserInfo} = useUserInfo()
 
     const navigate = useNavigate()
 
@@ -35,24 +35,24 @@ const Write = () => {
                 setValue={setContent}
                 value={content}
                 question={question}
-                writer={'jun'}
+                writer={userInfo.nickname}
             />
             <EmtpyBox height={20} />
             <SubBtn
                 onClick={async () => {
 
-                    console.log({question, content, _userInfo});
-
                     let result = window.confirm("글을 등록하시겠습니까?");
                     if (!result) return
                     
-                    await writePost(
+                    const {_id} = await writePost(
                         {
                             question: question,
                             content: content,
                             userInfo: _userInfo
                         }
                     )
+
+                    setUserInfo({...userInfo, ...{post: [...userInfo.post, _id]}})
 
                     alert("글이 등록되었습니다 ☺️ \n반응이 올 수도 있으니 알림에서 확인해주세요!")
 

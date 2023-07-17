@@ -9,6 +9,8 @@ import { useLocation } from "react-router";
 import { useAlarms } from "../store/alarm";
 import { useQuestion } from "../store/question";
 import { getUserInfo } from "../apis/user";
+import { getFilteredPost } from "../utils/getFitteredPost";
+import { PostType } from "../types/post.type";
 
 
 export const InitData = () => {
@@ -79,12 +81,26 @@ export const InitData = () => {
         const lastPostId = posts[posts.length - 1]?._id || 0
         const _posts = await getPosts(lastPostId)
 
+        const filteredPost = getFilterPosts(_posts)
+
+        console.log("필터링된 글:", filteredPost);
+        
+
         if(_posts.length === 0) {
             console.log("더 이상 포스트가 없습니다.");
             return;
         }
 
-        setPosts([..._posts, ...posts])
+        setPosts([...filteredPost, ...posts])
+    }
+
+    const getFilterPosts = (_posts: PostType[]) => {
+        
+        console.log("제외할 내 FIND 글:", userInfo.find_post);
+        console.log("제외할 내가 쓴 글:", userInfo.post);
+
+        const filterPosts = [...userInfo.find_post, ...userInfo.post]
+        return getFilteredPost(_posts, filterPosts)
     }
 
 

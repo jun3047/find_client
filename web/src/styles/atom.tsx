@@ -279,7 +279,7 @@ export const TextAreaField = styled.textarea<TextAreaFieldProps>`
   justify-content: flex-start;
   height: 100%;
   width: 100%;
-  /* border: none;
+  border: none;
   border-bottom: 1px solid #d9d9d9;
   border-radius: 4px;
   width: 70vw;
@@ -290,10 +290,10 @@ export const TextAreaField = styled.textarea<TextAreaFieldProps>`
   color: #000;
 
   &:focus {
-    color: #466fff;
+    color: #000;
     outline: none;
     border-color: #466fff;
-  } */
+  }
 `;
 
 

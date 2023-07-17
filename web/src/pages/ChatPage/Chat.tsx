@@ -20,6 +20,8 @@ const Chat = () => {
         navigate(`/chat/${_roomInfo._id}`, { state: { nowRoomInfo: _roomInfo } });
     }
 
+    console.log("roomInfo:", roomInfo);
+
     return(
     <>
     <NoticeContainer>
@@ -45,9 +47,10 @@ const Chat = () => {
 
             const {msg, date} = lastChat || {msg: undefined, date: undefined}; 
 
-            if(typeof date !== "string") return;
 
-            const chatDate = getChatTime(date);
+            if(typeof date !== "string" && date !== undefined) return;
+
+            const chatDate = (date === undefined) ? "새로운 채팅" : getChatTime(date);
 
             return (
                 <ChatBox

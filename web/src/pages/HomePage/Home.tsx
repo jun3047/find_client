@@ -21,18 +21,6 @@ const Home = () => {
 
     const [otherUserInfo, setOtherUserInfo] = useState<SimpleUserType>();
     const [postInfo, setPostInfo] = useState<PostType>();
-    const [filteredPosts, setFilteredPosts] = useState<PostType[]>([]);
-
-
-
-    const getFilterPosts = async (_posts: PostType[]) => {
-        if (!_posts) return;
-        
-        const filterPosts = [...userInfo.find_post, ...userInfo.post]
-
-        setPosts(getFilteredPost(_posts, filterPosts))
-    }
-    
 
     return (
     <PaddingBox left={2} right={2}>
@@ -52,12 +40,11 @@ const Home = () => {
                     weight={700}
                 />
             </AlignBox>
-            <MarginBox top={1}/>
-            {posts.length}
+            <MarginBox top={10}/>
             <SimpleCard
                 setPostInfo={setPostInfo}
                 setOtherUserInfo={setOtherUserInfo}
-                setDB={getFilterPosts}
+                setDB={setPosts}
                 db={posts}
             />
             <MarginBox top={8} />

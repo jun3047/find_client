@@ -44,13 +44,12 @@ const My = () => {
             </AlignBox>
             <EmtpyBox height={10} />
             <PostInfo />
-            <EmtpyBox height={10} />
-                  <SimpleCard
-                      setOtherUserInfo={() => { }}
-                      setPostInfo={() => {}}
-                      db={userPosts}
-                      setDB={setUserPosts}
-                  />
+            <SimpleCard
+                setOtherUserInfo={() => { }}
+                setPostInfo={() => {}}
+                db={userPosts}
+                setDB={setUserPosts}
+            />
               </AlignBox>
           </>)
 }
