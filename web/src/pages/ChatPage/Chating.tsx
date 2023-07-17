@@ -50,7 +50,7 @@ const Chating = () => {
             year: "2-digit",
             hour: "2-digit",
             minute: "2-digit",
-          });    
+          });
 
           return (
             <ChatBubbleWrapper me={isMyNickname} key={i}>
@@ -73,6 +73,7 @@ const Chating = () => {
       }
       <div ref={chatsEndRef}></div>
       <ChatBar
+        autofocus="autofocus"
         inputRef={inputRef}
         roomId={roomId}
         active={true}
@@ -121,9 +122,11 @@ type ChatBarProps = {
     onChangeHandler: (e: any) => void,
     msg: string,
     inputRef: any
+    autofocus: any
 }
 
 const ChatBar = ({ 
+  autofocus,
   active, 
   sendBtnHandler, 
   onKeyDownHandler, 
@@ -147,6 +150,7 @@ const ChatBar = ({
         src={`${process.env.PUBLIC_URL}/icons/questionMark.png`}
       />
       <ChatField
+        autoFocus={true}
         ref={inputRef}
         onKeyDown={onKeyDownHandler}
         value={msg}
