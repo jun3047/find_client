@@ -73,7 +73,6 @@ const Chating = () => {
       }
       <div ref={chatsEndRef}></div>
       <ChatBar
-        autofocus="autofocus"
         inputRef={inputRef}
         roomId={roomId}
         active={true}
@@ -85,7 +84,10 @@ const Chating = () => {
             roomId: roomId,
             userInfo: userInfo,
             roomInfo: roomInfo
-          })}}
+          })
+          
+          if(inputRef.current) inputRef.current.focus();
+        }}
         onChangeHandler={(e) => { setKeyboardValue(e.target.value) }}
         msg={keyboardValue}
         question={question}
@@ -122,11 +124,9 @@ type ChatBarProps = {
     onChangeHandler: (e: any) => void,
     msg: string,
     inputRef: any
-    autofocus: any
 }
 
 const ChatBar = ({ 
-  autofocus,
   active, 
   sendBtnHandler, 
   onKeyDownHandler, 
