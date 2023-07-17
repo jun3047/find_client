@@ -12,17 +12,28 @@ const style = css`
   }
 
   #root {
+
+    //모바일 웹용
+    --vh: 100%;
+
     height: 100%;
   }
   
   html{
-    height: 100vh;
+    /* height: 100vh; */
+
+    /* 모바일 웹용 */
+    height: calc(var(--vh, 1vh) * 100);
+
     margin: 0;
   }
 
   body{
     margin-top: 42px;
-    height: calc(100vh - 42px);
+
+    /* 모바일 웹용 */
+    height: calc(var(--vh, 1vh) * 100  - 42px);
+    /* height: calc(100vh - 42px); */
   }
 
   a {

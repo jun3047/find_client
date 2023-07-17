@@ -154,6 +154,8 @@ export const SubBtn = ({ theme, onClick }: SubBtnProps) => {
             display: flex;
             align-items: center;
             justify-content: center;
+            position: fixed;
+            bottom: 80px;
     `
 
     const imgUrl = process.env.PUBLIC_URL + `/icons/${theme}.svg`

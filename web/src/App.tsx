@@ -24,6 +24,15 @@ function App() {
 
   const {userInfo} = useUserInfo()  
 
+  function setScreenSize() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }
+  useEffect(() => {
+    //모바일 웹용 vh 단위 조정
+    setScreenSize();
+  });
+
   return (<>
     <GlobalStyle />
     <AppBar />
