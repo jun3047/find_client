@@ -16,8 +16,6 @@ const Alarm = () => {
     
     const naviagte = useNavigate();
 
-    
-
     return (<>{
         alarms.length === 0 ?
         <AlignBox align="center" justify="center">
@@ -34,7 +32,7 @@ const Alarm = () => {
                     <AlarmBox
                         key={i}
                         user={alarm.userInfo}
-                        question="질문임"
+                        question={alarm.question}
                         onClick={() => {
                             setStatus({status: "profile"})
                             naviagte(`/profile/${alarm.userInfo._id}`)
