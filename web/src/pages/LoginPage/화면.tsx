@@ -76,15 +76,15 @@ export const 학과선택 = ({onNext}:onNextString) => {
     return (<PaddingBox left={9} right={9}>
         <AlignBox align="left" justify="top">
             <MarginBox top={20} />
-            <Text fontsize={24} content={"학과를 선택해주세요"} weight={700} />
+            <Text fontsize={24} content={"단과대를 선택해주세요"} weight={700} />
             <MarginBox top={1} />
-            <Text fontsize={14} content={"소중한 개인정보는 안전하게 보호합니다"} />
+            <Text fontsize={14} content={"FIND를 보낸 상대 사용자에게 보여집니다"} />
             <MarginBox top={4} />
             <Dropdown
                 setValue={(value: string) => { set학과(value) }}
                 list={departments}
-                placeholder="학과를 찾아보세요"
-                lable="학과 선택"
+                placeholder="단과대를 찾아보세요"
+                lable="단과대 선택"
                 value={학과}/>
             <MarginBox top={3}/>
         </AlignBox>

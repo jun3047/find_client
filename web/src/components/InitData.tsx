@@ -44,7 +44,8 @@ export const InitData = () => {
         setAlarms(userInfo.alarm)
         
         socket.emit('join_room', {roomId: userInfo.nickname})
-        userInfo?.room.map(roomId => socket.emit('join_room', {roomId: roomId}))
+
+        userInfo?.room?.map(roomId => socket.emit('join_room', {roomId: roomId}))
     }, [])
     
     useEffect(() => {fetchRoomData(userInfo.room)}, [userInfo.room])
