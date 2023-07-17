@@ -3,6 +3,7 @@ import { Dropdown } from "../../components/Dropdown";
 import { useStatus } from "../../store/status";
 import { PaddingBox, MarginBox, Text, AlignBox, BigIcon, MainBtn, ShortInputBox, EmtpyBox } from "../../styles/atom";
 import { useState } from "react";
+import { departments, 학번목록 } from "../../contants/schoolInfo";
 
 
 type onNextString = {
@@ -17,7 +18,7 @@ type onNextProps = {
 export const 초기화면 = ({onNext}:onNextProps) => {
     return (
         <AlignBox align="center">
-            <MarginBox top={28}/>
+            <MarginBox top={22}/>
             <Text fontsize={20} content="대학 친구를 짧은 글에서 발견하세요" weight={700}/>
             <MarginBox top={1}/>
             <BigIcon>🕶</BigIcon>
@@ -68,21 +69,6 @@ export const 인증번호입력 = ({onNext}:onNextString) => {
         </PaddingBox>)
 }
 
-
-const departments: string[] = [
-  "전자공학과",
-  "컴퓨터공학과",
-  "화학공학과",
-  "전자공학과",
-  "컴퓨터공학과",
-  "화학공학과",
-  "전자공학과",
-  "컴퓨터공학과",
-  "전자공학과",
-  "컴퓨터공학과",
-  "화학공학과",
-];
-
 export const 학과선택 = ({onNext}:onNextString) => {
     
     const [학과, set학과] = useState<string>("")
@@ -107,23 +93,6 @@ export const 학과선택 = ({onNext}:onNextString) => {
         </AlignBox>
     </PaddingBox>)
 }
-
-const 학번목록 = [
-    "23",
-    "22",
-    "21",
-    "20",
-    "19",
-    "18",
-    "17",
-    "16",
-    "15",
-    "14",
-    "13",
-    "12",
-    "11",
-    "10",
-]
 
 export const 학번선택 = ({onNext}:onNextString) => {
 

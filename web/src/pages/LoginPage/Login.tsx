@@ -71,9 +71,11 @@ const Login = () => {
             }}/>}
             {step == "학과선택" && <학과선택 onNext={(data: string)=>{
 
-                if(data === "") return alert("학과를 선택해주세요 😭")
+                // 학과를 -> 단과대로 변경
 
-                const res = window.confirm("학과를 선택하시면 추후 변경이 불가능해요 😭 \n 정말로 선택하시겠어요?")
+                if(data === "") return alert("단과대를 선택해주세요 😭")
+
+                const res = window.confirm("한번 선택하시면 추후 변경이 불가능해요 😭 \n 내용이 정확할까요?")
                 if(!res) return;
 
                 setResgisterData(prev => ({...prev, "major": data}))
@@ -83,7 +85,7 @@ const Login = () => {
 
                 if(data === "") return alert("학번을 선택해주세요 😭")
 
-                const res = window.confirm("학번을 선택하시면 추후 변경이 불가능해요 😭 \n 정말로 선택하시겠어요?")
+                const res = window.confirm("학번을 선택하시면 추후 변경이 불가능해요 😭 \n 내용이 정확할까요?")
                 if(!res) return;
                 
                 setResgisterData(prev => ({...prev, "grade": parseInt(data)}))
