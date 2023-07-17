@@ -12,9 +12,7 @@ import { getChatTime } from "../../utils/getChatTime";
 const Chat = () => {
     
     const navigate = useNavigate();
-    const {status, setStatus} = useStatus<StatusType>(setStatus => setStatus);
-    const {userInfo, setUserInfo} = useUserInfo<UseUserType>(setStatus => setStatus);
-    const {roomInfo, setRoomInfo} = useRoomInfo<UseRoomInfoType>(setStatus => setStatus);
+    const {roomInfo} = useRoomInfo<UseRoomInfoType>(setStatus => setStatus);
 
     const goDetail = (_roomInfo: RoomType) => {
         navigate(`/chat/${_roomInfo._id}`, { state: { nowRoomInfo: _roomInfo } });
@@ -40,7 +38,8 @@ const Chat = () => {
                     fontsize={20}
                 />
             </PaddingBox>
-        </AlignBox> : 
+        </AlignBox>
+        : 
         roomInfo.map((room: RoomType) => {
 
             const lastChat = room.chats[room.chats.length - 1];

@@ -27,13 +27,11 @@ const Chating = () => {
   const roomId = _roomId ? parseInt(_roomId) : 0;
   
   const chats = roomInfo.find(room => room._id === roomId)?.chats || []
-  const _room = roomInfo.find(room => room._id === roomId) || {};
 
   useEffect(() => {
     inputRef.current&& inputRef.current.focus()
     chatsEndRef.current && chatsEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }, [chats]);  
-  
+    }, [chats]);
   
   return (
     <ChatWarrper>
