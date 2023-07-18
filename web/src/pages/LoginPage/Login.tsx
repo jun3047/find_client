@@ -40,7 +40,7 @@ const Login = () => {
             }}/>}
             {step == "휴대폰인증" && <휴대폰인증 onNext={ async (data: string)=>{
 
-                if(!isPhone(data)) return alert("휴대폰 번호 양식이 아닙니다 😭")
+                // if(!isPhone(data)) return alert("휴대폰 번호 양식이 아닙니다 😭")
 
                 setResgisterData(prev => ({...prev, "phone": data}))
 
@@ -50,14 +50,12 @@ const Login = () => {
                 const _userInfo = res.userInfo
                 
                 setRegisterUserInfo(_userInfo)
-                setAuthCode(_authCode)
+                // setAuthCode(_authCode)
                 setStep("인증번호입력")
             }}/>}
             {step == "인증번호입력" && <인증번호입력 onNext={(data: string)=>{
 
-                if(authCode.toString() !== data) return alert("인증번호가 일치하지 않습니다 😭")
-
-                console.log("registerUserInfo:", registerUserInfo);
+                // if(authCode.toString() !== data) return alert("인증번호가 일치하지 않습니다 😭")
 
                 if(registerUserInfo === undefined) return setStep("학과선택")
 
