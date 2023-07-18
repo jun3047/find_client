@@ -60,8 +60,6 @@ export const InitData = () => {
     const updateUserRoomInfo = async () => {
         const userRoomInfo = await getUserInfo(userInfo._id, {room: 1})
         
-        console.log(userRoomInfo.room);
-        
         setUserInfo({
             ...userInfo,
             room: userRoomInfo.room
@@ -81,11 +79,7 @@ export const InitData = () => {
         
         const lastPostId = posts[posts.length - 1]?._id || 0
         const _posts = await getPosts(lastPostId)
-
         const filteredPost = getFilterPosts(_posts)
-
-        console.log("필터링된 글:", filteredPost);
-        
 
         if(_posts.length === 0) {
             console.log("더 이상 포스트가 없습니다.");
@@ -96,10 +90,6 @@ export const InitData = () => {
     }
 
     const getFilterPosts = (_posts: PostType[]) => {
-        
-        console.log("제외할 내 FIND 글:", userInfo.find_post);
-        console.log("제외할 내가 쓴 글:", userInfo.post);
-
         const filterPosts = [...userInfo.find_post, ...userInfo.post]
         return getFilteredPost(_posts, filterPosts)
     }
