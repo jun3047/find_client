@@ -11,7 +11,6 @@ import { UserType } from "../../types/user.type";
 import { UseRoomInfoType, useRoomInfo } from "../../store/room";
 import { UseQuestionType, useQuestion } from "../../store/question";
 
-
 const Chating = () => {
   
   const {userInfo} = useUserInfo<UseUserType>(setStatus => setStatus);
@@ -276,11 +275,12 @@ interface ChatBubbleProps {
 const ChatBubbleWrapper = styled.div<ChatBubbleProps>`
   background-color: white;
   min-height: 50px;
+  max-width: 320px;
   padding: 0px 31px;
   display: flex;
   position: relative;
   flex-direction: column;
-  align-items: ${(props) => (props.me ? "flex-end" : "flex-start")}
+  align-items: ${(props) => (props.me ? "flex-end" : "flex-start")};
 `
 
 const NickName = styled.div`

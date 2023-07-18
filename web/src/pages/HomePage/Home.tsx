@@ -16,7 +16,7 @@ import { getFilteredPost } from "../../utils/getFitteredPost";
 const Home = () => {
     
     
-    const {userInfo} = useUserInfo<UseUserType>(setUserInfo => setUserInfo);    
+    const {userInfo, setUserInfo} = useUserInfo<UseUserType>(setUserInfo => setUserInfo);    
     const {posts, setPosts} = usePost<UsePostType>(setPosts => setPosts);
 
     const [otherUserInfo, setOtherUserInfo] = useState<SimpleUserType>();
@@ -54,7 +54,22 @@ const Home = () => {
                     let result = window.confirm("FIND 일림을 보내시겠어요?");
                     if (!result) return
 
-                    otherUserInfo && postInfo && sendAlarm(userInfo, otherUserInfo, postInfo, "find")
+                    if(!(otherUserInfo && postInfo && userInfo)) return;
+
+                    if(userInfo._id === otherUserInfo._id) return alert ('자기 자신에게는 FIND를 신청할 수 없어요!');
+                    if(userInfo.find_post.includes(postInfo._id)) return alert ('이미 FIND를 신청한 사람이에요!');   
+                    
+                    setUserInfo({
+                        ...userInfo,
+                        find_count: userInfo.find_count + 1,
+                        find_post: [...userInfo.find_post, otherUserInfo._id]
+                        }
+                    )
+
+                    userInfo.find_post.push(postInfo._id);
+
+
+                    sendAlarm(userInfo, otherUserInfo, postInfo, "find")
 
                     alert("FIND 일림을 보냈습니다 ☺️ \n상대가 대화하기를 눌르면 방이 만들어져요!")
                 }} theme={"find"} />

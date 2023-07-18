@@ -8,8 +8,11 @@ import { SimpleCard } from '../../components/SwipeCard/SwipeCard';
 import { getPostsById } from "../../apis/post";
 import { PostType } from "../../types/post.type";
 import { ReportHandler } from 'web-vitals';
-import { UseUserType, useUserInfo } from "../../store/userInfo";
+import { UseUserType, setUserInfoType, useUserInfo } from "../../store/userInfo";
 import { RoomUserInfo, makeRoom } from "../../apis/room";
+import { UserType } from "../../types/user.type";
+import { UseRoomInfoType, useRoomInfo } from "../../store/room";
+import { RoomType } from "../../types/room.type";
 
 
 type OtherUserInfoType = {
@@ -25,7 +28,9 @@ const Other = () => {
     const parseId = useParams()._id
     const _id = parseId ? parseInt(parseId) : 0;
 
-    const {userInfo} = useUserInfo<UseUserType>(setUserInfo => setUserInfo);
+    const {userInfo, setUserInfo} = useUserInfo<UseUserType>(setUserInfo => setUserInfo);
+    const {roomInfo, setRoomInfo} = useRoomInfo<UseRoomInfoType>(setUserInfo => setUserInfo);
+
 
     const [otherUserInfo, setOtherUserInfo] = useState<OtherUserInfoType>({
         post: [],
@@ -100,17 +105,12 @@ const Other = () => {
             <MainBtn
                 onClick={()=>{
 
-                    const myRoomInfo = {
-                        _id: userInfo._id,
-                        nickname: userInfo.nickname,
-                    }
-
                     const otherRoomInfo = {
                         _id: _id,
                         nickname: otherUserInfo.nickname,
                     }
 
-                    MainBtnHandler([myRoomInfo, otherRoomInfo], nav)
+                    MainBtnHandler([userInfo, otherRoomInfo], nav, userInfo, setUserInfo, roomInfo)
                 }}
             >
                 대화하기
@@ -129,15 +129,30 @@ const Profile = () => {
     )
 }
 
-const MainBtnHandler = (members: RoomUserInfo[], nav: any) => {
+const MainBtnHandler = (
+    members: RoomUserInfo[],
+    nav: any,
+    userInfo: UserType,
+    setUserInfo: setUserInfoType,
+    roomInfo: RoomType[]
+    ) => {
 
     let result = window.confirm("대화방을 만드시겠습니까?");
     
     if (!result) return
 
-    makeRoom(members)
+    const isExist = roomInfo.filter(room => {
+        return room.members.every(member => {
+            return members.some(m => m._id === member._id)
+        })
+    })
 
-    alert("대화방이 만들어졌습니다!")
+    if(isExist.length > 0){
+        alert("이미 대화방이 존재합니다!")
+    }else{
+        makeRoom(members)
+        alert("대화방이 만들어졌습니다!")
+    }
 
     nav("/chat")
 }

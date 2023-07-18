@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 import { postAPI } from "./useAPI";
 import { ChatType } from "../types/room.type";
 import { AlamrUserType, AlarmType } from "../types/alarm.type";
-import { SimpleUserType } from "../types/user.type";
+import { SimpleUserType, UserType } from "../types/user.type";
 import { PostType } from "../types/post.type";
 
 export const server_url: string = process.env.REACT_APP_HOST || "";
@@ -81,7 +81,7 @@ export const sendQuestion = (roomId: number, question: string) => {
 };
 
 export const sendAlarm = (
-    userInfo: AlamrUserType,
+    userInfo: UserType,
     otherUserInfo: SimpleUserType,
     postInfo: PostType,
     expression: string

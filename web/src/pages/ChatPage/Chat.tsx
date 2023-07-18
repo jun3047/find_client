@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { RoomType } from "../../types/room.type";
 import { useRoomInfo, UseRoomInfoType } from "../../store/room";
 import { getChatTime } from "../../utils/getChatTime";
+import { socket } from "../../apis/socket";
 
 const Chat = () => {
     
@@ -15,9 +16,22 @@ const Chat = () => {
     const {roomInfo} = useRoomInfo<UseRoomInfoType>(setStatus => setStatus);
     const {userInfo} = useUserInfo<UseUserType>(setStatus => setStatus);
 
+    const [orderedRoomInfo, setOrderedRoomInfo] = useState<RoomType[]>([]);
+
     const goDetail = (_roomInfo: RoomType) => {
         navigate(`/chat/${_roomInfo._id}`, { state: { nowRoomInfo: _roomInfo } });
     }
+
+    useEffect(()=>{
+        const _orderedRoomInfo = roomInfo.sort((a: RoomType, b: RoomType) => {
+            const aDate = a.chats[a.chats.length - 1]?.date;
+            const bDate = b.chats[b.chats.length - 1]?.date;
+            if(aDate === undefined || bDate === undefined) return 0;
+            return (aDate > bDate) ? -1 : (aDate < bDate) ? 1 : 0;
+        })
+
+        setOrderedRoomInfo(_orderedRoomInfo);
+    }, [roomInfo])
 
     return(
     <>
@@ -29,7 +43,7 @@ const Chat = () => {
         </NoticeContainer>
     <EmtpyBox height={2} />
     {
-        roomInfo.length === 0 ?
+        orderedRoomInfo.length === 0 ?
         <AlignBox align="center" justify="center">
             <PaddingBox top={30} left={2} right={2}>
                 <Text 
@@ -39,7 +53,7 @@ const Chat = () => {
             </PaddingBox>
         </AlignBox>
         : 
-        roomInfo.map((room: RoomType) => {
+        orderedRoomInfo.map((room: RoomType) => {
 
             const lastChat = room.chats[room.chats.length - 1];
 

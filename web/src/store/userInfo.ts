@@ -25,8 +25,10 @@ export type Status = {
     userInfo: UserType
 };
 
+export type setUserInfoType = (userInfo: UserType) => void;
+
 export type Actions = {
-    setUserInfo: (userInfo: UserType) => void;
+    setUserInfo: setUserInfoType
 };
 
 export type UseUserType = Status & Actions;
