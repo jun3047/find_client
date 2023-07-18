@@ -15,7 +15,6 @@ const style = css`
 
     //모바일 웹용
     --vh: 100%;
-
     height: 100%;
   }
   
@@ -61,12 +60,10 @@ const GlobalStyle = () => {
     window.addEventListener('resize', updateVh);
 
     return () => {
-      // 컴포넌트가 unmount되기 전에 이벤트 리스너를 제거
       window.removeEventListener('resize', updateVh);
     };
   }, []);
 
-  // --vh CSS 변수에 현재 뷰포트 높이를 적용하는 스타일 추가
   const updatedStyle = css`
     ${style}
     :root {

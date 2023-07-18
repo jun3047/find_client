@@ -30,7 +30,7 @@ const Write = () => {
                 value={question}
                 setValue={setQuestion}
             />
-            <EmtpyBox height={25} />
+            <EmtpyBox height={17} />
             <WritePost
                 setValue={setContent}
                 value={content}

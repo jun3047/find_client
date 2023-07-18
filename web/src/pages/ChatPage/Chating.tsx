@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
-import { StatusType, useStatus } from "../../store/status";
-import { EmtpyBox, PaddingBox, Text } from "../../styles/atom";
-import { useLocation, useParams } from 'react-router-dom';
+import { EmtpyBox } from "../../styles/atom";
+import { useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from "react";
-import { ChatType, RoomType } from "../../types/room.type";
+import { RoomType } from "../../types/room.type";
 import { UseUserType, useUserInfo } from "../../store/userInfo";
 import { sendChatBubble, sendQuestion } from "../../apis/socket";
 import { questionList } from "../../contants/question";
@@ -21,6 +20,7 @@ const Chating = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [keyboardValue, setKeyboardValue] = useState<string>("");
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   
   const _roomId = useParams().roomId;
   const roomId = _roomId ? parseInt(_roomId) : 0;
@@ -31,9 +31,18 @@ const Chating = () => {
     inputRef.current&& inputRef.current.focus()
     chatsEndRef.current && chatsEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }, [chats]);
+
+    useEffect(() => {
+      const isMobileKeyboardOpen = inputRef.current ? document.activeElement === inputRef.current : false;
+
+      console.log(isMobileKeyboardOpen);
+      console.log(inputRef.current);
+      console.log(document.activeElement);
+    });
+  
   
   return (
-    <ChatWarrper>
+    <ChatWarrper keyboardHeight={keyboardHeight}>
       <EmtpyBox height={2} />
       {
         
@@ -163,9 +172,20 @@ const ChatBar = ({
     </>);
 };
 
-const ChatWarrper = styled.div`
+
+type ChatWarrperProps = {
+  keyboardHeight: number
+}
+
+const ChatWarrper = styled.div<ChatWarrperProps>`
   padding: 60px 0;
-`
+  ${(props) =>
+    props.keyboardHeight > 0
+      ? `
+    height: calc(100vh - ${props.keyboardHeight}px);
+  `
+      : ''}
+`;
 
 
 const QuestionHeader = styled.div`
@@ -276,7 +296,7 @@ const ChatBubbleWrapper = styled.div<ChatBubbleProps>`
   background-color: white;
   min-height: 50px;
   max-width: 320px;
-  padding: 0px 31px;
+  padding: 0px 15px;
   display: flex;
   position: relative;
   flex-direction: column;

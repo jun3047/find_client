@@ -16,10 +16,10 @@ import { PostType } from "../types/post.type";
 export const InitData = () => {
     
     const {posts, setPosts} = usePost<UsePostType>(setPosts => setPosts);
-    const {roomInfo, setRoomInfo, pushChatInfoById} = useRoomInfo<UseRoomInfoType>(setRoomInfo => setRoomInfo);
+    const {setRoomInfo, pushChatInfoById} = useRoomInfo<UseRoomInfoType>(setRoomInfo => setRoomInfo);
     const {userInfo, setUserInfo} = useUserInfo<UseUserType>(setUserInfo => setUserInfo);
     const {alarms, setAlarms} = useAlarms(setAlarms => setAlarms);
-    const {question, setQuestion} = useQuestion(setQuestion => setQuestion);
+    const {setQuestion} = useQuestion(setQuestion => setQuestion);
     
     const location = useLocation();
     let isInit = false;
