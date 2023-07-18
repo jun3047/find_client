@@ -42,6 +42,16 @@ const Home = () => {
             </AlignBox>
             <MarginBox top={10}/>
             <SimpleCard
+                passHandler={()=>{
+
+                    if(postInfo === undefined) return;
+
+                    setUserInfo({
+                        ...userInfo,
+                        pass_count: userInfo.pass_count + 1,
+                        pass_post: [...userInfo.pass_post, postInfo._id]
+                    })
+                }}
                 setPostInfo={setPostInfo}
                 setOtherUserInfo={setOtherUserInfo}
                 setDB={setPosts}

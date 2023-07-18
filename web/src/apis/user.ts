@@ -31,6 +31,12 @@ export const registerUser = async (userInfo: object) => {
     return res
 }
 
+export const updateUser = async (userInfo: object, field: object) => {
+    const res = await postAPI('updateUser', {userInfo: userInfo, field: field})
+
+    return res
+}
+
 export const isExistId = async (nickname: string) => {
     const res = await postAPI('isExistId', {nickname: nickname})
 

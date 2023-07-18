@@ -8,7 +8,7 @@ import { socket, socketAlarmListener, socketListener } from "../apis/socket";
 import { useLocation } from "react-router";
 import { useAlarms } from "../store/alarm";
 import { useQuestion } from "../store/question";
-import { getUserInfo } from "../apis/user";
+import { getUserInfo, updateUser } from "../apis/user";
 import { getFilteredPost } from "../utils/getFitteredPost";
 import { PostType } from "../types/post.type";
 
@@ -46,17 +46,21 @@ export const InitData = () => {
         socket.emit('join_room', {roomId: userInfo.nickname})
 
         userInfo?.room?.map(roomId => socket.emit('join_room', {roomId: roomId}))
+
+        
     }, [])
     
     useEffect(() => {fetchRoomData(userInfo.room)}, [userInfo.room])
     useEffect(() => {setAlarmInUserInfo()}, [alarms])
     
-
+    
     useEffect(() => {
         location.pathname === "/home" && fetchPostData()
         location.pathname === "/chat" && updateUserRoomInfo()
     }, [location.pathname])
 
+    useEffect(() => {fetchPostData()}, [posts])
+    
     const updateUserRoomInfo = async () => {
         const userRoomInfo = await getUserInfo(userInfo._id, {room: 1})
         
@@ -75,22 +79,24 @@ export const InitData = () => {
 
     const fetchPostData = async () => {
 
-        if (posts.length > 1) return;
-        
+        if (posts.length > 5) return;
+
         const lastPostId = posts[posts.length - 1]?._id || 0
         const _posts = await getPosts(lastPostId)
         const filteredPost = getFilterPosts(_posts)
-
-        if(_posts.length === 0) {
-            console.log("더 이상 포스트가 없습니다.");
-            return;
-        }
+        
+        if(filteredPost.length === 0) return;
+        
+        // updateUser(userInfo, { pass_post: { $each: userInfo.pass_post }});
 
         setPosts([...filteredPost, ...posts])
     }
 
     const getFilterPosts = (_posts: PostType[]) => {
-        const filterPosts = [...userInfo.find_post, ...userInfo.post]
+
+        console.log('userInfo', userInfo.pass_post);
+
+        const filterPosts = [...userInfo.find_post, ...userInfo.pass_post, ...userInfo.post]
         return getFilteredPost(_posts, filterPosts)
     }
 

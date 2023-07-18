@@ -25,7 +25,7 @@ const TinderCardComponent = styled(TinderCard)`
 ;
 `
 
-export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo}) {
+export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo, passHandler = ()=>{}}) {
   
   const popPost = (prevPosts) => prevPosts.slice(1, prevPosts.length);
 
@@ -48,8 +48,10 @@ export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo}) {
               <>
                 <TinderCardComponent
                   key={post._id}
-                  onCardLeftScreen={() =>
-                    outOfFrame(post.userInfo.nickname, index)
+                  onCardLeftScreen={() =>{
+                      passHandler()
+                      outOfFrame(post.userInfo.nickname, index)
+                    }
                   }
                   isActive={db.length - index}
                 >
