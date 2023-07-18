@@ -13,12 +13,11 @@ const Chat = () => {
     
     const navigate = useNavigate();
     const {roomInfo} = useRoomInfo<UseRoomInfoType>(setStatus => setStatus);
+    const {userInfo} = useUserInfo<UseUserType>(setStatus => setStatus);
 
     const goDetail = (_roomInfo: RoomType) => {
         navigate(`/chat/${_roomInfo._id}`, { state: { nowRoomInfo: _roomInfo } });
     }
-
-    console.log("roomInfo:", roomInfo);
 
     return(
     <>
@@ -44,8 +43,9 @@ const Chat = () => {
 
             const lastChat = room.chats[room.chats.length - 1];
 
-            const {msg, date} = lastChat || {msg: undefined, date: undefined}; 
+            const {msg, date} = lastChat || {msg: undefined, date: undefined};
 
+            const otherNickname = room.members.filter((member) => member._id !== userInfo._id)[0].nickname;
 
             if(typeof date !== "string" && date !== undefined) return;
 
@@ -55,7 +55,7 @@ const Chat = () => {
                 <ChatBox
                     id={room._id}
                     key={room._id}
-                    nickname={room.members[0].nickname}
+                    nickname={otherNickname}
                     date={chatDate}
                     LastMsg={msg}
                     clickEvent={() => goDetail(room)}
