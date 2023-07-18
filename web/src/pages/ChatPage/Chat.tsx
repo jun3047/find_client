@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { RoomType } from "../../types/room.type";
 import { useRoomInfo, UseRoomInfoType } from "../../store/room";
 import { getChatTime } from "../../utils/getChatTime";
-import { socket } from "../../apis/socket";
 
 const Chat = () => {
     
@@ -35,7 +34,7 @@ const Chat = () => {
 
     return(
     <>
-    <NoticeContainer>
+    <NoticeContainer onClick={noticeHandler}>
         <Text content="앱은 더 빠르답니다" fontsize={14} weight={700} />
         <EmtpyBox height={1} />
             <Text content="불편한 웹에서 안 하셔도 돼요" fontsize={12} />
@@ -80,6 +79,8 @@ const Chat = () => {
     }
     </>)
 }
+
+const noticeHandler = () => window.open("https://www.instagram.com/findapp_official", "_blank");
 
 
 
