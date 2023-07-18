@@ -18,7 +18,6 @@ interface socketListenerProps {
 export const socketListener = ({ pushChatInfoById, setQuestion}: socketListenerProps) => {
 
     socket.on('send_message', ({ roomId, msg, nickname, date }) => {
-
         const newChat : ChatType = {msg: msg, nickname: nickname, date: date};
         
         pushChatInfoById(roomId, newChat);
@@ -45,11 +44,13 @@ export const socketAlarmListener = ({ setAlarms, alarms}: socketAlarmListenerPro
 
     socket.on('send_alarm', ({ userInfo, _id, question, date }) => {
 
+        alert(`${userInfo.nickname}에게 FIND 알림이 왔습니다.`)
+
         const newAlarm: AlarmType = {
             userInfo: userInfo,
             question: question,
-            _id: 0,
-            date: new Date()
+            _id: _id,
+            date: date
         }
 
         if(setAlarms && alarms) setAlarms([...alarms, newAlarm]);
@@ -62,9 +63,6 @@ export const socketAlarmListener = ({ setAlarms, alarms}: socketAlarmListenerPro
         }, 5000);
     });
 }
-
-
-
 
 export const joinRoom = (roomId: number | string) => {
     console.log('join_room');
