@@ -1,5 +1,5 @@
 import { Global, css } from '@emotion/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { InitData } from '../components/InitData';
 
 const style = css`
@@ -48,8 +48,33 @@ const style = css`
 `;
 
 const GlobalStyle = () => {
+  // 뷰포트 높이를 상태로 저장
+  const [vh, setVh] = useState(window.innerHeight);
 
-  return <Global styles={style} />;
+  useEffect(() => {
+    // 뷰포트 높이를 업데이트하는 함수
+    const updateVh = () => {
+      setVh(window.innerHeight);
+    };
+
+    // resize 이벤트 리스너 등록
+    window.addEventListener('resize', updateVh);
+
+    return () => {
+      // 컴포넌트가 unmount되기 전에 이벤트 리스너를 제거
+      window.removeEventListener('resize', updateVh);
+    };
+  }, []);
+
+  // --vh CSS 변수에 현재 뷰포트 높이를 적용하는 스타일 추가
+  const updatedStyle = css`
+    ${style}
+    :root {
+      --vh: ${vh}px;
+    }
+  `;
+
+  return <Global styles={updatedStyle} />;
 };
 
 export default GlobalStyle;
