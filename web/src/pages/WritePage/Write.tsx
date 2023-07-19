@@ -47,7 +47,7 @@ const Write = () => {
                     if(question === '여길 눌러서 질문을 골라봐요') return alert("질문을 골라주세요")
                     if(content === '') return alert("내용을 입력해주세요")
 
-                    let result = window.confirm("글을 등록하시겠습니까?");
+                    let result = window.confirm("글을 등록하시겠습니까? \n등록 후에는 수정이 불가능합니다.");
                     if (!result) return
                     
                     trackEvent(`write post`)

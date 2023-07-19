@@ -70,7 +70,7 @@ const Home = () => {
             <MarginBox top={10} />
             <AlignBox direction="row" align="center">
                 <SubBtn onClick={()=>{                    
-                    let result = window.confirm("FIND 일림을 보내시겠어요?");
+                    let result = window.confirm("FIND 알림을 보내시겠어요?");
                     if (!result) return
 
                     if(!(otherUserInfo && postInfo && userInfo)) return;
