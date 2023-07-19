@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router"
 import { AlignBox } from "../../styles/atom";
 import { 초기화면, 휴대폰인증, 인증번호입력, 학과선택, 학번선택, 아이디선택, 입장, 개인정보동의 } from "./화면";
@@ -9,6 +9,7 @@ import { getUserInfoCookie, setUserInfoCookie } from "../../hooks/cookies.js";
 import { UserType } from "../../types/user.type";
 import { isPhone } from "../../utils/isPhone";
 import { isNickname } from "../../utils/isNickname";
+import { trackEvent } from "../../apis/amplitude";
 
 
 const Login = () => {
@@ -24,6 +25,10 @@ const Login = () => {
     const [registerUserInfo, setRegisterUserInfo] = useState<UserType>()
     const [isTest, setIsTest] = useState<boolean>(false)
 
+    useEffect(()=>{
+        trackEvent(`${step} 입장`)
+    }, [step])
+
     return (
         <AlignBox>
             {step == "초기화면" && <초기화면 onNext={ async ()=>{
@@ -35,6 +40,8 @@ const Login = () => {
                     
                     setUserInfo(_userInfo)
                     navigate("/home")
+
+                    trackEvent("cookie login")
                 }
 
                 setStep("휴대폰인증")

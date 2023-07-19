@@ -4,6 +4,7 @@ import { useStatus } from "../../store/status";
 import { PaddingBox, MarginBox, Text, AlignBox, BigIcon, MainBtn, ShortInputBox, EmtpyBox } from "../../styles/atom";
 import { useState } from "react";
 import { departments, 학번목록 } from "../../contants/schoolInfo";
+import { trackEvent } from "../../apis/amplitude";
 
 
 type onNextString = {
@@ -16,6 +17,7 @@ type onNextProps = {
 
 
 export const 초기화면 = ({onNext}:onNextProps) => {
+
     return (
         <AlignBox align="center">
             <MarginBox top={22}/>

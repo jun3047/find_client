@@ -6,6 +6,7 @@ import { questionList } from '../../contants/question';
 import { writePost } from '../../apis/post';
 import { useNavigate } from 'react-router';
 import { useUserInfo } from '../../store/userInfo';
+import { trackEvent } from '../../apis/amplitude';
 
 
 const Write = () => {
@@ -49,6 +50,8 @@ const Write = () => {
                     let result = window.confirm("글을 등록하시겠습니까?");
                     if (!result) return
                     
+                    trackEvent(`write post`)
+
                     const {_id} = await writePost(
                         {
                             question: question,

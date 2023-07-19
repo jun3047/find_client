@@ -10,6 +10,7 @@ import { UsePostType, usePost } from "../../store/post";
 import { UseUserType, useUserInfo } from "../../store/userInfo";
 import { SimpleUserType } from "../../types/user.type";
 import { getFilteredPost } from "../../utils/getFitteredPost";
+import { trackEvent } from "../../apis/amplitude";
 
 
 
@@ -52,6 +53,8 @@ const Home = () => {
                 passHandler={(nowPostInfo: any)=>{                    
                     if(nowPostInfo === undefined) return;
 
+                    trackEvent(`pass`)
+
                     setUserInfo({
                         ...userInfo,
                         pass_count: userInfo.pass_count + 1,
@@ -74,6 +77,8 @@ const Home = () => {
 
                     if(userInfo._id === otherUserInfo._id) return alert ('자기 자신에게는 FIND를 신청할 수 없어요!');
                     if(userInfo.find_post.includes(postInfo._id)) return alert ('이미 FIND를 신청한 사람이에요!');   
+
+                    trackEvent(`find`)
                     
                     setUserInfo({
                         ...userInfo,

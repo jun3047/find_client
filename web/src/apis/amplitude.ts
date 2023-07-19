@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react';
-import * as amplitude from 'amplitude-js';
+import amplitude from 'amplitude-js';
 import memoize from 'lodash/memoize';
 
 const init = memoize(() => {

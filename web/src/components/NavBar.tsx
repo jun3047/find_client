@@ -3,6 +3,7 @@ import { AlignBox, Text } from "../styles/atom"
 import { useLocation, useNavigate } from "react-router"
 import { StatusType, useStatus, Status } from "../store/status"
 import { useEffect } from "react"
+import { trackEvent } from "../apis/amplitude"
 
 
 
@@ -23,6 +24,8 @@ export const NavBar = () => {
 
     useEffect(() => {
         const path = location.pathname.split("/")[1];
+
+        trackEvent(`move to ${path}`)
 
         if (/^\/chat\/\d+$/.test(location.pathname)) {
             setStatus({status:"room"});

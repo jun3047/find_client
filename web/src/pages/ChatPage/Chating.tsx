@@ -9,6 +9,7 @@ import { questionList } from "../../contants/question";
 import { UserType } from "../../types/user.type";
 import { UseRoomInfoType, useRoomInfo } from "../../store/room";
 import { UseQuestionType, useQuestion } from "../../store/question";
+import { trackEvent } from "../../apis/amplitude";
 
 const Chating = () => {
   
@@ -152,6 +153,8 @@ const ChatBar = ({
         onClick={() => {
           const randomIndex = Math.floor(Math.random() * questionList.length);
           const _question = questionList[randomIndex];
+
+          trackEvent(`send question`)
 
           sendQuestion(roomId, _question)
         }}
