@@ -25,13 +25,17 @@ const TinderCardComponent = styled(TinderCard)`
 ;
 `
 
-export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo, passHandler = ()=>{}}) {
+export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo, passHandler}) {
+
+  const [yetPost, setYetPost] = useState([]);
   
-  const popPost = (prevPosts) => prevPosts.slice(1, prevPosts.length);
+  const popPost = (prevPosts) => prevPosts.slice(0, prevPosts.length - 1);
 
   const outOfFrame = (name, idx) => setDB([...popPost(db)]);
 
-  const nowPost = db[0];
+  const nowPost = db[db.length - 1];
+
+  console.log("nowPost:", nowPost);
 
   setPostInfo(nowPost)
   setOtherUserInfo(nowPost?.userInfo)
@@ -40,7 +44,7 @@ export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo, passHandle
     <AlignBox align="center">
       <EmtpyBox height={38} />
       <CardContainer>
-        {db.length === 0 ? (
+        {db.length === yetPost.length ? (
           <EmptyPage>글이 없어요 😭</EmptyPage>
         ) : (
           db.map((post, index) => {
@@ -49,11 +53,20 @@ export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo, passHandle
                 <TinderCardComponent
                   key={post._id}
                   onCardLeftScreen={() =>{
-                      passHandler()
-                      outOfFrame(post.userInfo.nickname, index)
+
+                    console.log("yetPost:", yetPost);
+                    console.log("db.length:", db.length);
+                    console.log("db:", db);
+                    
+                    if(yetPost.includes(post._id)) return;
+
+                    yetPost.push(post._id)
+                    passHandler(nowPost)
+                    outOfFrame(post.userInfo.nickname, index)
+                    
                     }
                   }
-                  isActive={db.length - index}
+                  isActive={db.length}
                 >
                   <Post
                     key={post._id}

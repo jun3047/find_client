@@ -49,14 +49,13 @@ const Home = () => {
             />
             <MarginBox top={6}/>
             <SimpleCard
-                passHandler={()=>{
-
-                    if(postInfo === undefined) return;
+                passHandler={(nowPostInfo: any)=>{                    
+                    if(nowPostInfo === undefined) return;
 
                     setUserInfo({
                         ...userInfo,
                         pass_count: userInfo.pass_count + 1,
-                        pass_post: [...userInfo.pass_post, postInfo._id]
+                        pass_post: [...userInfo.pass_post, nowPostInfo._id]
                     })
                 }}
                 setPostInfo={setPostInfo}

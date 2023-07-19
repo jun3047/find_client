@@ -96,10 +96,11 @@ const Other = () => {
             <EmtpyBox height={10} />
             <PostInfo />
             <SimpleCard
-                setOtherUserInfo={()=>{}}
-                setPostInfo={()=>{}}
+                setOtherUserInfo={() => { } }
+                setPostInfo={() => { } }
                 db={otherUserPost}
-                setDB={()=>{}}
+                setDB={() => { } } 
+                passHandler={()=>{}}
             />
             <EmtpyBox height={20} />
             <MainBtn

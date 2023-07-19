@@ -45,6 +45,7 @@ const My = () => {
             <EmtpyBox height={10} />
             <PostInfo />
             <SimpleCard
+                passHandler={() => {}}
                 setOtherUserInfo={() => { }}
                 setPostInfo={() => {}}
                 db={userPosts}
