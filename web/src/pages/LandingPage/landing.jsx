@@ -55,9 +55,16 @@ function LandingPage() {
       <Right>
         <Image src={`${process.env.PUBLIC_URL}/gif/질문을고르고글을쓰세요.gif`}/>
       </Right>
-
       <MarginBottom size="140px"/>
-      <Btn onClick={() => navigate('/')}>FIND 가입하기</Btn>
+      <AlignBox align="center">
+        <Title>진솔한 <Blue>생각을 쓰고,</Blue></Title>
+        <MarginBottom size="40px"/>
+        <Title><Blue>FIND</Blue>를 받으실</Title>
+        <MarginBottom size="40px"/>
+        <Title>준비되셨나요?</Title>
+      </AlignBox>
+      <MarginBottom size="120px"/>
+      <Btn onClick={() => navigate('/')}>FIND 입장하기</Btn>
       <MarginBottom size="100px"/>
       <EmtpyBox height={10}/>
       </Wrapper>
