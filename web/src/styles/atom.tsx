@@ -102,11 +102,13 @@ export const AlignBox = styled.div<AlignBoxProps>`
 
 export const EmptyPage = styled.div`
   position: absolute;
+  top: -30px;
   min-width: 200px;
   height: 100%;
   background-color: #fff;
   z-index: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 20px;

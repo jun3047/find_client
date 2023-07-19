@@ -28,14 +28,14 @@ const TinderCardComponent = styled(TinderCard)`
 export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo, passHandler}) {
 
   const [yetPost, setYetPost] = useState([]);
+
+  useEffect(()=>{setYetPost([])},[])
   
   const popPost = (prevPosts) => prevPosts.slice(0, prevPosts.length - 1);
 
   const outOfFrame = (name, idx) => setDB([...popPost(db)]);
 
   const nowPost = db[db.length - 1];
-
-  console.log("nowPost:", nowPost);
 
   setPostInfo(nowPost)
   setOtherUserInfo(nowPost?.userInfo)
@@ -44,8 +44,11 @@ export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo, passHandle
     <AlignBox align="center">
       <EmtpyBox height={38} />
       <CardContainer>
-        {db.length === yetPost.length ? (
-          <EmptyPage>글이 없어요 😭</EmptyPage>
+        {db.length <= yetPost.length ? (
+          <EmptyPage>
+            <p>글이 없어요 😭</p>
+            <p>새로고침하면 최신 글을 불러올게요 !</p>
+          </EmptyPage>
         ) : (
           db.map((post, index) => {
             return (
