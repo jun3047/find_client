@@ -40,7 +40,14 @@ const Home = () => {
                     weight={700}
                 />
             </AlignBox>
-            <MarginBox top={10}/>
+            <MarginBox top={2}/>
+            <Text
+                content={`글을 자유롭게 넘겨봐요`}
+                fontsize={14}
+                color="#000"
+                weight={400}
+            />
+            <MarginBox top={6}/>
             <SimpleCard
                 passHandler={()=>{
 

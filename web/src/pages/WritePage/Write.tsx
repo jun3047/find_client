@@ -10,7 +10,7 @@ import { useUserInfo } from '../../store/userInfo';
 
 const Write = () => {
 
-    const [question, setQuestion] = useState<string>(questionList[0])
+    const [question, setQuestion] = useState<string>("여길 눌러서 질문을 골라봐요")
     const [content, setContent] = useState<string>("")
     const {userInfo, setUserInfo} = useUserInfo()
 
@@ -34,12 +34,16 @@ const Write = () => {
             <WritePost
                 setValue={setContent}
                 value={content}
-                question={question}
+                question={
+                    question === "여길 눌러서 질문을 골라봐요" ? "위에서 질문을 골라봐요" : question
+                }
                 writer={userInfo.nickname}
             />
             <EmtpyBox height={20} />
             <SubBtn
                 onClick={async () => {
+
+                    if(question === '여길 눌러서 질문을 골라봐요') return alert("질문을 골라주세요")
 
                     let result = window.confirm("글을 등록하시겠습니까?");
                     if (!result) return
