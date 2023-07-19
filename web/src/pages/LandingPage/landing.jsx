@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import { useNavigate } from 'react-router-dom';
 import { AlignBox, EmtpyBox } from '../../styles/atom';
+import { useEffect } from "react";
+import { trackEvent } from "../../apis/amplitude";
   
 function Landing() {
     return <LandingPage></LandingPage>
@@ -9,6 +11,9 @@ function Landing() {
 function LandingPage() {
 
     const navigate = useNavigate();
+
+    useEffect(() => {trackEvent(`랜딩 입장`)}, [])
+
 
     return (
 
