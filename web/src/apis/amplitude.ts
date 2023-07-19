@@ -3,11 +3,7 @@ import amplitude from 'amplitude-js';
 import memoize from 'lodash/memoize';
 
 const init = memoize(() => {
-    const apiKey = process.env.AMPLITUDE_API_KEY;
-
-    console.log('apiKey', apiKey);
-
-    if (!apiKey) return;
+    const apiKey = 'f67fa676b2ec6786d2bb3a19e9e6df0e';
 
     amplitude.getInstance().init(apiKey, undefined, {
         includeReferrer: true,
