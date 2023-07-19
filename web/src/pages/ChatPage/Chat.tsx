@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { RoomType } from "../../types/room.type";
 import { useRoomInfo, UseRoomInfoType } from "../../store/room";
 import { getChatTime } from "../../utils/getChatTime";
+import { trackEvent } from "../../apis/amplitude";
 
 const Chat = () => {
     
@@ -80,7 +81,10 @@ const Chat = () => {
     </>)
 }
 
-const noticeHandler = () => window.open("https://www.instagram.com/findapp_official", "_blank");
+const noticeHandler = () => {
+    trackEvent("notice click");
+    window.open("https://www.instagram.com/findapp_official", "_blank");
+}
 
 
 
