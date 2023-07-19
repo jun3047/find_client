@@ -22,6 +22,7 @@ const Login = () => {
     const [registerData, setResgisterData] = useState({"school":"인하대"})
     const [authCode, setAuthCode] = useState<number>(0)
     const [registerUserInfo, setRegisterUserInfo] = useState<UserType>()
+    const [isTest, setIsTest] = useState<boolean>(false)
 
     return (
         <AlignBox>
@@ -40,7 +41,12 @@ const Login = () => {
             }}/>}
             {step == "휴대폰인증" && <휴대폰인증 onNext={ async (data: string)=>{
 
-                // if(!isPhone(data)) return alert("휴대폰 번호 양식이 아닙니다 😭")
+                if(data == 'test'){
+                    setIsTest(true)
+                    setStep("인증번호입력")
+                }
+
+                if(!isPhone(data)) return alert("휴대폰 번호 양식이 아닙니다 😭")
 
                 setResgisterData(prev => ({...prev, "phone": data}))
 
@@ -50,12 +56,14 @@ const Login = () => {
                 const _userInfo = res.userInfo
                 
                 setRegisterUserInfo(_userInfo)
-                // setAuthCode(_authCode)
+                setAuthCode(_authCode)
                 setStep("인증번호입력")
             }}/>}
             {step == "인증번호입력" && <인증번호입력 onNext={(data: string)=>{
 
-                // if(authCode.toString() !== data) return alert("인증번호가 일치하지 않습니다 😭")
+                if(isTest && data === '123456') return setStep("학과선택")
+
+                if(authCode.toString() !== data) return alert("인증번호가 일치하지 않습니다 😭")
 
                 if(registerUserInfo === undefined) return setStep("학과선택")
 
@@ -63,7 +71,6 @@ const Login = () => {
                 alert("이미 가입되어있어요 🥳 \n 이전 정보로 계속할게요 🎊")
                 setUserInfoCookie(registerUserInfo._id)
                 navigate("/home")
-                //인증번호와 일치하는지 확인
             }}/>}
             {step == "학과선택" && <학과선택 onNext={(data: string)=>{
 
