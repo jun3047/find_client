@@ -79,8 +79,10 @@ export const InitData = () => {
 
     const fetchPostData = async () => {
 
-        if (posts.length > 5) return;
+        if (posts.length > 0) return;
 
+        console.log("fetchPostData");
+        
         const lastPostId = posts[posts.length - 1]?._id || 0
         const _posts = await getPosts(lastPostId)
         const filteredPost = getFilterPosts(_posts)
@@ -89,12 +91,10 @@ export const InitData = () => {
         
         // updateUser(userInfo, { pass_post: { $each: userInfo.pass_post }});
 
-        setPosts([...filteredPost, ...posts])
+        setPosts([...posts, ...filteredPost])
     }
 
     const getFilterPosts = (_posts: PostType[]) => {
-
-        console.log('userInfo', userInfo.pass_post);
 
         const filterPosts = [...userInfo.find_post, ...userInfo.pass_post, ...userInfo.post]
         return getFilteredPost(_posts, filterPosts)
