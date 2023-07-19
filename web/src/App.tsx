@@ -18,6 +18,7 @@ import { InitData } from './components/InitData';
 import PrivateRoute from './routes/PrivateRoute';
 import { useUserInfo } from './store/userInfo';
 import { Terms } from './pages/TermsPage/Terms';
+import Landing from './pages/LandingPage/landing';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/landing" element={<Landing />} />
           <Route path="/test" element={<Test />} />
           <Route path="/home" element={<PrivateRoute component={Home} />} />
           <Route path="/chat" element={<PrivateRoute component={Chat} />} />
