@@ -62,7 +62,7 @@ const Write = () => {
 
                     setUserInfo({...userInfo, ...{post: [...userInfo.post, _id]}})
 
-                    alert("글이 등록되었습니다 ☺️ \n반응이 올 수도 있으니 알림에서 확인해주세요!")
+                    alert("글이 등록되었습니다 ☺️ \n더 많은 글을 쓰면 더 FIND가 잘 올거에요!")
 
                     setContent("")
                     navigate("/home")
