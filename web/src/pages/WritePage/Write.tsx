@@ -62,10 +62,9 @@ const Write = () => {
 
                     setUserInfo({...userInfo, ...{post: [...userInfo.post, _id]}})
 
-                    alert("글이 등록되었습니다 ☺️ \n더 많은 글을 쓰면 더 FIND가 잘 올거에요!")
+                    alert("글이 등록되었습니다 ☺️ \n더 다양한 글을 쓰면 더 FIND가 잘 올거에요!")
 
                     setContent("")
-                    navigate("/home")
                 }}
                 theme={"send"} />
         </AlignBox>
