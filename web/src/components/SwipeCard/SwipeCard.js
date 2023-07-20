@@ -47,6 +47,7 @@ export function SimpleCard({db, setDB, setOtherUserInfo, setPostInfo, passHandle
         {db.length <= yetPost.length ? (
           <EmptyPage>
             <p>글이 없어요 😭</p>
+            <Text content='글을 쓰고, FIND를 기다리는 건 어때요? ✏️'/>
             <p>새로고침하면 최신 글을 불러올게요 !</p>
           </EmptyPage>
         ) : (

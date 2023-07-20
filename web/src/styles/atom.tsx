@@ -322,7 +322,7 @@ export const TextAreaInputBox = ({setValue, defaultValue, value, type}:TextAreaB
 
     return (<>
         <TextAreaField
-            placeholder="진심이 담긴 글을 써주세요"
+            placeholder="진심이 담긴 글을 쓰면, FIND 알림이 올 거예요"
             style={style}
             value={value}
             defaultValue={defaultValue}
