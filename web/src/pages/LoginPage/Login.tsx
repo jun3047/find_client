@@ -39,7 +39,7 @@ const Login = () => {
                     const _userInfo = await getUserInfo(userCookieId)
                     
                     setUserInfo(_userInfo)
-                    navigate("/home")
+                    navigate("/write")
 
                     trackEvent("cookie login")
                 }
@@ -126,7 +126,7 @@ const Login = () => {
 
                 setUserInfoCookie(_userInfo._id)
                 setUserInfo(_userInfo)
-                navigate("/home")
+                navigate("/write")
             }}/>}
         </AlignBox>
     )
